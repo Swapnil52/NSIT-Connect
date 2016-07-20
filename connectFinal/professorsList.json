@@ -1,0 +1,794 @@
+ [
+  {
+  "Header": "Department of Management",
+  "ContentArray": [
+                   {
+                   "Name": "Sh. Pankaj Deshwal",
+                   "Designation": "",
+                   "Email": "",
+                   "ContactNo": "25000162(DID) , 3162(Int)"
+                   }
+                   ]
+  },
+  {
+  "Header": "Department of Chemistry",
+  "ContentArray": [
+                   {
+                   "Name": "Dr. Sanjeeve Thakur",
+                   "Designation": "Associate Professor",
+                   "Email": "sanjeevthakur@nsit.ac.in",
+                   "ContactNo": "25000239(DID) , 3239(Int)"
+                   },
+                   {
+                   "Name": "Dr.(Mrs.)Anjana Sarkar",
+                   "Designation": "Associate Professor",
+                   "Email": "anjana@nsit.ac.in",
+                   "ContactNo": "25000240(DID) , 3240(Int)"
+                   },
+                   {
+                   "Name": "Dr.(Mrs.)Purnima Jain",
+                   "Designation": "Assistant Professor",
+                   "Email": "purnima@nsit.ac.in",
+                   "ContactNo": "25000172(DID) , 3172(Int)"
+                   }
+                   ]
+  },
+  {
+  "Header": "Department of Physics",
+  "ContentArray": [
+                   {
+                   "Name": "Prof. O.P.Thakur",
+                   "Designation": "Professor",
+                   "Email": "opthakur@nsit.ac.in",
+                   "ContactNo": "25000190(DID) , 3190(Int)"
+                   },
+                   {
+                   "Name": "Dr.(Mrs.)Ranjana Jha",
+                   "Designation": "Associate Professor",
+                   "Email": "ranjana@nsit.ac.in",
+                   "ContactNo": "25000221(DID), 3221(Int)"
+                   }
+                   ]
+  },
+  {
+  "Header": "Department of Mathematics",
+  "ContentArray": [
+                   {
+                   "Name": "Prof. Vijay Gupta",
+                   "Designation": "Professor",
+                   "Email": "vijay@nsit.ac.in",
+                   "ContactNo": "25000245(DID) , 3245(Int)"
+                   },
+                   {
+                   "Name": "Dr.J.K.Misra",
+                   "Designation": "Associate Professor",
+                   "Email": "jkmishra@nsit.ac.in",
+                   "ContactNo": "25000009(DID) , 3009(Int)"
+                   },
+                   {
+                   "Name": "Dr. Jasobanta Jena",
+                   "Designation": "Associate Professor",
+                   "Email": "jjena@nsit.ac.in",
+                   "ContactNo": "25000229(DID) , 3229"
+                   },
+                   {
+                   "Name": "Dr.(Mrs.)Mamta Misra",
+                   "Designation": "Associate Professor",
+                   "Email": "mmishra@nsit.ac.in",
+                   "ContactNo": "25000214(DID) , 3214(Int)"
+                   },
+                   {
+                   "Name": "Dr. J.K. Singh",
+                   "Designation": "Associate Professor",
+                   "Email": "jksingh@nsit.ac.in",
+                   "ContactNo": "25000248(DID), 3248(Int)"
+                   },
+                   {
+                   "Name": "Dr. Neeraj Srivastava",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": "25000207(DID) , 3207(Int)"
+                   }
+                   ]
+  },
+  {
+  "Header": "School Of Humanities & Management",
+  "ContentArray": [
+                   {
+                   "Name": "Dr. (Mrs.) Tanushree Choudhary (English)",
+                   "Designation": "Associate Professor",
+                   "Email": "tanushree@nsit.ac.in",
+                   "ContactNo": "25000257(DID), 3257 (Int)"
+                   },
+                   {
+                   "Name": "Dr.(Mrs.) Duru Arun Kumar (Sociology)",
+                   "Designation": "Associate Professor",
+                   "Email": "darun@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Prasanta Kumar Bhuyan (Sociology",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": "25000023(DID) , 3023(Int)"
+                   }
+                   ]
+  },
+  {
+  "Header": "Division of Electronics and Communications Engineering",
+  "ContentArray": [
+                   {
+                   "Name": "Dr. Maneesha Gupta",
+                   "Designation": "Professor & Head",
+                   "Email": "maneesha@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Harish Parthasarathy",
+                   "Designation": "Professor",
+                   "Email": "harishp@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Raj Senani",
+                   "Designation": "Professor",
+                   "Email": "senani@nsit.ac.in",
+                   "ContactNo": "91-11-25099035"
+                   },
+                   {
+                   "Name": "Dr. Sujata Sengar",
+                   "Designation": "Associate Professor & Associate Head",
+                   "Email": "sujata@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Dharmendra Kumar Upadhyay",
+                   "Designation": "Associate Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Parul Garg",
+                   "Designation": "Associate Professor",
+                   "Email": "parul@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Shree Prakash Singh",
+                   "Designation": "Associate Professor",
+                   "Email": "spsingh@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Dhananjay Vasudeo Gadre",
+                   "Designation": "Associate Professor",
+                   "Email": "dvgadre@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Tarun Kumar Rawat",
+                   "Designation": "Assistant Professor",
+                   "Email": "tarun@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Jyotsna Singh",
+                   "Designation": "Assistant Professor",
+                   "Email": "jyotsna@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Shailesh Mishra",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Ankur Bansal",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": "25000089(DID), 3089(Int)"
+                   },
+                   {
+                   "Name": "Ms. Bhawna Aggarwal",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": "25000092(DID) 3092(Int.)"
+                   },
+                   {
+                   "Name": "Ms. Urvashi Bansal",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": "25000093(DID) 3093(Int)"
+                   },
+                   {
+                   "Name": "Sh. Kunwar Singh",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": "25000091(DID), 3091(Int)"
+                   },
+                   {
+                   "Name": "Dr. Shweta Gautam",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   }
+                   ]
+  },
+  {
+  "Header": "Division of Computer Engineering",
+  "ContentArray": [
+                   {
+                   "Name": "Dr. Shampa Chakraverty",
+                   "Designation": "Professor & Head",
+                   "Email": "shampa@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Satish Chand",
+                   "Designation": "Professor",
+                   "Email": "satish@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. M.P.S. Bhatia",
+                   "Designation": "Professor",
+                   "Email": "mpsbhatia@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Sangeeta Sabharwal",
+                   "Designation": "Professor",
+                   "Email": "ssab@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Rajiv Kumar",
+                   "Designation": "Associate Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Satbir Jain",
+                   "Designation": "Associate Professor",
+                   "Email": "sjain@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Ms. Savita Yadav",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Ms. Vijeta Mehra",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Ms. Poonam Rani",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Bijendra Kumar",
+                   "Designation": "Assistant Professor",
+                   "Email": "bijender@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Khushil Kr. Saini",
+                   "Designation": "Assistant Professor",
+                   "Email": "khushil@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Ms. Preeti Kaur",
+                   "Designation": "Assistant Professor",
+                   "Email": "preeti@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Ms. Sushma Nagpal",
+                   "Designation": "Assistant Professor",
+                   "Email": "sushma@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Anand Gupta",
+                   "Designation": "Assistant Professor",
+                   "Email": "anand.gupta@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Ms. Veenu",
+                   "Designation": "Assistant Professor",
+                   "Email": "veenu@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. (Ms) Ritu Sibal",
+                   "Designation": "Assistant Professor",
+                   "Email": "rsb@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. (Mrs.) Swati Aggarwal",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": "25000102(DID), 3102(Int)"
+                   },
+                   {
+                   "Name": "Sh. Pinaki Chkraborty",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": "25000096(DID), 3096(Int)"
+                   },
+                   {
+                   "Name": "Ms.Vidhi Khanduja",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": "25000104(DID), 3104(Int)"
+                   }
+                   ]
+  },
+  {
+  "Header": "Division of Instrumentation and Control Engineering",
+  "ContentArray": [
+                   {
+                   "Name": "Dr. A.P. Mittal",
+                   "Designation": "Professor & Head",
+                   "Email": "headice@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. (Ms.) Smriti Srivastava",
+                   "Designation": "Professor",
+                   "Email": "smriti@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. J.R.P. Gupta",
+                   "Designation": "Professor",
+                   "Email": "jrpgupta@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. (Ms.) Prerna Gaur",
+                   "Designation": "Associate Professor",
+                   "Email": "prernagaur@yahoo.com",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Vijander Singh",
+                   "Designation": "Associate Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Ms. Asha Rani",
+                   "Designation": "Associate Professor",
+                   "Email": "asha.rani@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. K.P.S. Rana",
+                   "Designation": "Associate Professor",
+                   "Email": "kpsrana@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. R.C. Thakur",
+                   "Designation": "Associate Professor",
+                   "Email": "rct@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Amar Nath Jha",
+                   "Designation": "Assistant Professor",
+                   "Email": "anjha@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Rajneesh Sharma",
+                   "Designation": "Assistant Professor",
+                   "Email": "rajneesh@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Vicky Suri",
+                   "Designation": "Assistant Professor",
+                   "Email": "vicky@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Shyama Kant Jha",
+                   "Designation": "Assistant Professor",
+                   "Email": "skjha@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. (Ms.) Pragya Varshney",
+                   "Designation": "Assistant Professor",
+                   "Email": "pragya@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Vineet Kumar",
+                   "Designation": "Assistant Professor",
+                   "Email": "vineet@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Ms. Piyush Saxena",
+                   "Designation": "Assistant Professor",
+                   "Email": "piyush@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Bhavnesh Kumar",
+                   "Designation": "Assistant Professor",
+                   "Email": "bhavnesh.kumar@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Ms. Jyoti Yadav",
+                   "Designation": "Assistant Professor",
+                   "Email": "jyoti.yadav@nsit.ac.in",
+                   "ContactNo": "25000079(DID), 3079(Int)"
+                   },
+                   {
+                   "Name": "Ms. Manisha",
+                   "Designation": "Assistant Professor",
+                   "Email": "manisha.singh@nsit.ac.in",
+                   "ContactNo": "25000080(DID), 3080(Int)"
+                   },
+                   {
+                   "Name": "Sh. Anil Sangwan",
+                   "Designation": "Assistant Professor",
+                   "Email": "anil.sangwan@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Hasmat",
+                   "Designation": "Assistant Professor",
+                   "Email": "hasmat.malik@nsit.ac.in",
+                   "ContactNo": "25000083(DID), 3083(Int)"
+                   },
+                   {
+                   "Name": "Sh. Swaroop D.",
+                   "Designation": "Assistant Professor",
+                   "Email": "dswaroop@nsit.ac.in",
+                   "ContactNo": ""
+                   }
+                   ]
+  },
+  {
+  "Header": "Division of Manufacturing Processes and Automation",
+  "ContentArray": [
+                   {
+                   "Name": "Dr. Sachin Maheshwari",
+                   "Designation": "Professor & Head",
+                   "Email": "sachin@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Sanjay Kumar Chak",
+                   "Designation": "Associate Professor",
+                   "Email": "skchak@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Dinesh Kumar Singh",
+                   "Designation": "Associate Professor",
+                   "Email": "dksingh@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Pramendra Kumar Bajpai",
+                   "Designation": "Assistant Professor",
+                   "Email": "pramendra.bajpai@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Manish Kumar",
+                   "Designation": "Assistant Professor",
+                   "Email": "manish.kumar@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Arvind Meena",
+                   "Designation": "Assistant Professor",
+                   "Email": "arvind.meena@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Narender Kumar",
+                   "Designation": "Assistant Professor",
+                   "Email": "narender.kumar@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Andriya Narasimhulu",
+                   "Designation": "Assistant Professor",
+                   "Email": "andriya@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Umang Soni",
+                   "Designation": "Assistant Professor",
+                   "Email": "umang.soni@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. C.S. Verma",
+                   "Designation": "Assistant Professor",
+                   "Email": "csverma@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Aditya Kumar",
+                   "Designation": "Assistant Professor",
+                   "Email": "aditya@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Pradeep Khanna",
+                   "Designation": "Assistant Professor",
+                   "Email": "pradeep@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. A.V. Muley",
+                   "Designation": "Assistant Professor",
+                   "Email": "avmuley@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Sanjay Gupta",
+                   "Designation": "Assistant Professor",
+                   "Email": "sgupta@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. S.K. Jha",
+                   "Designation": "Assistant Professor",
+                   "Email": "shailendra@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Vijayant Aggarwal",
+                   "Designation": "Assistant Professor",
+                   "Email": "vijayant@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Abhishek Tevatia",
+                   "Designation": "Assistant Professor",
+                   "Email": "abhishek.tevatia@nsit.ac.in",
+                   "ContactNo": ""
+                   }
+                   ]
+  },
+  {
+  "Header": "Division of Information Technology",
+  "ContentArray": [
+                   {
+                   "Name": "Dr. Sanjay Kumar Dhurandher",
+                   "Designation": "Associate Professor & Associate Head",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Devender Kumar",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Ms. Amarjit Malhotra",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Ms. Ankita Jain Bansal",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Ms. Deepika Kukreja",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Deepak Kumar Sharma",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Vikas Marotras",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Samayveer Singh",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Ms. Preeti Bansal",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Ms. Apoorvi Sood",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Sangeeta Sabharwal",
+                   "Designation": "Head",
+                   "Email": "ssab@nsit.ac.in",
+                   "ContactNo": ""
+                   }
+                   ]
+  },
+  {
+  "Header": "Division of Bio-Technology",
+  "ContentArray": [
+                   {
+                   "Name": "Dr. Ashok Kumar Dubey",
+                   "Designation": "Professor & Head",
+                   "Email": "akdubey@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. (Ms.) Sonika Bhatnagar",
+                   "Designation": "Assistant Professor",
+                   "Email": "sbhatnagar@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. (Ms.) Shilpa Sharma",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Akhilesh Dubey",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": "25000101(DID), 3101(Int)"
+                   },
+                   {
+                   "Name": "Sh. Sanjeev Kumar",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": "25000088(DID), 3088(Int)"
+                   },
+                   {
+                   "Name": "Sh. Soumya Sasmal",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Vishal Mishra",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Yatendra Kumar",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Satish Kumar Singh",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Ms. Akanksha Kulshreshtha",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Sh. Ajay Kumar Kataria",
+                   "Designation": "Assistant Professor",
+                   "Email": "",
+                   "ContactNo": ""
+                   }
+                   ]
+  },
+  {
+  "Header": "School of Applied Science",
+  "ContentArray": [
+                   {
+                   "Name": "Dr. Vijay Gupta",
+                   "Designation": "Professor",
+                   "Email": "vijay@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Om Prakash Thakur",
+                   "Designation": "Professor",
+                   "Email": "opthakur@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Mamta Mishra",
+                   "Designation": "Associate Professor",
+                   "Email": "mmishra@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Jasobanta Jena",
+                   "Designation": "Associate Professor",
+                   "Email": "jjena@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. J.K. Misra",
+                   "Designation": "Associate Professor",
+                   "Email": "jkmishra@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Sanjeev Thakur",
+                   "Designation": "Associate Professor",
+                   "Email": "sanjeevthakur@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. (Ms.) Ranjana Jha",
+                   "Designation": "Associate Professor",
+                   "Email": "ranjana@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Neeraj Kumar",
+                   "Designation": "Assistant Professor",
+                   "Email": "neeraj@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. J.K. Singh",
+                   "Designation": "Assistant Professor",
+                   "Email": "jksingh@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr.(Ms.) Purnima Jain",
+                   "Designation": "Assistant Professor",
+                   "Email": "purnima@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. (Ms.) Anjana Sarkar",
+                   "Designation": "Assistant Professor",
+                   "Email": "anjana@nsit.ac.in",
+                   "ContactNo": ""
+                   },
+                   {
+                   "Name": "Dr. Vijay Gupta",
+                   "Designation": "Head",
+                   "Email": "",
+                   "ContactNo": ""
+                   }
+                   ]
+  }
+  ]
