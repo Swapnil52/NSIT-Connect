@@ -10,25 +10,37 @@ The NSIT Connect app has been specially made for the students of Netaji Subhas I
 -------
 This is the news feed of the NSIT Online Facebook page. Posts can be refreshed by pulling down the table view and scrolling to the bottom loads the next 20 posts. The user can view the text and image (if any) of the associated post by tapping on the cell. High resolution images can be viewed and saved to the camera roll. The posts are cached for offline storage.
 
+<img src="https://github.com/Swapnil52/NSIT-Connect/blob/master/connectFinal/Screens/Simulator%20Screen%20Shot%2007-Aug-2016%2C%2010.30.25%20PM.png" height="400">
+
 2.My Feed
 ---------
 A customised feed which allows the user to select societies to view feeds of. Images can be viewed in full resolution and saved to the camera roll. Supports offline caching like the home feed.
+
+<img src = "https://github.com/Swapnil52/NSIT-Connect/blob/master/connectFinal/Screens/Simulator%20Screen%20Shot%2007-Aug-2016%2C%2010.30.57%20PM.png" height = 400>
 
 3.Videos
 --------
 Users can watch videos from 'Junoon-The Photography Society of NSIT's Youtube channel. 5 videos are displayed per page.
 
+<img src = "https://github.com/Swapnil52/NSIT-Connect/blob/master/connectFinal/Screens/Simulator%20Screen%20Shot%2007-Aug-2016%2C%2010.31.02%20PM.png" height = 400>
+
 4.Professors
 ------------
 Consists of the contact details of professors organised by branch/division. Users can contact professors via phone or email (if available) directly from the app.
+
+<img src = "https://github.com/Swapnil52/NSIT-Connect/blob/master/connectFinal/Screens/Simulator%20Screen%20Shot%2007-Aug-2016%2C%2010.31.11%20PM.png" height = 400>
 
 5.Code-Radar
 ----------
 A time table of contests held on popular online programming judges including Topcoder, Codechef, Codeforces, Hackerrank and more. Users can view both, upcoming and running contests, view their descriptions and access the contest page.
 
+<img src = "https://github.com/Swapnil52/NSIT-Connect/blob/master/connectFinal/Screens/Simulator%20Screen%20Shot%2007-Aug-2016%2C%2010.31.07%20PM.png" height = 400>
+
 6.Hangouts
 --------
 Shows users places of interest within a selected range. Users can get directions from the Google Maps website (or app, if installed). 
+
+<img src = "https://github.com/Swapnil52/NSIT-Connect/blob/master/connectFinal/Screens/Simulator%20Screen%20Shot%2007-Aug-2016%2C%2010.31.26%20PM.png" height = 400>
 
 #APIs Used
 ----------
