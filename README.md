@@ -45,28 +45,28 @@ Shows users places of interest within a selected range. Users can get directions
 #APIs Used
 ----------
 
-1. Facebook Graph API
+1. Facebook Graph api
 ---------------------
 ```
 https://graph.facebook.com/(Insert Page ID )/posts?limit=20&fields=id,full_picture,picture,from,shares,attachments,message,object_id,link,created_time,comments.limit(0).summary(true),likes.limit(0).summary(true)&access_token=(Insert API Key)
 ```
 JSON data for various Facebook pages can be downloaded by using different page IDs. For example, the page ID of NSIT Online's Facebook page is '109315262061'. 
 
-2. Youtube Data API
+2. Youtube Data api
 ------------------
 ```
 https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=(Playlist ID )&key=(API Key)
 ```
 JSON data for a Youtube playlist with a given playlist ID can be downloaded using this API. From the data received, we can extract a video's ID and URL along with other relevant information. This video ID is passed to an instance of Youtube Embedded Player to load and play the video.
 
-3. Hackerrank API
+3. Hackerrank api
 ----------------
 ```
 https://www.hackerrank.com/calendar/feed.json
 ```
 This API is used to fetch online judge contest information such as URL, start time, end time, description etc.
 
-4. Google Places API
+4. Google Places api
 -------------------
 ```
 https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(latitude),\(longitude)&radius=\(Range)&types=\(Type)&sensor=true&key=(API Key)
