@@ -60,3 +60,20 @@ This API is used to fetch online judge contest information such as URL, start ti
 https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(latitude),\(longitude)&radius=\(Range)&types=\(Type)&sensor=true&key=(API Key)
 ```
 This API allows us to fetch JSON data containing places of interest within a given radius (Range) from the user's current location (latitude and longitude).
+
+#Libraries used:
+----------------
+1.*SWRevealViewController*:
+For creating a swipe-style menu (https://github.com/John-Lluch/SWRevealViewController)
+
+2.*SDWebImage*:
+Popular asynchronous image downloading library (https://github.com/rs/SDWebImage)
+
+3.*NYAlertViewController*:
+Add customised alert view controllers (https://github.com/nealyoung/NYAlertViewController)
+
+4.*YTPlayerView*:
+Embed Youtube videos in iOS apps (https://github.com/youtube/youtube-ios-player-helper)
+
+5.*Toast*:
+Display 'toast' messages (https://github.com/scalessec/Toast)
