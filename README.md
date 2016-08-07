@@ -8,24 +8,55 @@ The NSIT Connect app has been specially made for the students of Netaji Subhas I
 
 1.Home
 -------
-Stay updated with everything that is going on in the college (notices, exam results and important announcements)
+This is the news feed of the NSIT Online Facebook page. Posts can be refreshed by pulling down the table view and scrolling to the bottom loads the next 20 posts. The user can view the text and image (if any) of the associated post by tapping on the cell. High resolution images can be viewed and saved to the camera roll. The posts are cached for offline storage.
 
 2.My Feed
 ---------
- A customised feed which allows you to view updates from your favourite societies. Follow your interests, they say!
+A customised feed which allows the user to select societies to view feeds of. Images can be viewed in full resolution and saved to the camera roll. Supports offline caching like the home feed.
 
 3.Videos
 --------
-Video gallery of NSIT (Cultural fests of societies and much more!)
+Users can watch videos from 'Junoon-The Photography Society of NSIT's Youtube channel. 5 videos are displayed per page.
 
 4.Professors
 ------------
-The contacts of all the faculty members categorized under different departments
+Consists of the contact details of professors organised by branch/division. Users can contact professors via phone or email (if available) directly from the app.
 
 Code-Radar
 ----------
-Get details of upcoming and running programming contests on popular judges
+A time table of contests held on popular online programming judges including Topcoder, Codechef, Codeforces, Hackerrank and more. Users can view both, upcoming and running contests, view their descriptions and access the contest page.
 
 Hangouts
 --------
-Find interesting places near you
+Shows users places of interest within a selected range. Users can get directions from the Google Maps website (or app, if installed). 
+
+#APIs Used
+----------
+
+1.Facebook Graph API
+---------------------
+```
+https://graph.facebook.com/(Insert Page ID )/posts?limit=20&fields=id,full_picture,picture,from,shares,attachments,message,object_id,link,created_time,comments.limit(0).summary(true),likes.limit(0).summary(true)&access_token=(Insert API Key)
+```
+JSON data for various Facebook pages can be downloaded by using different page IDs. For example, the page ID of NSIT Online's Facebook page is '109315262061'. 
+
+2.Youtube Data API
+------------------
+```
+https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=(Playlist ID )&key=(API Key)
+```
+JSON data for a Youtube playlist with a given playlist ID can be downloaded using this API. From the data received, we can extract a video's ID and URL along with other relevant information. This video ID is passed to an instance of Youtube Embedded Player to load and play the video.
+
+3.Hackerrank API
+-----------------
+```
+https://www.hackerrank.com/calendar/feed.json
+```
+This API is used to fetch online judge contest information such as URL, start time, end time, description etc.
+
+4.Google Places API
+-------------------
+```
+https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(latitude),\(longitude)&radius=\(Range)&types=\(Type)&sensor=true&key=(API Key)
+```
+This API allows us to fetch JSON data containing places of interest within a given radius (Range) from the user's current location (latitude and longitude).
