@@ -89,3 +89,13 @@ Embed Youtube videos in iOS apps (https://github.com/youtube/youtube-ios-player-
 
 5.*Toast*:
 Display 'toast' messages (https://github.com/scalessec/Toast)
+
+#Android and Windows 10 repos
+-----------------------------
+*Android* : https://github.com/Swati4star/NSIT-App-v2
+*Windows 10* : https://github.com/sgaggarwal2009/NSIT-Connect-Microsoft-App
+
+#Project Maintainers
+--------------------
+This project is maintained by Swapnil Dhanwal. For queries, please send an email to swapnildhanwal@hotmail.com
+
