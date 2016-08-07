@@ -1,4 +1,4 @@
-#NSIT Connect
+#NSIT Connect For iOS
 -------------
 
 The NSIT Connect app has been specially made for the students of Netaji Subhas Institute of Technology(NSIT) and also for the aspirants who want to join the college this year. This app has been developed to improve the mobile experience of the students and to keep them updated about the latest happenings of the college.
@@ -92,10 +92,10 @@ Display 'toast' messages (https://github.com/scalessec/Toast)
 
 #Android and Windows 10 repos
 -----------------------------
-*Android* : https://github.com/Swati4star/NSIT-App-v2
-*Windows 10* : https://github.com/sgaggarwal2009/NSIT-Connect-Microsoft-App
+- *Android* : https://github.com/Swati4star/NSIT-App-v2
+- *Windows 10* : https://github.com/sgaggarwal2009/NSIT-Connect-Microsoft-App
 
 #Project Maintainers
 --------------------
-This project is maintained by Swapnil Dhanwal. For queries, please send an email to swapnildhanwal@hotmail.com
+This project is actively maintained by [Swapnil Dhanwal](github.com/Swapnil52). For queries, please send an email to swapnildhanwal@hotmail.com
 
