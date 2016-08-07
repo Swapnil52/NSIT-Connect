@@ -22,11 +22,11 @@ Users can watch videos from 'Junoon-The Photography Society of NSIT's Youtube ch
 ------------
 Consists of the contact details of professors organised by branch/division. Users can contact professors via phone or email (if available) directly from the app.
 
-Code-Radar
+5.Code-Radar
 ----------
 A time table of contests held on popular online programming judges including Topcoder, Codechef, Codeforces, Hackerrank and more. Users can view both, upcoming and running contests, view their descriptions and access the contest page.
 
-Hangouts
+6.Hangouts
 --------
 Shows users places of interest within a selected range. Users can get directions from the Google Maps website (or app, if installed). 
 
