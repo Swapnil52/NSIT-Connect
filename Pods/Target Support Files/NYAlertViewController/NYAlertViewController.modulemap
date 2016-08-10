@@ -1,0 +1,6 @@
+framework module NYAlertViewController {
+  umbrella header "NYAlertViewController-umbrella.h"
+
+  export *
+  module * { export * }
+}
