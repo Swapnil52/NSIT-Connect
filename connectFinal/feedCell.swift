@@ -12,10 +12,8 @@ class feedCell: UITableViewCell {
 
     //@IBOutlet weak var cellPaddingView: UIView!
     @IBOutlet weak var date: UILabel!
-    @IBOutlet weak var imageBackground: UILabel!
     @IBOutlet weak var thumb: UIImageView!
     @IBOutlet weak var likes: UILabel!
-    @IBOutlet weak var line: UILabel!
     @IBOutlet weak var message: UILabel!
     @IBOutlet weak var societyImage: UIImageView!
     override func awakeFromNib() {

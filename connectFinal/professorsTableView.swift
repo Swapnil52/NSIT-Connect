@@ -22,7 +22,13 @@ class professorsTableView: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tableView.separatorColor = UIColor.clearColor()
+        
+    }
     
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        
+        return UIInterfaceOrientationMask.Portrait
         
     }
     
@@ -47,15 +53,14 @@ class professorsTableView: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("professorCell", forIndexPath: indexPath) as! professorCell
         
+        cell.layoutIfNeeded()
+        
         cell.name.text = passObject[indexPath.row]["Name"] as? String
-        
-        //setting up the padding
-        cell.backgroundColor = UIColor.clearColor()
-        cell.contentView.backgroundColor = UIColor.clearColor()
+        let path = UIBezierPath(rect: cell.cellPaddingView.bounds)
+        cell.cellPaddingView.layer.shadowPath = path.CGPath
         cell.cellPaddingView.layer.shadowColor = UIColor.blackColor().CGColor
-        cell.cellPaddingView.layer.shadowOffset = CGSizeMake(0, 0.5)
-        cell.cellPaddingView.layer.shadowOpacity = 1
-        
+        cell.cellPaddingView.layer.shadowOffset = CGSizeMake(0.5, 0.5)
+        cell.cellPaddingView.layer.shadowOpacity = 0.4
         
         if let designation = passObject[indexPath.row]["Designation"] as? String
         {

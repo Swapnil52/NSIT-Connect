@@ -10,6 +10,14 @@ import UIKit
 
 class testCustomFeedCell: UITableViewCell {
 
+    @IBOutlet var paddingView: UIView!
+    @IBOutlet var societyName: UILabel!
+    @IBOutlet var message: UILabel!
+    @IBOutlet var date: UILabel!
+    @IBOutlet var likes: UILabel!
+    @IBOutlet var thumbnail: UIImageView!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

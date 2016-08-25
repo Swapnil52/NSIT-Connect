@@ -8,6 +8,7 @@
 
 
 import UIKit
+import youtube_ios_player_helper
 var height = CGFloat()
 var width = CGFloat()
 
@@ -16,14 +17,17 @@ class playerView: UIViewController, YTPlayerViewDelegate {
 
     @IBOutlet weak var playerView: YTPlayerView!
     
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.playerView.delegate = self
+        
         print(passVideoId)
         playerView.loadWithVideoId(passVideoId)
-        height = 64
-        width = (self.navigationController?.navigationBar.frame.width)!
-        updateNavBar()
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,39 +35,16 @@ class playerView: UIViewController, YTPlayerViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func playerViewDidBecomeReady(playerView: YTPlayerView) {
+    
+    override func viewDidDisappear(animated: Bool) {
         
-        print("ready!")
+        self.playerView.removeFromSuperview()
+        self.playerView.delegate = nil
+        self.playerView = nil
+        
+        super.viewDidDisappear(animated)
         
     }
-    
-    override func viewDidAppear(animated: Bool) {
-        
-        updateNavBar()
-        
-    }
-    
-    
-    func updateNavBar()
-    {
-        self.navigationController?.navigationBar.frame = CGRectMake(0, 0, width, 64)
-        
-    }
-    
-    func playerView(playerView: YTPlayerView, didChangeToState state: YTPlayerState) {
-        
-        if state == .Ended
-        {
-            print("potty")
-        }
-        if state == YTPlayerState.Paused
-        {
-            print("tutti")
-        }
-    }
-    
-        
-    
 
     /*
     // MARK: - Navigation

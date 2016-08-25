@@ -9,7 +9,13 @@
 import UIKit
 
 class compCell: UITableViewCell {
-
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var start: UILabel!
+    @IBOutlet weak var end: UILabel!
+    
+    @IBOutlet weak var paddingView: UIView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

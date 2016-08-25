@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SWRevealViewController
 
 //variables to populate the tableView
 var headers = [AnyObject]()
@@ -18,10 +19,28 @@ var passObject = [[String:AnyObject]]()
 
 class departmentsTableView: UITableViewController {
     
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        
+        return UIInterfaceOrientationMask.Portrait
+        
+    }
+    
+    @IBOutlet weak var menuButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         headers.removeAll()
+        
+        self.tableView.separatorColor = UIColor.clearColor()
+        
+        if self.revealViewController() != nil {
+            menuButton.target = self.revealViewController()
+            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+        self.navigationController?.navigationBar.tintColor = UIColor(red: 01/256, green: 178/256, blue: 155/256, alpha: 1)
+        
         
         let filePath : NSString = NSBundle.mainBundle().pathForResource("professorsList", ofType: "json")!
         do
@@ -37,6 +56,7 @@ class departmentsTableView: UITableViewController {
                 {
                     headers.append(item)
                 }
+                
                 tableView.reloadData()
             }
             
@@ -65,10 +85,17 @@ class departmentsTableView: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("departmentCell", forIndexPath: indexPath) as! departmentCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("departmentCell1", forIndexPath: indexPath) as! departmentCell
         
-        cell.dpt.text = dpts[indexPath.row]
-        cell.department.text = headers[indexPath.row]["Header"] as? String
+        cell.layoutIfNeeded()
+        
+        cell.boldDpt.text = headers[indexPath.row]["Header"] as? String
+        //cell.department.text = headers[indexPath.row]["Header"] as? String
+        
+        let path = UIBezierPath(rect: cell.paddingView.bounds)
+        cell.paddingView.layer.shadowPath = path.CGPath
+        cell.paddingView.layer.shadowOffset = CGSizeMake(0.5, 0.5)
+        cell.paddingView.layer.shadowOpacity = 0.4
         
         return cell
     }

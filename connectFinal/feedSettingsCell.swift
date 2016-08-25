@@ -10,6 +10,11 @@ import UIKit
 
 class feedSettingsCell: UITableViewCell {
 
+    @IBOutlet weak var societyName: UILabel!
+    
+    @IBOutlet weak var logo: UIImageView!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

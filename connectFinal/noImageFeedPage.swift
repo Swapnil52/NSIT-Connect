@@ -9,10 +9,18 @@
 import UIKit
 
 class noImageFeedPage: UIViewController {
-
+    
+    
+    @IBOutlet weak var message: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        message.scrollsToTop = true
+        message.text = passMessage
+        message.flashScrollIndicators()
+        
+        
+        
         // Do any additional setup after loading the view.
     }
 

@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import NYAlertViewController
 
 class tapToViewImage: UIViewController, UIScrollViewDelegate {
     
@@ -37,202 +38,160 @@ class tapToViewImage: UIViewController, UIScrollViewDelegate {
             view.addSubview(spinner)
             spinner.layer.cornerRadius = 10
             spinner.startAnimating()
-            //UIApplication.sharedApplication().beginIgnoringInteractionEvents()
-            //let urlString = "https://graph.facebook.com/"+passPictureId+"?fields=images&access_token=CAAGZAwVFNCKgBAANhEYok6Xh7Q7UZBeTZCUqwPDLYhRZCmNn0igI8SE339jSn2zjxCpA1JUmXHm55XKVXslhdKKoTF3b5sLsiZBVd0ylYwX3MIGOnRyzn0T2XVywwoPKP7ML9WZCqELGRuIGxoM8ia05CiUiqcbgsb4wzTuBKkvKaqb7TPt2VnPtprRZBWda4kZD"
             let urlString = passHighResImageURL
             
             let url = NSURL(string: urlString)!
             let task = NSURLSession.sharedSession().dataTaskWithURL(url, completionHandler: { (data, response, error) in
                 
-                dispatch_async(dispatch_get_main_queue(), { 
+                dispatch_async(dispatch_get_main_queue(), {
                     
-                    if let _  = data
+                    let bytes = data?.length
+                    print(bytes == 0)
+                    
+                    if error != nil
                     {
-                        self.image = UIImage(data: data!)!
-                        self.spinner.stopAnimating()
                         
+                        let alert = NYAlertViewController()
+                        alert.title = "An Error Occurred"
+                        alert.message = "Please try again later"
+                        alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
+                        alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                            
+                            self.dismissViewControllerAnimated(true, completion: nil)
+                            
+                        }))
+                        self.presentViewController(alert, animated: true, completion: { 
+                            
+                           self.spinner.stopAnimating()
+                            
+                        })
+                    }
+                    
+                    if data?.length != 0
+                    {
+                        let image = UIImage(data: (data)!)
+                        if image != nil
+                        {
+                            self.image = UIImage(data: data!)!
+                            self.spinner.stopAnimating()
+                            
 
-                        self.image = UIImage(data: data!)!
+                            self.imageView.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: self.image.size)
+                            
+                            self.scrollView.addSubview(self.imageView)
+                            self.scrollView.contentSize = self.imageView.frame.size
+                            self.imageView.image = self.image
 
-                        self.imageView.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: self.image.size)
-
-                        self.scrollView.addSubview(self.imageView)
-                        self.scrollView.contentSize = self.imageView.frame.size
-                        self.imageView.image = self.image
-
-                        self.imageView.contentMode = .ScaleAspectFill
-                        let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapToViewImage.scrollViewDoubleTapped(_:)))
-                        doubleTapRecognizer.numberOfTapsRequired = 2
-                        doubleTapRecognizer.numberOfTouchesRequired = 1
-                        self.scrollView.addGestureRecognizer(doubleTapRecognizer)
-                        let scrollViewFrame = self.view.frame
-                        let scaleWidth = scrollViewFrame.size.width / self.scrollView.contentSize.width
-                        let scaleHeight = scrollViewFrame.size.height / self.scrollView.contentSize.height
-                        let minScale = min(scaleWidth, scaleHeight);
-                        self.scrollView.minimumZoomScale = minScale;
-
-                        self.scrollView.maximumZoomScale = 1
-                        
-                        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Save, target: self, action: #selector(tapToViewImage.saveImage))
-                        button.title = "Save"
-                        
-                        self.navigationItem.rightBarButtonItem = button
+                            self.imageView.contentMode = .ScaleAspectFill
+                            let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapToViewImage.scrollViewDoubleTapped(_:)))
+                            doubleTapRecognizer.numberOfTapsRequired = 2
+                            doubleTapRecognizer.numberOfTouchesRequired = 1
+                            self.scrollView.addGestureRecognizer(doubleTapRecognizer)
+                            //self.setZoomScale()
+                            let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Save, target: self, action: #selector(tapToViewImage.saveImage))
+                            button.title = "Save"
+                            
+                            self.navigationItem.rightBarButtonItem = button
+                        }
 
                     }
                     
                 })
                 
             })
-//            let task = NSURLSession.sharedSession().dataTaskWithURL(url, completionHandler: { (data, response, error) in
-//                
-//                dispatch_async(dispatch_get_main_queue(), { 
-//                    
-//                    if let data = data
-//                    {
-//                        do
-//                        {
-//                            let jsonData = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
-//                            
-//                            print(jsonData)
-//                            
-//                            if jsonData["error"] != nil
-//                            {
-//                                self.spinner.stopAnimating()
-//                                //UIApplication.sharedApplication().endIgnoringInteractionEvents()
-//                                
-//                                self.image = passImage
-//                            
-//                                self.imageView.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: self.image.size)
-//                                
-//                                //self.imageView.frame = self.view.bounds
-//                                self.scrollView.addSubview(self.imageView)
-//                                self.scrollView.contentSize = self.image.size
-//                                self.imageView.image = self.image
-//                                // 3
-//                                let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: "scrollViewDoubleTapped:")
-//                                doubleTapRecognizer.numberOfTapsRequired = 2
-//                                doubleTapRecognizer.numberOfTouchesRequired = 1
-//                                self.scrollView.addGestureRecognizer(doubleTapRecognizer)
-//                                
-//                                // 4
-//                                let scrollViewFrame = self.scrollView.frame
-//                                let scaleWidth = scrollViewFrame.size.width / self.scrollView.contentSize.width
-//                                let scaleHeight = scrollViewFrame.size.height / self.scrollView.contentSize.height
-//                                let minScale = min(scaleWidth, scaleHeight);
-//                                self.scrollView.minimumZoomScale = minScale;
-//                                
-//                                // 5
-//                                self.scrollView.maximumZoomScale = 1.0
-//                                self.scrollView.zoomScale = minScale;
-//                                
-//                                // 6
-//                                self.centerScrollViewContents()
-//                            }
-//                            
-//                            if let items = jsonData["images"] as? [[String : AnyObject]]
-//                            {
-//                                for item in items
-//                                {
-//                                    self.pictureURLs.append(item["source"] as! String)
-//                                    let highRes = self.pictureURLs[0]
-//                                    
-//                                    let newTask = NSURLSession.sharedSession().dataTaskWithURL(NSURL(string : highRes)!, completionHandler: { (data, response, error) in
-//                                        
-//                                        dispatch_async(dispatch_get_main_queue(), { 
-//                                            
-//                                            self.spinner.stopAnimating()
-//                                            //UIApplication.sharedApplication().endIgnoringInteractionEvents()
-//                                            
-//                                            self.image = UIImage(data: data!)!
-//                                            
-//                                            self.imageView.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: self.image.size)
-//                                            
-//                                            //self.imageView.frame = self.scrollView.bounds
-//                                            self.scrollView.addSubview(self.imageView)
-//                                            self.scrollView.contentSize = self.imageView.frame.size
-//                                            self.imageView.image = self.image
-//                                            // 3
-//                                            self.imageView.contentMode = .ScaleAspectFit
-//                                            let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: "scrollViewDoubleTapped:")
-//                                            doubleTapRecognizer.numberOfTapsRequired = 2
-//                                            doubleTapRecognizer.numberOfTouchesRequired = 1
-//                                            self.scrollView.addGestureRecognizer(doubleTapRecognizer)
-//                                            
-//                                            // 4
-//                                            let scrollViewFrame = self.view.frame
-//                                            let scaleWidth = scrollViewFrame.size.width / self.scrollView.contentSize.width
-//                                            let scaleHeight = scrollViewFrame.size.height / self.scrollView.contentSize.height
-//                                            let minScale = min(scaleWidth, scaleHeight);
-//                                            self.scrollView.minimumZoomScale = minScale;
-//                                            //self.scrollView.zoomScale = self.view.frame.width/self.imageView.image!.size.width
-//                                            
-//                                            // 5
-//                                            self.scrollView.maximumZoomScale = 1
-//                                            self.scrollView.zoomScale = 1;
-//                                            
-//                                            // 6
-//                                            //self.centerScrollViewContents()
-//                                            
-//                                            let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Save, target: self, action: "saveImage")
-//                                            button.title = "Save"
-//                                            
-//                                            self.navigationItem.rightBarButtonItem = button
-//                                        })
-//                                        
-//                                    })
-//                                    newTask.resume()
-//                                    
-//                                }
-//                            }
-//                            
-//                        }
-//                        
-//                        catch
-//                        {
-//                            print(error)
-//                        }
-//                    }
-//                    
-//                })
-//                
-//                
-//            })
+
             task.resume()
             
         }
         
-
-        // Do any additional setup after loading the view.
     }
+    
+    
     
     func saveImage()
     {
-        
-        let status:PHAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
-        
-        if status == PHAuthorizationStatus.Authorized
+        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.Authorized
         {
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-            print("potty")
-            let alert = UIAlertController(title: "Image Saved!", message: "", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-        
-        else
-        {
-            let alert = UIAlertController(title: "Please allow NSITConnect to acess the camera roll", message: "", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Settings", style: UIAlertActionStyle.Default, handler: { (action) in
+//            let alert = UIAlertController(title: "Image Saved!", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+//            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+//            self.presentViewController(alert, animated: true, completion: nil)
+            
+            let alert = NYAlertViewController()
+            alert.title = "Image Saved!"
+            alert.message = ""
+            alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
+            alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
                 
-                let settingsUrl = NSURL(string: UIApplicationOpenSettingsURLString)
-                if let url = settingsUrl {
-                    UIApplication.sharedApplication().openURL(url)
-                }
+                self.dismissViewControllerAnimated(true, completion: nil)
                 
             }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
+
+            
         }
+        
+        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.NotDetermined
+        {
+            PHPhotoLibrary.requestAuthorization({ (status) in
+                
+                if status == PHAuthorizationStatus.Authorized
+                {
+                    UIImageWriteToSavedPhotosAlbum(self.image, nil, nil, nil)
+                    print("potty")
+//                    let alert = UIAlertController(title: "Image Saved!", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+//                    
+//                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+//                    self.presentViewController(alert, animated: true, completion: nil)
+                    
+                    let alert = NYAlertViewController()
+                    alert.title = "Image Saved!"
+                    alert.message = ""
+                    alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
+                    alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                        
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                        
+                    }))
+                    self.presentViewController(alert, animated: true, completion: nil)
+
+                    
+                }
+                
+            })
+        }
+        
+        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.Denied
+        {
+//            let alert = UIAlertController(title: "NSIT Connect Does Not Have Permission to Save Images to The Camera Roll", message: "Please allow permission in settings", preferredStyle: .Alert)
+//            alert.addAction(UIAlertAction(title: "Settings", style: UIAlertActionStyle.Default, handler: { (action) in
+//                
+//                UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+//                
+//            }))
+//            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+//            self.presentViewController(alert, animated: true, completion: nil)
+            
+            let alert = NYAlertViewController()
+            alert.view.frame = CGRectMake(0, 0, 100, 100)
+            alert.title = "NSIT Connect Does Not Have Permission to Save Images"
+            alert.message = "Please allow permission in settings"
+            alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
+            alert.addAction(NYAlertAction(title: "Settings", style: .Default, handler: { (action) in
+                
+                self.dismissViewControllerAnimated(false, completion: nil)
+                UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+                
+            }))
+            alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                
+                self.dismissViewControllerAnimated(true, completion: nil)
+                
+            }))
+            self.presentViewController(alert, animated: true, completion: nil)
+            
+        }
+        
         
     }
     
@@ -241,35 +200,31 @@ class tapToViewImage: UIViewController, UIScrollViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func centerScrollViewContents() {
-        let boundsSize = scrollView.bounds.size
-        var contentsFrame = imageView.frame
+
+    func centerScrollViewContents()
+    {
+        let imageViewSize = imageView.frame.size
+        let scrollViewSize = scrollView.bounds.size
         
-        if contentsFrame.size.width < boundsSize.width {
-            contentsFrame.origin.x = (boundsSize.width - contentsFrame.size.width) / 2.0
-        } else {
-            contentsFrame.origin.x = 0.0
-        }
+        let verticalPadding = imageViewSize.height < scrollViewSize.height ? (scrollViewSize.height - imageViewSize.height) / 2 : 0
+        let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width) / 2 : 0
         
-        if contentsFrame.size.height < boundsSize.height {
-            contentsFrame.origin.y = (boundsSize.height - contentsFrame.size.height) / 2.0
-        } else {
-            contentsFrame.origin.y = 0.0
-        }
+        scrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
+
+    }
+    
+    func scrollViewDidZoom(scrollView: UIScrollView) {
         
-        imageView.frame = contentsFrame
+        centerScrollViewContents()
     }
     
     
     func scrollViewDoubleTapped(recognizer: UITapGestureRecognizer) {
-        // 1
         let pointInView = recognizer.locationInView(imageView)
         
-        // 2
         var newZoomScale = scrollView.zoomScale * 1.5
         newZoomScale = min(newZoomScale, scrollView.maximumZoomScale)
         
-        // 3
         let scrollViewSize = scrollView.bounds.size
         let w = scrollViewSize.width / newZoomScale
         let h = scrollViewSize.height / newZoomScale
@@ -278,17 +233,34 @@ class tapToViewImage: UIViewController, UIScrollViewDelegate {
         
         let rectToZoomTo = CGRectMake(x, y, w, h);
         
-        // 4
         scrollView.zoomToRect(rectToZoomTo, animated: true)
     }
     
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView?
+    {
         return imageView
     }
     
-    func scrollViewDidZoom(scrollView: UIScrollView) {
-        centerScrollViewContents()
+    
+    
+    func setZoomScale() {
+        let imageViewSize = imageView.bounds.size
+        let scrollViewSize = scrollView.bounds.size
+        let widthScale = scrollViewSize.width / imageViewSize.width
+        let heightScale = scrollViewSize.height / imageViewSize.height
+        
+        scrollView.minimumZoomScale = min(widthScale, heightScale)
+        scrollView.maximumZoomScale = 4
+        scrollView.zoomScale = 1.0
     }
+    
+    
+    override func viewDidLayoutSubviews() {
+        
+        centerScrollViewContents()
+        setZoomScale()
+    }
+    
     
     /*
     // MARK: - Navigation

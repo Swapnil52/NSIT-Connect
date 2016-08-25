@@ -23,6 +23,10 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
     var spinner = UIActivityIndicatorView()
     var latitudes = [Double]()
     var longitudes = [Double]()
+    var addresses = [String]()
+    var openStatus = [String]()
+    var ids = [String]()
+    var photos = [String:String]()
     var locationManager = CLLocationManager()
     var currentLocation = CLLocation()
     var gotLocation = Bool()
@@ -30,8 +34,7 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
+        self.tableView.separatorColor = UIColor.clearColor()
         
         if CLLocationManager.locationServicesEnabled() == true
         {
@@ -44,7 +47,20 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
         
         if CLLocationManager.locationServicesEnabled() == false
         {
-            
+            let alert = NYAlertViewController()
+            alert.title = "Location Services Are Disabled"
+            alert.message = "Please enable location services in settings"
+            alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
+            alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                
+                self.dismissViewControllerAnimated(false, completion: { 
+                    
+                    UIApplication.sharedApplication().openURL(NSURL(string: "prefs:root=LOCATION_SERVICES")!)
+                    self.navigationController?.popViewControllerAnimated(false)
+                })
+                
+            }))
+            self.presentViewController(alert, animated: true, completion: nil)
         }
         
     }
@@ -68,19 +84,68 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("resultCell", forIndexPath: indexPath)
-
-        cell.textLabel?.text = names[indexPath.row]
+        
+        if photos[ids[indexPath.row]] != nil
+        {
+            let cell = tableView.dequeueReusableCellWithIdentifier("resultCell", forIndexPath: indexPath) as! resultTableViewCell
+            
+            cell.layoutIfNeeded()
+            
+            let path = UIBezierPath(rect: (cell.paddingView.bounds))
+            cell.paddingView.layer.shadowPath = path.CGPath
+            cell.paddingView.layer.shadowOffset = CGSizeMake(0.5, 0.5)
+            cell.paddingView.layer.shadowOpacity = 0.4
+            cell.resultName.text = names[indexPath.row]
+            cell.resultAddress.text = addresses[indexPath.row]
+            cell.openStatus.text = openStatus[indexPath.row]
+            
+            cell.resultImageview.setShowActivityIndicatorView(true)
+            cell.resultImageview.setIndicatorStyle(.White)
+            cell.resultImageview.sd_setImageWithURL(NSURL(string: photos[ids[indexPath.row]]!))
+            cell.resultImageview.sd_setImageWithURL(NSURL(string: photos[ids[indexPath.row]]!), completed: { (image, error, cache, url) in
+                
+                if error == nil
+                {
+                    cell.resultImageview.layer.masksToBounds = true
+                }
+                
+            })
+            
+            return cell
+        }
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("noImageResultCell", forIndexPath: indexPath) as! noImageResultCell
+        
+        cell.layoutIfNeeded()
+        
+        let path = UIBezierPath(rect: (cell.paddingView.bounds))
+        cell.paddingView.layer.shadowPath = path.CGPath
+        cell.paddingView.layer.shadowOffset = CGSizeMake(0.5, 0.5)
+        cell.paddingView.layer.shadowOpacity = 0.4
+        cell.resultName.text = names[indexPath.row]
+        cell.resultAddress.text = addresses[indexPath.row]
+        cell.openStatus.text = openStatus[indexPath.row]
         
         return cell
+        
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        self.performSegueWithIdentifier("resultMapSegue", sender: self)
+        passName = names[indexPath.row]
+        passLat = latitudes[indexPath.row]
+        passLon = longitudes[indexPath.row]
+        passCurrentLocation = currentLocation
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         
         print("enable services!")
         let alert = NYAlertViewController()
-        alert.title = "Location Services Not Enabled"
-        alert.message = "Please allow NSIT Connect to access your location in Settings"
+        alert.title = "An Error Occurred"
+        alert.message = "Please check your internet connection or locations preferences"
+        alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
         alert.addAction(NYAlertAction(title: "Settings", style: .Default, handler: { (action) in
             
             UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
@@ -136,6 +201,7 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
                         alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
                         alert.title = "An Error Occurred"
                         alert.message = "Please try again later"
+                        alert.buttonColor = UIColor(red: 0x1b/255, green: 0xb2/255, blue: 0x9b/255, alpha: 1)
                         alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
                             
                             self.dismissViewControllerAnimated(true, completion: nil)
@@ -162,6 +228,10 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
                             self.names.removeAll()
                             self.latitudes.removeAll()
                             self.longitudes.removeAll()
+                            self.addresses.removeAll()
+                            self.openStatus.removeAll()
+                            self.photos.removeAll()
+                            self.ids.removeAll()
                             
                             let jsonData = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers)
                             if jsonData["status"] as? String == "ZERO_RESULTS"
@@ -169,6 +239,7 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
                                 let alert = NYAlertViewController()
                                 alert.title = "No Results Found"
                                 alert.message = "Please try a different range"
+                                alert.buttonColor = UIColor(red: 0x1b/255, green: 0xb2/255, blue: 0x9b/255, alpha: 1)
                                 alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
                                     
                                     self.dismissViewControllerAnimated(true, completion: {
@@ -202,14 +273,66 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
                                                 }
                                                 
                                             }
+                                            if let id = item["id"] as? String
+                                            {
+                                                self.ids.append(id)
+                                            }
                                             if let name = item["name"] as? String
                                             {
                                                 self.names.append(name)
+                                            }
+                                            if let address = item["vicinity"] as? String
+                                            {
+                                                self.addresses.append(address)
+                                            }
+                                            
+                                            if item["opening_hours"] != nil
+                                            {
+                                                if let openingHours = item["opening_hours"] as? [String:AnyObject]
+                                                {
+                                                    if let openStatus = openingHours["open_now"] as? Bool
+                                                    {
+                                                        if openStatus == true
+                                                        {
+                                                            self.openStatus.append("Open Now")
+                                                        }
+                                                        else
+                                                        {
+                                                            self.openStatus.append("Closed")
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                self.openStatus.append("No Information Available")
+                                            }
+                                            
+                                            
+                                            if let photos = item["photos"] as? [[String:AnyObject]]
+                                            {
+                                                for photo in photos
+                                                {
+                                                    if let reference = photo["photo_reference"] as? String
+                                                    {
+                                                        let url = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=\(reference)&key=AIzaSyBgApnLxwHxTvcV9Go2YTcqiWVIY1eUgdA"
+                                                        self.photos[(item["id"] as? String)!] = url
+                                                        break;
+                                                    }
+                                                    else
+                                                    {
+                                                        self.photos[item["id"] as! String] = nil
+                                                        break;
+                                                    }
+
+                                                }
                                             }
                                         }
                                     }
                                     if (self.names.count > 0)
                                     {
+                                        print(self.openStatus.count)
+                                        print(self.photos.count)
                                         print(self.latitudes.count)
                                         print(self.longitudes.count)
                                         print(self.names.count)
@@ -222,6 +345,7 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
                                         let alert = NYAlertViewController()
                                         alert.title = "No Results Found"
                                         alert.message = "Please try a different range"
+                                        alert.buttonColor = UIColor(red: 0x1b/255, green: 0xb2/255, blue: 0x9b/255, alpha: 1)
                                         alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
                                             
                                             self.dismissViewControllerAnimated(true, completion: {
@@ -250,63 +374,6 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
         
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
-    {
-        
-        passLat = latitudes[indexPath.row]
-        passLon = longitudes[indexPath.row]
-        passCurrentLocation = currentLocation
-        passName = names[indexPath.row]
-        self.performSegueWithIdentifier("mapSegue", sender: self)
-        
-        
-    }
-    
-    
-    
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
 
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

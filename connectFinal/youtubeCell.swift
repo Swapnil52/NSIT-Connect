@@ -10,10 +10,18 @@ import UIKit
 
 class youtubeCell: UITableViewCell {
 
-    @IBOutlet weak var thumbnail: UIImageView!
-    @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var desc: UILabel!
-    @IBOutlet weak var date: UILabel!
+//    @IBOutlet weak var thumbnail: UIImageView!
+//    @IBOutlet weak var title: UILabel!
+//    @IBOutlet weak var desc: UILabel!
+//    @IBOutlet weak var date: UILabel!
+    
+    @IBOutlet var paddingView: UIView!
+    @IBOutlet var thumbnail: UIImageView!
+    @IBOutlet var title: UILabel!
+    @IBOutlet var date: UILabel!
+    @IBOutlet var desc: UILabel!
+    
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -8,15 +8,11 @@
 
 import UIKit
 import QuartzCore
+import NYAlertViewController
 
 class feedPage: UIViewController {
     
     var tap = UITapGestureRecognizer()
-    var pageSpinner = UIActivityIndicatorView()
-    
-    
-    
-    @IBOutlet weak var lineLabel: UILabel!
     
     @IBOutlet weak var image: UIImageView!
     
@@ -26,6 +22,8 @@ class feedPage: UIViewController {
     
     @IBOutlet weak var imageTop: NSLayoutConstraint!
     
+    @IBOutlet weak var pageSpinner: UIActivityIndicatorView!
+    
     @IBOutlet weak var messageTop: NSLayoutConstraint!
     
     override func viewDidLoad() {
@@ -34,7 +32,6 @@ class feedPage: UIViewController {
         pageSpinner.center = self.image.center
         pageSpinner.frame = image.frame
         pageSpinner.layer.cornerRadius = 3.0
-        pageSpinner.layer.backgroundColor = UIColor.lightGrayColor().CGColor
         pageSpinner.hidesWhenStopped = true
         
         
@@ -42,23 +39,8 @@ class feedPage: UIViewController {
         message.textAlignment = .Center
         message.flashScrollIndicators()
         message.scrollsToTop = true
-        if passMessage == "" || passMessage == nil
-        {
-            
-            self.view.addSubview(pageSpinner)
-            pageSpinner.startAnimating()
-            lineLabel.hidden = true
-            imageTop.constant += 100
-            
-        }
         let imageURL = passImageURL
-        if imageURL == nil
-        {
-            image.hidden = true
-            messageTop.constant -=  200
-            
-            lineLabel.hidden = true
-        }
+        
         if imageURL != nil
         {
             
@@ -84,11 +66,6 @@ class feedPage: UIViewController {
                         
                         self.image.alpha = 1
                         self.view.bringSubviewToFront(self.image)
-                        //                            self.imageBackground.backgroundColor = UIColor.darkGrayColor()
-                        //self.image.layer.borderColor = UIColor.blackColor().CGColor
-                        //self.image.layer.cornerRadius = 10
-                        //self.image.layer.borderWidth = 1.5
-                        //self.image.layer.masksToBounds = true
                         self.tap.addTarget(self, action: #selector(feedPage.tapped))
                         self.image.addGestureRecognizer(self.tap)
                         self.image.userInteractionEnabled = true
@@ -160,8 +137,19 @@ class feedPage: UIViewController {
         
         if Reachability.isConnectedToNetwork() == false
         {
-            let alert = UIAlertController(title: "Can't download Full Resolution Image", message: "Please connect to the internet", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+//            let alert = UIAlertController(title: "Can't download Full Resolution Image", message: "Please connect to the internet", preferredStyle: UIAlertControllerStyle.Alert)
+//            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+//            self.presentViewController(alert, animated: true, completion: nil)
+            
+            let alert = NYAlertViewController()
+            alert.title = "Can't Download Full Resolution Image"
+            alert.message = "Please connect to the internet"
+            alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
+            alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                
+                self.dismissViewControllerAnimated(true, completion: nil)
+                
+            }))
             self.presentViewController(alert, animated: true, completion: nil)
             
             return
@@ -172,10 +160,22 @@ class feedPage: UIViewController {
         
     }
     
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        
+        return UIInterfaceOrientationMask.Portrait
+        
+    }
+    
     override func viewDidAppear(animated: Bool) {
         
-        didGoToFeedPage = true
+        //didGoToFeedPage = true
         message.flashScrollIndicators()
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        
+        message.scrollsToTop = true
         
     }
 }

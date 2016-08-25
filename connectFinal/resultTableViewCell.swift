@@ -9,7 +9,18 @@
 import UIKit
 
 class resultTableViewCell: UITableViewCell {
-
+    
+    @IBOutlet var paddingView: UIView!
+    
+    @IBOutlet var resultImageview: UIImageView!
+    
+    @IBOutlet var resultAddress: UILabel!
+    
+    @IBOutlet var resultName: UILabel!
+    
+    @IBOutlet var openStatus: UILabel!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

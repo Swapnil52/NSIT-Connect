@@ -9,22 +9,25 @@
 import UIKit
 import NYAlertViewController
 import CoreLocation
+import SWRevealViewController
 
 var passType = String()
 var passRange = String()
 
 class locationsTableView: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate{
     
+    @IBOutlet var menuButton: UIBarButtonItem!
+    
     var picker = UIPickerView()
     var pickerData = [Int]()
     var range = Int()
-    var types = ["cafe", "bar", "restaurant", "mall", "bowling", "food", "movies", "amusement", "park", "nightclub"]
-    var typeStrings = ["Cafes", "Bars", "Restaurants", "Malls", "Bowling", "Food", "Movies", "Amusement", "Parks", "Nightclubs"]
+    var types = ["atm", "cafe", "bar", "restaurant", "shopping_mall", "bowling_alley", "food", "movie_theater", "amusement_park", "park", "night_club"]
+    var typeStrings = ["ATM", "Cafes", "Bars", "Restaurants", "Malls", "Bowling", "Food", "Movies", "Amusement", "Parks", "Nightclubs"]
     
     @IBAction func rangeButton(sender: AnyObject) {
         
         let alert = NYAlertViewController()
-        alert.title = "Select Range (meters)"
+        alert.title = "Select Range (Km)"
         alert.message = ""
         alert.alertViewContentView = picker
         alert.buttonColor = UIColor(red: 01/255, green: (179)/255, blue: (164)/255, alpha: 1)
@@ -38,21 +41,30 @@ class locationsTableView: UITableViewController, UIPickerViewDataSource, UIPicke
         }))
         self.presentViewController(alert, animated: true, completion: nil)
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //setting up the location manager
+        if self.revealViewController() != nil {
+            menuButton.target = self.revealViewController()
+            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+        
+        self.navigationController?.navigationBar.tintColor = UIColor(red: 1/255, green: 179/255, blue: 155/255, alpha: 1)
+        self.tableView.separatorColor = UIColor.clearColor()
+        
         
         picker = UIPickerView(frame: CGRectMake(0, 0, 50, 50))
         
-        var i = 100
-        while i <= 5000
+        var i = 1
+        while i <= 25
         {
             pickerData.append(i)
-            i += 100
+            i += 1
         }
         
-        range = 100
+        range = 1
         
         picker.delegate = self
         picker.dataSource = self
@@ -77,9 +89,17 @@ class locationsTableView: UITableViewController, UIPickerViewDataSource, UIPicke
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("typeCell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("typeCell", forIndexPath: indexPath) as! locationTypeCell
         
-        cell.textLabel?.text = typeStrings[indexPath.row]
+        cell.layoutIfNeeded()
+        
+        let path = UIBezierPath(rect: cell.paddingView.bounds)
+        cell.paddingView.layer.shadowPath = path.CGPath
+        //cell.paddingView.layer.shadowRadius = 2
+        cell.paddingView.layer.shadowOffset = CGSizeMake(0.5, 0.5)
+        cell.paddingView.layer.shadowOpacity = 0.4
+        
+        cell.typeName.text = typeStrings[indexPath.row]
 
         return cell
     }
@@ -90,7 +110,7 @@ class locationsTableView: UITableViewController, UIPickerViewDataSource, UIPicke
         if Reachability.isConnectedToNetwork() == true
         {
             passType = types[indexPath.row]
-            passRange = String(self.pickerData[self.picker.selectedRowInComponent(0)])
+            passRange = String(self.pickerData[self.picker.selectedRowInComponent(0)]*1000)
             self.performSegueWithIdentifier("resultsSegue", sender: self)
         }
         else

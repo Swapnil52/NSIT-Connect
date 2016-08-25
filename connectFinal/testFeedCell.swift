@@ -10,9 +10,17 @@ import UIKit
 
 class testFeedCell: UITableViewCell {
 
+    @IBOutlet var paddingView: UIView!
+    @IBOutlet var likes: UILabel!
+    @IBOutlet var message: UILabel!
+    @IBOutlet var date: UILabel!
+    
+    
+    @IBOutlet var societyImage: UIImageView!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

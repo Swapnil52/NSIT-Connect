@@ -9,7 +9,11 @@
 import UIKit
 
 class locationTypeCell: UITableViewCell {
-
+    
+    @IBOutlet var typeName: UILabel!
+    
+    @IBOutlet var paddingView: UIView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

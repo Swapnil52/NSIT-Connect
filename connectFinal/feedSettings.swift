@@ -9,7 +9,7 @@
 //variables :
 
 var selectedFeeds = ["184835371535420":false, "252117054812001":false, "109582689081817":false, "158168947539641":false, "604809706256620":false, "376394819102290":false, "278952135548721":false, "126976547314225":false, "185960271431856":false, "135639763273290":false, "499766883378107":false, "1457237581165961":false]
-var societies = ["crosslinks", "collegespace", "bullet", "junoon", "rotaract", "debsoc", "ieee", "csi", "quiz", "ashwa", "enactus", "aagaz"]
+var societies = ["CROSSLINKS", "COLLEGESPACE", "BULLETHAWK", "JUNOON", "ROTARACT", "DEBSOC", "IEEE", "CSI", "QUIZ CLUB", "ASHWAMEDH", "ENACTUS", "AAGAZ"]
 var societyIds = ["184835371535420", "252117054812001", "109582689081817", "158168947539641", "604809706256620", "376394819102290", "278952135548721", "126976547314225", "185960271431856", "135639763273290", "499766883378107", "1457237581165961"]
 var empty = 0
 
@@ -21,6 +21,8 @@ var emptyMutable : Int!
 import UIKit
 
 class feedSettings: UITableViewController {
+    
+    var logoURLs = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +30,8 @@ class feedSettings: UITableViewController {
         tableView.reloadData()
         print(selectedFeeds)
         print(empty)
+        
+        logoURLs = ["crosslinks.png", "collegespace.png", "bullethawk.png", "junoon.png", "rotaract.png", "debsoc.png", "ieee.png", "csi.png", "quiz.png", "ashwamedh.png", "enactus.png", "aagaz.png"]
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -55,10 +59,10 @@ class feedSettings: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("societyCell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("societyCell", forIndexPath: indexPath) as! feedSettingsCell
         
-        cell.textLabel?.text = societies[indexPath.row]
-        // Configure the cell...
+        cell.societyName.text = societies[indexPath.row]
+        cell.logo.image = UIImage(named: self.logoURLs[indexPath.row])
         
         if selectedFeeds[societyIds[indexPath.row]] == true
         {

@@ -10,6 +10,11 @@ import UIKit
 
 class departmentCell: UITableViewCell {
 
+    @IBOutlet weak var paddingView: UIView!
+    
     @IBOutlet weak var dpt: UILabel!
     @IBOutlet weak var department: UILabel!
+    
+    @IBOutlet weak var boldDpt: UILabel!
+    
 }

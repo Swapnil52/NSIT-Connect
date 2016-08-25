@@ -10,6 +10,11 @@ import UIKit
 
 class noImageTestFeedCell: UITableViewCell {
 
+    @IBOutlet var paddingView: UIView!
+    @IBOutlet var message: UILabel!
+    @IBOutlet var likes: UILabel!
+    @IBOutlet var date: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
