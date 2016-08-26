@@ -90,6 +90,13 @@ Embed Youtube videos in iOS apps (https://github.com/youtube/youtube-ios-player-
 5. *Toast*:
 Display 'toast' messages (https://github.com/scalessec/Toast)
 
+#How to contribute? You'll need:
+--------------------------------
+- A mac with OSX El Capitan or later. Don't fret if you don't have a mac! You can run OSX on your Windows PC using Virtual Box. If you like tinkering with your computer, dual boot via Hackintosh
+- To learn an iOS programming language(Obj-C or Swift)from a popular online course or book like 'The Big Nerd Ranch Guide'. (This project has been written using Swift 2.2)
+- Install Xcode
+- To build, fork the repository or download the zip to your computer. If you get a cocoapod error (when a certain dependency can't be found), run pod install for the pods mentioned above and you'll be good to go!
+
 #Android and Windows 10 repos
 -----------------------------
 - *Android* : https://github.com/Swati4star/NSIT-App-v2
