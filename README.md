@@ -42,6 +42,11 @@ Shows users places of interest within a selected range. Users can get directions
 
 <img src = "https://github.com/Swapnil52/NSIT-Connect/blob/master/connectFinal/Screens/Simulator%20Screen%20Shot%2007-Aug-2016%2C%2010.31.26%20PM.png" height = 400>
 
+#New Changes
+------------
+- Changed the design of the feed page to mimic FB Instant Articles and added album viewing support
+<img src = "http://i.giphy.com/c8dbbOPRbPiLu.gif" height = 400>
+
 #APIs Used
 ----------
 
