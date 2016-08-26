@@ -68,6 +68,7 @@
 		55E566D11D1A8F1200E13677 /* noImageTestFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E566D01D1A8F1200E13677 /* noImageTestFeedCell.swift */; };
 		55E566D31D1ACD7E00E13677 /* testCustomFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E566D21D1ACD7E00E13677 /* testCustomFeedCell.swift */; };
 		55E566D51D1AD2A600E13677 /* noImageTestCustomFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E566D41D1AD2A600E13677 /* noImageTestCustomFeedCell.swift */; };
+		55F3E7B11D6EEFEE00D96590 /* SDInstantArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F3E7B01D6EEFEE00D96590 /* SDInstantArticleViewController.swift */; };
 		55FE24E91D06C3B900334763 /* feedSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FE24E81D06C3B900334763 /* feedSettingsCell.swift */; };
 		55FE24EB1D06C5E200334763 /* junoon.png in Resources */ = {isa = PBXBuildFile; fileRef = 55FE24EA1D06C5E200334763 /* junoon.png */; };
 		55FEC27C1D1C68EB00C7F389 /* ic_zoom_out_map_48pt_3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 55FEC27B1D1C68EB00C7F389 /* ic_zoom_out_map_48pt_3x.png */; };
@@ -141,6 +142,7 @@
 		55E566D01D1A8F1200E13677 /* noImageTestFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = noImageTestFeedCell.swift; sourceTree = "<group>"; };
 		55E566D21D1ACD7E00E13677 /* testCustomFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = testCustomFeedCell.swift; sourceTree = "<group>"; };
 		55E566D41D1AD2A600E13677 /* noImageTestCustomFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = noImageTestCustomFeedCell.swift; sourceTree = "<group>"; };
+		55F3E7B01D6EEFEE00D96590 /* SDInstantArticleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SDInstantArticleViewController.swift; sourceTree = "<group>"; };
 		55FE24E81D06C3B900334763 /* feedSettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = feedSettingsCell.swift; sourceTree = "<group>"; };
 		55FE24EA1D06C5E200334763 /* junoon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = junoon.png; sourceTree = "<group>"; };
 		55FEC27B1D1C68EB00C7F389 /* ic_zoom_out_map_48pt_3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_zoom_out_map_48pt_3x.png; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				552B274D1D57A25B0008C4C6 /* Screens */,
 				559D60221CC9E84C00143ECF /* RefreshContents.xib */,
 				55869D271CC915B400FAF4F6 /* Main.storyboard */,
+				55F3E7B01D6EEFEE00D96590 /* SDInstantArticleViewController.swift */,
 				55BB5F461D0825B5001F844E /* logo1.png */,
 				55E2FDB71D06CA2C008F056E /* quiz.png */,
 				55E2FDA11D06C8E4008F056E /* aagaz.png */,
@@ -440,6 +443,7 @@
 				557400C51CCCD08500C3B76C /* departmentCell.swift in Sources */,
 				5596600F1CCB3F7900DEDF1F /* customFeedCell.swift in Sources */,
 				55D0EEAF1CFC2ECF003AD598 /* competitionPage.swift in Sources */,
+				55F3E7B11D6EEFEE00D96590 /* SDInstantArticleViewController.swift in Sources */,
 				55FE24E91D06C3B900334763 /* feedSettingsCell.swift in Sources */,
 				551AD69C1CC91E500057175C /* feedCell.swift in Sources */,
 				551999C71D19C082001ABA6C /* locationsTableView.swift in Sources */,
@@ -570,14 +574,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Swapnil Dhanwal (3A9TH8N8KH)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Swapnil Dhanwal (3A9TH8N8KH)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = connectFinal/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Swapnil-Dhanwal.NSIT-Connect";
 				PRODUCT_NAME = connectFinal;
-				PROVISIONING_PROFILE = "f47218e7-a727-48cb-8468-651ceac37ce3";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "connect2-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -589,14 +593,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Swapnil Dhanwal (3A9TH8N8KH)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Swapnil Dhanwal (3A9TH8N8KH)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = connectFinal/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Swapnil-Dhanwal.NSIT-Connect";
 				PRODUCT_NAME = connectFinal;
-				PROVISIONING_PROFILE = "f47218e7-a727-48cb-8468-651ceac37ce3";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "connect2-Bridging-Header.h";
 			};
 			name = Release;

@@ -84,6 +84,9 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-connectFinal/DACircularProgress.framework"
+  install_framework "Pods-connectFinal/MBProgressHUD.framework"
+  install_framework "Pods-connectFinal/MWPhotoBrowser.framework"
   install_framework "Pods-connectFinal/NYAlertViewController.framework"
   install_framework "Pods-connectFinal/SDWebImage.framework"
   install_framework "Pods-connectFinal/SWRevealViewController.framework"
@@ -92,6 +95,9 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-connectFinal/youtube_ios_player_helper.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-connectFinal/DACircularProgress.framework"
+  install_framework "Pods-connectFinal/MBProgressHUD.framework"
+  install_framework "Pods-connectFinal/MWPhotoBrowser.framework"
   install_framework "Pods-connectFinal/NYAlertViewController.framework"
   install_framework "Pods-connectFinal/SDWebImage.framework"
   install_framework "Pods-connectFinal/SWRevealViewController.framework"

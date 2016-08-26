@@ -47,6 +47,7 @@ class customFeedTable: UITableViewController {
     var newSelectedFeeds = [String:Bool]()
     var imageSet = NSMutableSet()
     var fbFeedRefresher = UIRefreshControl()
+    var fbFeedAttachments = [String : [String:AnyObject]]()
     var refreshOnce = 0
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
@@ -108,7 +109,7 @@ class customFeedTable: UITableViewController {
         {
             selectedFeeds = NSUserDefaults.standardUserDefaults().objectForKey("selectedFeeds") as! [String:Bool]
             
-            if NSUserDefaults.standardUserDefaults().objectForKey("fbFeedIds") == nil 
+            if NSUserDefaults.standardUserDefaults().objectForKey("fbFeedIds") == nil || NSUserDefaults.standardUserDefaults().objectForKey("fbFeedAttachments") == nil
             {
                 print("fbFeedIds was nil")
                 fbPagesObjectIds.removeAll(keepCapacity: true)
@@ -131,6 +132,7 @@ class customFeedTable: UITableViewController {
                     fbFeedSociety.removeAll()
                     fbFeedThumbnailURLs.removeAll()
                     fbPassHighResImageURLs.removeAll()
+                    fbFeedAttachments.removeAll()
                     tableView.reloadData()
                     feedPageSpinner.startAnimating()
                     
@@ -179,6 +181,7 @@ class customFeedTable: UITableViewController {
                 fbFeedSociety = NSUserDefaults.standardUserDefaults().objectForKey("fbFeedSociety") as! [String]
                 fbFeedThumbnailURLs = NSUserDefaults.standardUserDefaults().objectForKey("fbFeedThumbnailURLs") as! [String:String]
                 fbPassHighResImageURLs = NSUserDefaults.standardUserDefaults().objectForKey("fbPassHighResImageURLs") as! [String:String]
+                fbFeedAttachments = NSUserDefaults.standardUserDefaults().objectForKey("fbFeedAttachments") as! [String:[String:AnyObject]]
                 self.tableView.reloadData()
                 
             }
@@ -311,7 +314,7 @@ class customFeedTable: UITableViewController {
     func refresh()
     {
         
-        if NSUserDefaults.standardUserDefaults().objectForKey("fbFeedIds") == nil
+        if NSUserDefaults.standardUserDefaults().objectForKey("fbFeedIds") == nil || NSUserDefaults.standardUserDefaults().objectForKey("fbFeedAttachments") == nil
         {
             let alert = NYAlertViewController()
             alert.title = "Oops!"
@@ -347,6 +350,7 @@ class customFeedTable: UITableViewController {
             fbFeedSociety.removeAll()
             fbFeedThumbnailURLs.removeAll()
             fbPassHighResImageURLs.removeAll()
+            fbFeedAttachments.removeAll()
             tableView.reloadData()
             feedPageSpinner.startAnimating()
             
@@ -470,6 +474,7 @@ class customFeedTable: UITableViewController {
                         fbFeedSociety.removeAll()
                         fbFeedThumbnailURLs.removeAll()
                         fbPassHighResImageURLs.removeAll()
+                        fbFeedAttachments.removeAll()
                         tableView.reloadData()
                         feedPageSpinner.startAnimating()
                         
@@ -706,6 +711,7 @@ class customFeedTable: UITableViewController {
                                         if let attachments = item["attachments"] as? [String:AnyObject]
                                         {
                                             //print(attachments)
+                                            self.fbFeedAttachments[item["id"] as! String] = attachments
                                             if let attachmentData = attachments["data"] as? [[String:AnyObject]]
                                             {
                                                 for x in attachmentData
@@ -837,6 +843,7 @@ class customFeedTable: UITableViewController {
                                             NSUserDefaults.standardUserDefaults().setObject(self.fbPassHighResImageURLs, forKey: "fbPassHighResImageURLs")
                                             NSUserDefaults.standardUserDefaults().setObject(self.fbFeedDates, forKey: "fbFeedDates")
                                             NSUserDefaults.standardUserDefaults().setObject(self.fbFeedLikes, forKey: "fbFeedLikes")
+                                            NSUserDefaults.standardUserDefaults().setObject(self.fbFeedAttachments, forKey: "fbFeedAttachments")
                                             feedPageSpinner.stopAnimating()
                                             self.fbFeedRefresher.endRefreshing()
                                             self.refreshOnce = 0
@@ -884,32 +891,12 @@ class customFeedTable: UITableViewController {
         passImage = fbFeedImages[fbFeedIds[indexPath.row]]
         currentSelectedFeeds = selectedFeeds
         passHighResImageURL = fbPassHighResImageURLs[passObjectId]
+        passAttachments = fbFeedAttachments[passObjectId]
         didGoToFeedPage = true
         
         if passImageURL == nil || passImageURL == ""
         {
-//            if Reachability.isConnectedToNetwork() == true
-//            {
-//                self.performSegueWithIdentifier("customFeedToNoImage", sender: self)
-//            }
-//            else
-//            {
-////                let alert = UIAlertController(title: "Unable to download full resolution image", message: "Please connect to the internet", preferredStyle: UIAlertControllerStyle.Alert)
-////                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-////                self.presentViewController(alert, animated: true, completion: nil)
-//                
-//                let alert = NYAlertViewController()
-//                alert.title = "Unable to download Full Resolution Image"
-//                alert.message = "Please connect to the internet"
-//                alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-//                alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
-//                    
-//                    self.dismissViewControllerAnimated(true, completion: nil)
-//                    
-//                }))
-//                self.presentViewController(alert, animated: true, completion: nil)
-//                
-//            }
+
             self.performSegueWithIdentifier("customFeedToNoImage", sender: self)
             return
         }
@@ -922,9 +909,6 @@ class customFeedTable: UITableViewController {
             }
             else
             {
-//                let alert = UIAlertController(title: "Unable to download full resolution image", message: "Please connect to the internet", preferredStyle: UIAlertControllerStyle.Alert)
-//                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-//                self.presentViewController(alert, animated: true, completion: nil)
                 
                 let alert = NYAlertViewController()
                 alert.title = "Unable to download Full Resolution Image"
@@ -940,20 +924,13 @@ class customFeedTable: UITableViewController {
             }
             return
         }
-        self.performSegueWithIdentifier("customFeedPage", sender: self)
+        self.performSegueWithIdentifier("customFeedToInstantArticleSegue", sender: self)
     }
     
     override func viewWillAppear(animated: Bool) {
         
-        if Reachability.isConnectedToNetwork() == false && NSUserDefaults.standardUserDefaults().objectForKey("fbFeedIds") == nil
+        if Reachability.isConnectedToNetwork() == false && (NSUserDefaults.standardUserDefaults().objectForKey("fbFeedIds") == nil || NSUserDefaults.standardUserDefaults().objectForKey("fbFeedAttachments") == nil)
         {
-//            let alert = UIAlertController(title: "Internet Connection Unavailable", message: "Please enable internet access!", preferredStyle: .Alert)
-//            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-//                
-//                self.navigationController?.popViewControllerAnimated(true)
-//                
-//            }))
-//            self.presentViewController(alert, animated: true, completion: nil)
             
             let alert = NYAlertViewController()
             alert.title = "Internet Connection Unavailable"

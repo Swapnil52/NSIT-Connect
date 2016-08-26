@@ -350,6 +350,24 @@
             </objects>
             <point key="canvasLocation" x="819" y="1092"/>
         </scene>
+        <!--Instant Article View Controller-->
+        <scene sceneID="brg-bU-qeH">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="48u-iq-blq" customClass="SDInstantArticleViewController" customModule="connectFinal" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3Kp-MH-KXQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="6MO-j2-z1p"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BmN-dF-5Co">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="1000"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hrg-F7-0st" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2617" y="-1581"/>
+        </scene>
         <!--Home-->
         <scene sceneID="Dv4-vM-jbg">
             <objects>
@@ -562,6 +580,7 @@
                         <segue destination="KIk-ho-1nk" kind="show" identifier="feedPage" id="3Rz-qK-tam"/>
                         <segue destination="DMu-xc-Q2V" kind="show" identifier="homeToImageSegue" id="YlM-ah-2hD"/>
                         <segue destination="vKB-Jm-Ym3" kind="show" identifier="homeToNoImageFeedPage" id="NZd-2T-bTh"/>
+                        <segue destination="48u-iq-blq" kind="show" identifier="fbFeedToInstantArticleSegue" id="LBy-XO-tYX"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bVa-PA-tQR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -945,11 +964,11 @@
                         <viewControllerLayoutGuide type="bottom" id="qxB-gy-Zcf"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="35w-Ji-v3q">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b0S-L3-Mlm">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="936"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DiG-RV-SyB">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
@@ -1027,7 +1046,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g56-RI-o8W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3359" y="-916"/>
+            <point key="canvasLocation" x="4247" y="-2196"/>
         </scene>
         <!--Tap To View Image-->
         <scene sceneID="tO8-80-ZWW">
@@ -1038,11 +1057,11 @@
                         <viewControllerLayoutGuide type="bottom" id="2Q3-WP-36E"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="4f4-UA-KST">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.20000000298023224" translatesAutoresizingMaskIntoConstraints="NO" id="g6j-ZG-O43">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="1000"/>
                                 <connections>
                                     <outlet property="delegate" destination="DMu-xc-Q2V" id="235-cy-Akf"/>
                                 </connections>
@@ -1193,6 +1212,7 @@
                                     <outlet property="paddingView" destination="ppf-Jh-NKB" id="UQJ-RZ-q5l"/>
                                     <outlet property="societyName" destination="g5q-2f-FXI" id="T9O-Mp-sZS"/>
                                     <outlet property="thumbnail" destination="3nj-qc-dgP" id="jbP-tx-LNA"/>
+                                    <segue destination="48u-iq-blq" kind="show" identifier="customFeedToInstantArticleSegue" id="vIs-Z9-QO5"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="noImageTestCustomFeedCell" rowHeight="180" id="GIg-pL-Wmo" customClass="noImageTestCustomFeedCell" customModule="connectFinal" customModuleProvider="target">
@@ -1319,7 +1339,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yRp-4g-Ua4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3359" y="231"/>
+            <point key="canvasLocation" x="3443" y="-115"/>
         </scene>
         <!--Feed Settings-->
         <scene sceneID="FeZ-zE-u9a">
@@ -2142,8 +2162,9 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="fJ6-G3-waS"/>
-        <segue reference="3Rz-qK-tam"/>
-        <segue reference="NZd-2T-bTh"/>
-        <segue reference="YlM-ah-2hD"/>
+        <segue reference="x7r-6X-F8a"/>
+        <segue reference="x5b-wE-cPV"/>
+        <segue reference="Q6q-TL-Chw"/>
+        <segue reference="vIs-Z9-QO5"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '33AEBC683AFD74573757F46D'
+               BlueprintIdentifier = '85EB3351998DFBF832E32D55'
                BlueprintName = 'NYAlertViewController'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'NYAlertViewController.framework'>

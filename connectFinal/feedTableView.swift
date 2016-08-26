@@ -29,6 +29,7 @@ var passLikes : NSInteger!
 var passObjectId : String!
 var passPictureId : String!
 var passHighResImageURL : String!
+var passAttachments : [String:AnyObject]!
 var loaded : Bool = false
 var refreshed = false
 var didScrollOnce = false
@@ -46,6 +47,7 @@ var currentLabelIndex = 0
 
 class feedTableView: UITableViewController {
     
+    var attachments = [String:[String:AnyObject]]()
     var highResImagesURLs = [String:String]()
     var messages = [String]()
     var objectIds = [String]()
@@ -87,7 +89,7 @@ class feedTableView: UITableViewController {
         loadCustomViewContents()
         self.view.addSubview(refresher)
         
-        if NSUserDefaults.standardUserDefaults().objectForKey("objectIds") == nil
+        if NSUserDefaults.standardUserDefaults().objectForKey("objectIds") == nil || NSUserDefaults.standardUserDefaults().objectForKey("attachments") == nil
         {
             if Reachability.isConnectedToNetwork() == false
             {
@@ -195,7 +197,7 @@ class feedTableView: UITableViewController {
                                                 //Accessing the attachments array
                                                 if let attachments = item["attachments"] as? [String:AnyObject]
                                                 {
-                                                    //print(attachments)
+                                                    self.attachments[(item["id"] as? String)!] = attachments
                                                     if let attachmentData = attachments["data"] as? [[String:AnyObject]]
                                                     {
                                                         for x in attachmentData
@@ -307,6 +309,7 @@ class feedTableView: UITableViewController {
                                                     NSUserDefaults.standardUserDefaults().setObject(pictureURLs, forKey: "pictureURLs")
                                                     NSUserDefaults.standardUserDefaults().setObject(self.likes, forKey: "likes")
                                                     NSUserDefaults.standardUserDefaults().setObject(self.dates, forKey: "dates")
+                                                    NSUserDefaults.standardUserDefaults().setObject(self.attachments, forKey: "attachments")
                                                     self.tableView.reloadData()
                                                     refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
                                                     refresher.addTarget(self, action: #selector(feedTableView.refresh), forControlEvents: UIControlEvents.ValueChanged)
@@ -345,6 +348,7 @@ class feedTableView: UITableViewController {
             dates = NSUserDefaults.standardUserDefaults().objectForKey("dates") as! [String]
             pictureURLs = NSUserDefaults.standardUserDefaults().objectForKey("pictureURLs") as! [String:String]
             objectIds = NSUserDefaults.standardUserDefaults().objectForKey("objectIds") as! [String]
+            attachments = NSUserDefaults.standardUserDefaults().objectForKey("attachments") as! [String:[String:AnyObject]]
             if NSUserDefaults.standardUserDefaults().objectForKey("numberOfLoads") != nil
             {
                 numberOfLoads = NSUserDefaults.standardUserDefaults().objectForKey("numberOfLoads") as! Int
@@ -448,6 +452,7 @@ class feedTableView: UITableViewController {
         passPictureId = pictureIds[passObjectId]
         passImage = images[objectIds[indexPath.row]]
         passHighResImageURL = highResImagesURLs[passObjectId]
+        passAttachments = attachments[objectIds[indexPath.row]]
         if passMessage == nil || passMessage == ""
         {
             self.performSegueWithIdentifier("homeToImageSegue", sender: self)
@@ -458,7 +463,7 @@ class feedTableView: UITableViewController {
             self.performSegueWithIdentifier("homeToNoImageFeedPage", sender: self)
             return
         }
-        self.performSegueWithIdentifier("feedPage", sender: self)
+        self.performSegueWithIdentifier("fbFeedToInstantArticleSegue", sender: self)
         
     }
     
@@ -539,6 +544,7 @@ class feedTableView: UITableViewController {
                         NSUserDefaults.standardUserDefaults().setObject(pictureURLs, forKey: "pictureURLs")
                         NSUserDefaults.standardUserDefaults().setObject(self.likes, forKey: "likes")
                         NSUserDefaults.standardUserDefaults().setObject(self.dates, forKey: "dates")
+                        NSUserDefaults.standardUserDefaults().setObject(self.attachments, forKey: "attachments")
                         NSUserDefaults.standardUserDefaults().setObject(numberOfLoads, forKey: "numberOfLoads")
                         NSUserDefaults.standardUserDefaults().setObject(next20, forKey: "next20")
                         
@@ -580,6 +586,7 @@ class feedTableView: UITableViewController {
                                             if let attachments = item["attachments"] as? [String:AnyObject]
                                             {
                                                 //print(attachments)
+                                                self.attachments[item["id"] as! String] = attachments
                                                 if let attachmentData = attachments["data"] as? [[String:AnyObject]]
                                                 {
                                                     for x in attachmentData
@@ -700,6 +707,7 @@ class feedTableView: UITableViewController {
                                                 NSUserDefaults.standardUserDefaults().setObject(self.likes, forKey: "likes")
                                                 NSUserDefaults.standardUserDefaults().setObject(self.dates, forKey: "dates")
                                                 NSUserDefaults.standardUserDefaults().setObject(numberOfLoads, forKey: "numberOfLoads")
+                                                NSUserDefaults.standardUserDefaults().setObject(self.attachments, forKey: "attachments")
                                                 NSUserDefaults.standardUserDefaults().setObject(next20, forKey: "next20")
                                             }
                                             
@@ -797,6 +805,7 @@ class feedTableView: UITableViewController {
                                 pictureURLs.removeAll()
                                 self.dates.removeAll()
                                 self.highResImagesURLs.removeAll()
+                                self.attachments.removeAll()
                                 
                                 let jsonData = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)
                                 if let jsonData = jsonData as? NSDictionary
@@ -819,6 +828,7 @@ class feedTableView: UITableViewController {
                                             if let attachments = item["attachments"] as? [String:AnyObject]
                                             {
                                                 //print(attachments)
+                                                self.attachments[item["id"] as! String] = attachments
                                                 if let attachmentData = attachments["data"] as? [[String:AnyObject]]
                                                 {
                                                     for x in attachmentData
@@ -929,6 +939,7 @@ class feedTableView: UITableViewController {
                                                 NSUserDefaults.standardUserDefaults().setObject(self.likes, forKey: "likes")
                                                 NSUserDefaults.standardUserDefaults().setObject(self.dates, forKey: "dates")
                                                 NSUserDefaults.standardUserDefaults().setObject(numberOfLoads, forKey: "numberOfLoads")
+                                                NSUserDefaults.standardUserDefaults().setObject(self.attachments, forKey: "attachments")
                                                 NSUserDefaults.standardUserDefaults().setObject(next20, forKey: "next20")
                                                 refresher.endRefreshing()
                                                 self.tableView.reloadData()

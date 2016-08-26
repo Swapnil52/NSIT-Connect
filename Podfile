@@ -11,5 +11,7 @@ pod 'UIActivityIndicator-for-SDWebImage'
 pod 'youtube-ios-player-helper', '~> 0.1'
 pod 'Toast', '~> 3.0'
 pod 'NYAlertViewController'
+pod 'MWPhotoBrowser', '~> 2.1'
+
 end
 
