@@ -45,6 +45,7 @@ Shows users places of interest within a selected range. Users can get directions
 #New Changes
 ------------
 - Changed the design of the feed page to mimic FB Instant Articles and added album viewing support
+
 <img src = "http://i.giphy.com/c8dbbOPRbPiLu.gif" height = 400>
 
 #APIs Used
