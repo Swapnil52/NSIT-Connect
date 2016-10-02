@@ -20,8 +20,6 @@ var images = [String : UIImage]()
 var animateCells = [Int]()
 var preventAnimation = Set<NSIndexPath>()
 
-
-
 var passMessage : String!
 var passImageURL : String!
 var passImage : UIImage!
@@ -69,6 +67,8 @@ class feedTableView: UITableViewController {
         customView = UIView()
         labelsArray.removeAll()
         
+        print("Welcome to NSIT Connect")
+        
         self.tableView.separatorColor = UIColor.clearColor()
         
         if self.revealViewController() != nil {
@@ -93,15 +93,6 @@ class feedTableView: UITableViewController {
         {
             if Reachability.isConnectedToNetwork() == false
             {
-//                let alert = NYAlertViewController()
-//                alert.title = "Internet Connection Unavailable"
-//                alert.message = "Please enable the internet connection"
-//                alert.buttonColor = UIColor(red: 0x01/255, green: 0xb2/255, blue: 0x9b/255, alpha: 1)
-//                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-//    
-//                    self.navigationController?.popViewControllerAnimated(true)
-//    
-//                }))
                 
                 let alert = NYAlertViewController()
                 alert.title = "Internet Connection Unavailable"
@@ -261,6 +252,11 @@ class feedTableView: UITableViewController {
                                                 {
                                                     self.messages.append(item["message"] as! String)
                                                 }
+                                                else
+                                                {
+                                                    self.message.append("")
+                                                }
+                                                
                                                 self.objectIds.append(item["id"] as! String)
                                                 pictureURLs[item["id"] as! String] = item["picture"] as? String
                                                 
@@ -316,6 +312,8 @@ class feedTableView: UITableViewController {
                                                 }
                                                 
                                             }
+                                            
+                                            print(messages)
                                         }
                                     }
                                     
@@ -519,17 +517,6 @@ class feedTableView: UITableViewController {
                         print(error)
                         
                         self.view.makeToast("An error occurred. Please try again later", duration: 1, position: CSToastPositionBottom)
-                        
-//                        let alert = NYAlertViewController()
-//                        alert.title = "An Error Occurred"
-//                        alert.message = "Please try again later"
-//                        alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-//                        alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
-//                            
-//                            self.dismissViewControllerAnimated(true, completion: nil)
-//                            
-//                        }))
-//                        self.presentViewController(alert, animated: true, completion: nil)
                         
                         //stopping activity indicators and resetting next page URl and number of scrolls
                         navigationBarActivityIndicator.stopAnimating()
@@ -737,6 +724,7 @@ class feedTableView: UITableViewController {
         }
     }
     
+    //MARK : Pull to refresh function
     func refresh()
     {
         
