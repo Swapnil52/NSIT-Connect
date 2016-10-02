@@ -34,6 +34,7 @@ var didScrollOnce = false
 var numberOfLoads = 1;
 var next20 : String = ""
 var y = 0
+var didUpdateApplication = true
 
 var refresher = UIRefreshControl()
 var customView = UIView()
@@ -68,6 +69,18 @@ class feedTableView: UITableViewController {
         labelsArray.removeAll()
         
         print("Welcome to NSIT Connect")
+        
+        if NSUserDefaults.standardUserDefaults().objectForKey("didUpdateApplication") != nil
+        {
+            didUpdateApplication = NSUserDefaults.standardUserDefaults().objectForKey("didUpdateApplication") as! Bool
+        }
+        
+        if didUpdateApplication == true
+        {
+            
+            NSUserDefaults.standardUserDefaults().setObject(didUpdateApplication, forKey : "didUpdateApplication")
+            
+        }
         
         self.tableView.separatorColor = UIColor.clearColor()
         
@@ -251,10 +264,12 @@ class feedTableView: UITableViewController {
                                                 if item["message"] != nil
                                                 {
                                                     self.messages.append(item["message"] as! String)
+                                                    print(item["message"])
                                                 }
                                                 else
                                                 {
-                                                    self.message.append("")
+                                                    self.messages.append("")
+                                                    print("")
                                                 }
                                                 
                                                 self.objectIds.append(item["id"] as! String)
@@ -313,7 +328,7 @@ class feedTableView: UITableViewController {
                                                 
                                             }
                                             
-                                            print(messages)
+                                            
                                         }
                                     }
                                     
@@ -632,13 +647,15 @@ class feedTableView: UITableViewController {
                                             }
                                             
                                             
-                                            if item["message"] == nil
-                                            {
-                                                self.messages.append("")
-                                            }
                                             if item["message"] != nil
                                             {
                                                 self.messages.append(item["message"] as! String)
+                                                print(item["message"])
+                                            }
+                                            else
+                                            {
+                                                self.messages.append("")
+                                                print("")
                                             }
                                             
                                             if item["created_time"] != nil
@@ -700,6 +717,7 @@ class feedTableView: UITableViewController {
                                             
                                             
                                         }
+                                        print(self.messages)
                                     }
                                 }
                                 
@@ -878,7 +896,14 @@ class feedTableView: UITableViewController {
                                             if item["message"] != nil
                                             {
                                                 self.messages.append(item["message"] as! String)
+                                                print(item["message"])
                                             }
+                                            else
+                                            {
+                                                self.messages.append("")
+                                                print("")
+                                            }
+                                            
                                             self.objectIds.append(item["id"] as! String)
                                             pictureURLs[item["id"] as! String] = item["picture"] as? String
                                             
@@ -934,6 +959,7 @@ class feedTableView: UITableViewController {
                                             }
                                             
                                         }
+                                        
                                     }
                                 }
                                 
@@ -970,7 +996,7 @@ class feedTableView: UITableViewController {
     func loadCustomViewContents()
     {
         let refreshContents = NSBundle.mainBundle().loadNibNamed("RefreshContents", owner: self, options: nil)
-        customView = refreshContents[0] as! UIView
+        customView = refreshContents![0] as! UIView
         customView.frame = refresher.bounds
         
         for i in 0 ..< customView.subviews.count

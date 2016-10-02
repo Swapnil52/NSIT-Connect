@@ -428,7 +428,7 @@ class codeRadarTableView: UITableViewController{
     func loadCustomViewContents()
     {
         let refreshContents = NSBundle.mainBundle().loadNibNamed("RefreshContents", owner: self, options: nil)
-        customView = refreshContents[0] as! UIView
+        customView = refreshContents![0] as! UIView
         customView.frame = refresher.bounds
         
         for i in 0 ..< customView.subviews.count
