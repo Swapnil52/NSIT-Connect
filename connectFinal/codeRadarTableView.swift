@@ -17,7 +17,7 @@ class codeRadarTableView: UITableViewController{
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
-    @IBAction func segmentTapped(sender: AnyObject) {
+    @IBAction func segmentTapped(_ sender: AnyObject) {
         
         if self.segmentedControl.selectedSegmentIndex == 1
         {
@@ -37,10 +37,10 @@ class codeRadarTableView: UITableViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.separatorColor = UIColor.clearColor()
+        self.tableView.separatorColor = UIColor.clear
         
         //configuring the custom refresher
-        refresher.addTarget(self, action: #selector(codeRadarTableView.refresh), forControlEvents: UIControlEvents.ValueChanged)
+        refresher.addTarget(self, action: #selector(codeRadarTableView.refresh), for: UIControlEvents.valueChanged)
         self.view.addSubview(refresher)
         isAnimating = false
         currentColorIndex = 0
@@ -53,18 +53,18 @@ class codeRadarTableView: UITableViewController{
         self.navigationController?.navigationBar.tintColor = UIColor(red: 01/256, green: 178/256, blue: 155/256, alpha: 1)
         
         //configuring the activity indicator
-        codeSpinner.frame = CGRectMake(0, 0, 100, 100)
-        codeSpinner.center = CGPointMake(self.view.center.x, self.view.center.y-100)
+        codeSpinner.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        codeSpinner.center = CGPoint(x: self.view.center.x, y: self.view.center.y-100)
         codeSpinner.hidesWhenStopped = true
-        codeSpinner.activityIndicatorViewStyle = .Gray
+        codeSpinner.activityIndicatorViewStyle = .gray
         codeSpinner.layer.cornerRadius = 10
         codeSpinner.backgroundColor = UIColor(white: 0.7, alpha: 0.7)
         self.view.addSubview(codeSpinner)
         codeSpinner.startAnimating()
         
         //configuring the segmented control
-        segmentedControl.enabled = false
-        segmentedControl.userInteractionEnabled = false
+        segmentedControl.isEnabled = false
+        segmentedControl.isUserInteractionEnabled = false
         
         //configuring the swipe menu
         if self.revealViewController() != nil
@@ -84,16 +84,16 @@ class codeRadarTableView: UITableViewController{
             alert.title = "Internet Connection Unavailable"
             alert.message = "Please refresh when the connection is reestablished"
             alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-            alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+            alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                 
-                self.dismissViewControllerAnimated(true, completion: { 
+                self.dismiss(animated: true, completion: { 
                     
                     self.codeSpinner.stopAnimating()
                     
                 })
                 
             }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
             
         }
         
@@ -101,9 +101,9 @@ class codeRadarTableView: UITableViewController{
         self.itemsToDisplay.removeAll()
         let url = "https://www.hackerrank.com/calendar/feed.json";
         
-        let task = NSURLSession.sharedSession().dataTaskWithURL(NSURL(string: url)!) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: URL(string: url)!, completionHandler: { (data, response, error) in
             
-            dispatch_async(dispatch_get_main_queue(), { 
+            DispatchQueue.main.async(execute: { 
                 
                 if error != nil
                 {
@@ -116,12 +116,12 @@ class codeRadarTableView: UITableViewController{
                     alert.title = "An Error Occurred"
                     alert.message = "Please try again later"
                     alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-                    alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                    alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                         
-                        self.dismissViewControllerAnimated(true, completion: nil)
+                        self.dismiss(animated: true, completion: nil)
                         
                     }))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.present(alert, animated: true, completion: nil)
                 }
                 if error == nil
                 {
@@ -133,7 +133,7 @@ class codeRadarTableView: UITableViewController{
                             self.items.removeAll()
                             self.itemsToDisplay.removeAll()
                             
-                            let jsonData = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers) as! NSDictionary
+                            let jsonData = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! NSDictionary
                             if let models = jsonData["models"] as? [[String:AnyObject]]
                             {
                                 for item in models
@@ -146,28 +146,28 @@ class codeRadarTableView: UITableViewController{
                             }
                             
                             self.codeSpinner.stopAnimating()
-                            self.segmentedControl.enabled = true
-                            self.segmentedControl.userInteractionEnabled = true
+                            self.segmentedControl.isEnabled = true
+                            self.segmentedControl.isUserInteractionEnabled = true
                             
                             for item in self.items
                             {
-                                var startDate = NSDate()
-                                var currentDate = NSDate()
-                                var endDate = NSDate()
+                                var startDate = Date()
+                                var currentDate = Date()
+                                var endDate = Date()
                                 if let start = item["start"] as? String
                                 {
-                                    let dateFormatter = NSDateFormatter()
+                                    let dateFormatter = DateFormatter()
                                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                                    startDate = dateFormatter.dateFromString(start)!
+                                    startDate = dateFormatter.date(from: start)!
                                     
                                 }
                                 if let end = item["end"] as? String
                                 {
-                                    let dateFormatter = NSDateFormatter()
+                                    let dateFormatter = DateFormatter()
                                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                                    endDate = dateFormatter.dateFromString(end)!
+                                    endDate = dateFormatter.date(from: end)!
                                 }
-                                currentDate = NSDate()
+                                currentDate = Date()
                                 if currentDate.compare(startDate).rawValue == 1 && currentDate.compare(endDate).rawValue == -1
                                 {
                                     self.itemsToDisplay.append(item)
@@ -187,7 +187,7 @@ class codeRadarTableView: UITableViewController{
             })
             
             
-        }
+        }) 
         task.resume()
         
     }
@@ -199,12 +199,12 @@ class codeRadarTableView: UITableViewController{
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
         if self.segmentedControl.selectedSegmentIndex == 0
@@ -229,16 +229,16 @@ class codeRadarTableView: UITableViewController{
             alert.title = "Unable to refresh"
             alert.message = "Please try again when the internet connection is re-established"
             alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-            alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+            alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                 
-                self.dismissViewControllerAnimated(true, completion: { 
+                self.dismiss(animated: true, completion: { 
                     
                     refresher.endRefreshing()
                     
                 })
                 
             }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }
         else
         {
@@ -246,9 +246,9 @@ class codeRadarTableView: UITableViewController{
             
             let url = "https://www.hackerrank.com/calendar/feed.json";
             
-            let task = NSURLSession.sharedSession().dataTaskWithURL(NSURL(string: url)!) { (data, response, error) in
+            let task = URLSession.shared.dataTask(with: URL(string: url)!, completionHandler: { (data, response, error) in
                 
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     
                     if error != nil
                     {
@@ -262,16 +262,16 @@ class codeRadarTableView: UITableViewController{
                         alert.title = "An Error Occurred"
                         alert.message = "Please try again later"
                         alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-                        alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                        alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                             
-                            self.dismissViewControllerAnimated(true, completion: { 
+                            self.dismiss(animated: true, completion: { 
                                 
                                 refresher.endRefreshing()
                                 
                             })
                             
                         }))
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                         
                     }
                     if error == nil
@@ -283,7 +283,7 @@ class codeRadarTableView: UITableViewController{
                                 self.items.removeAll()
                                 self.itemsToDisplay.removeAll()
                                 
-                                let jsonData = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers) as! NSDictionary
+                                let jsonData = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! NSDictionary
                                 if let models = jsonData["models"] as? [[String:AnyObject]]
                                 {
                                     for item in models
@@ -296,28 +296,28 @@ class codeRadarTableView: UITableViewController{
                                 }
                                 
                                 self.codeSpinner.stopAnimating()
-                                self.segmentedControl.enabled = true
-                                self.segmentedControl.userInteractionEnabled = true
+                                self.segmentedControl.isEnabled = true
+                                self.segmentedControl.isUserInteractionEnabled = true
                                 
                                 for item in self.items
                                 {
-                                    var startDate = NSDate()
-                                    var currentDate = NSDate()
-                                    var endDate = NSDate()
+                                    var startDate = Date()
+                                    var currentDate = Date()
+                                    var endDate = Date()
                                     if let start = item["start"] as? String
                                     {
-                                        let dateFormatter = NSDateFormatter()
+                                        let dateFormatter = DateFormatter()
                                         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                                        startDate = dateFormatter.dateFromString(start)!
+                                        startDate = dateFormatter.date(from: start)!
                                         
                                     }
                                     if let end = item["end"] as? String
                                     {
-                                        let dateFormatter = NSDateFormatter()
+                                        let dateFormatter = DateFormatter()
                                         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                                        endDate = dateFormatter.dateFromString(end)!
+                                        endDate = dateFormatter.date(from: end)!
                                     }
-                                    currentDate = NSDate()
+                                    currentDate = Date()
                                     if currentDate.compare(startDate).rawValue == 1 && currentDate.compare(endDate).rawValue == -1
                                     {
                                         self.itemsToDisplay.append(item)
@@ -338,7 +338,7 @@ class codeRadarTableView: UITableViewController{
                 })
                 
                 
-            }
+            }) 
             task.resume()
 
         }
@@ -346,63 +346,63 @@ class codeRadarTableView: UITableViewController{
     
     override func viewWillLayoutSubviews() {
         
-        self.codeSpinner.center = CGPointMake(self.view.center.x, self.view.center.y-100)
+        self.codeSpinner.center = CGPoint(x: self.view.center.x, y: self.view.center.y-100)
         
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("codeCell", forIndexPath: indexPath) as! compCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "codeCell", for: indexPath) as! compCell
         
         cell.layoutIfNeeded()
         
         if self.segmentedControl.selectedSegmentIndex == 0
         {
-            cell.titleLabel.text = items[indexPath.row]["title"] as? String
+            cell.titleLabel.text = items[(indexPath as NSIndexPath).row]["title"] as? String
             
             //setting up the date formatter
-            let startTime = items[indexPath.row]["start"] as? String
-            let endTime = items[indexPath.row]["end"] as? String
-            let dateFormatter = NSDateFormatter()
+            let startTime = items[(indexPath as NSIndexPath).row]["start"] as? String
+            let endTime = items[(indexPath as NSIndexPath).row]["end"] as? String
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.000Z"
-            var temp = dateFormatter.dateFromString(startTime!)
+            var temp = dateFormatter.date(from: startTime!)
             dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
-            let newStartTime = dateFormatter.stringFromDate(temp!)
+            let newStartTime = dateFormatter.string(from: temp!)
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.000Z"
-            temp = dateFormatter.dateFromString(endTime!)
+            temp = dateFormatter.date(from: endTime!)
             dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
-            let newEndTime = dateFormatter.stringFromDate(temp!)
+            let newEndTime = dateFormatter.string(from: temp!)
             
             cell.start.text = newStartTime
             cell.end.text = newEndTime
         }
         else if self.segmentedControl.selectedSegmentIndex == 1
         {
-            cell.titleLabel.text = itemsToDisplay[indexPath.row]["title"] as? String
-            let startTime = itemsToDisplay[indexPath.row]["start"] as? String
-            let endTime = itemsToDisplay[indexPath.row]["end"] as? String
-            let dateFormatter = NSDateFormatter()
+            cell.titleLabel.text = itemsToDisplay[(indexPath as NSIndexPath).row]["title"] as? String
+            let startTime = itemsToDisplay[(indexPath as NSIndexPath).row]["start"] as? String
+            let endTime = itemsToDisplay[(indexPath as NSIndexPath).row]["end"] as? String
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.000Z"
-            var temp = dateFormatter.dateFromString(startTime!)
+            var temp = dateFormatter.date(from: startTime!)
             dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
-            let newStartTime = dateFormatter.stringFromDate(temp!)
+            let newStartTime = dateFormatter.string(from: temp!)
             
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.000Z"
-            temp = dateFormatter.dateFromString(endTime!)
+            temp = dateFormatter.date(from: endTime!)
             dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
-            let newEndTime = dateFormatter.stringFromDate(temp!)
+            let newEndTime = dateFormatter.string(from: temp!)
             cell.start.text = newStartTime
             cell.end.text = newEndTime
         }
         
         let path = UIBezierPath(rect: cell.paddingView.bounds)
-        cell.paddingView.layer.shadowPath = path.CGPath
-        cell.paddingView.layer.shadowOffset = CGSizeMake(0.5, 0.5)
+        cell.paddingView.layer.shadowPath = path.cgPath
+        cell.paddingView.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         cell.paddingView.layer.shadowOpacity = 0.4
         return cell
     }
     
-    override func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        if refresher.refreshing
+    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if refresher.isRefreshing
         {
             if !isAnimating
             {
@@ -411,23 +411,23 @@ class codeRadarTableView: UITableViewController{
         }
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if segmentedControl.selectedSegmentIndex == 0
         {
-            passItem = items[indexPath.row]
+            passItem = items[(indexPath as NSIndexPath).row]
         }
         else
         {
-            passItem = itemsToDisplay[indexPath.row]
+            passItem = itemsToDisplay[(indexPath as NSIndexPath).row]
         }
-        self.performSegueWithIdentifier("competitionSegue", sender: self)
+        self.performSegue(withIdentifier: "competitionSegue", sender: self)
         
     }
     
     func loadCustomViewContents()
     {
-        let refreshContents = NSBundle.mainBundle().loadNibNamed("RefreshContents", owner: self, options: nil)
+        let refreshContents = Bundle.main.loadNibNamed("RefreshContents", owner: self, options: nil)
         customView = refreshContents![0] as! UIView
         customView.frame = refresher.bounds
         
@@ -436,8 +436,8 @@ class codeRadarTableView: UITableViewController{
             labelsArray.append(customView.viewWithTag(i+1) as! UILabel)
         }
         
-        refresher.backgroundColor = UIColor.clearColor()
-        refresher.tintColor = UIColor.clearColor()
+        refresher.backgroundColor = UIColor.clear
+        refresher.tintColor = UIColor.clear
         refresher.addSubview(customView)
         
     }
@@ -445,15 +445,15 @@ class codeRadarTableView: UITableViewController{
     func animateRefreshStep1() {
         isAnimating = true
         
-        UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-            labelsArray[currentLabelIndex].transform = CGAffineTransformMakeRotation(CGFloat(M_PI_4))
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
+            labelsArray[currentLabelIndex].transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_4))
             labelsArray[currentLabelIndex].textColor = self.getNextColor()
             
             }, completion: { (finished) -> Void in
                 
-                UIView.animateWithDuration(0.05, delay: 0.0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-                    labelsArray[currentLabelIndex].transform = CGAffineTransformIdentity
-                    labelsArray[currentLabelIndex].textColor = UIColor.blackColor()
+                UIView.animate(withDuration: 0.05, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
+                    labelsArray[currentLabelIndex].transform = CGAffineTransform.identity
+                    labelsArray[currentLabelIndex].textColor = UIColor.black
                     
                     }, completion: { (finished) -> Void in
                         currentLabelIndex+=1
@@ -470,27 +470,27 @@ class codeRadarTableView: UITableViewController{
     
     
     func animateRefreshStep2() {
-        UIView.animateWithDuration(0.35, delay: 0.0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-            labelsArray[0].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[1].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[2].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[3].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[4].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[5].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[6].transform = CGAffineTransformMakeScale(1.5, 1.5)
+        UIView.animate(withDuration: 0.35, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
+            labelsArray[0].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[1].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[2].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[3].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[4].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[5].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[6].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
             
             }, completion: { (finished) -> Void in
-                UIView.animateWithDuration(0.25, delay: 0.0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-                    labelsArray[0].transform = CGAffineTransformIdentity
-                    labelsArray[1].transform = CGAffineTransformIdentity
-                    labelsArray[2].transform = CGAffineTransformIdentity
-                    labelsArray[3].transform = CGAffineTransformIdentity
-                    labelsArray[4].transform = CGAffineTransformIdentity
-                    labelsArray[5].transform = CGAffineTransformIdentity
-                    labelsArray[6].transform = CGAffineTransformIdentity
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
+                    labelsArray[0].transform = CGAffineTransform.identity
+                    labelsArray[1].transform = CGAffineTransform.identity
+                    labelsArray[2].transform = CGAffineTransform.identity
+                    labelsArray[3].transform = CGAffineTransform.identity
+                    labelsArray[4].transform = CGAffineTransform.identity
+                    labelsArray[5].transform = CGAffineTransform.identity
+                    labelsArray[6].transform = CGAffineTransform.identity
                     
                     }, completion: { (finished) -> Void in
-                        if refresher.refreshing {
+                        if refresher.isRefreshing {
                             currentLabelIndex = 0
                             self.animateRefreshStep1()
                         }
@@ -498,8 +498,8 @@ class codeRadarTableView: UITableViewController{
                             isAnimating = false
                             currentLabelIndex = 0
                             for i in 0 ..< labelsArray.count {
-                                labelsArray[i].textColor = UIColor.blackColor()
-                                labelsArray[i].transform = CGAffineTransformIdentity
+                                labelsArray[i].textColor = UIColor.black
+                                labelsArray[i].transform = CGAffineTransform.identity
                             }
                         }
                 })
@@ -509,7 +509,7 @@ class codeRadarTableView: UITableViewController{
     
     
     func getNextColor() -> UIColor {
-        var colorsArray: Array<UIColor> = [UIColor.magentaColor(), UIColor.brownColor(), UIColor.yellowColor(), UIColor.redColor(), UIColor.greenColor(), UIColor.blueColor(), UIColor.orangeColor()]
+        var colorsArray: Array<UIColor> = [UIColor.magenta, UIColor.brown, UIColor.yellow, UIColor.red, UIColor.green, UIColor.blue, UIColor.orange]
         
         if currentColorIndex == colorsArray.count {
             currentColorIndex = 0

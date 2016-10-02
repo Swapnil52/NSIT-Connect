@@ -26,7 +26,7 @@ class playerView: UIViewController, YTPlayerViewDelegate {
         self.playerView.delegate = self
         
         print(passVideoId)
-        playerView.loadWithVideoId(passVideoId)
+        playerView.load(withVideoId: passVideoId)
 
     }
 
@@ -36,7 +36,7 @@ class playerView: UIViewController, YTPlayerViewDelegate {
     }
     
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         
         self.playerView.removeFromSuperview()
         self.playerView.delegate = nil

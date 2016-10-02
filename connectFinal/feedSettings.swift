@@ -47,65 +47,65 @@ class feedSettings: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 12
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("societyCell", forIndexPath: indexPath) as! feedSettingsCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "societyCell", for: indexPath) as! feedSettingsCell
         
-        cell.societyName.text = societies[indexPath.row]
-        cell.logo.image = UIImage(named: self.logoURLs[indexPath.row])
+        cell.societyName.text = societies[(indexPath as NSIndexPath).row]
+        cell.logo.image = UIImage(named: self.logoURLs[(indexPath as NSIndexPath).row])
         
-        if selectedFeeds[societyIds[indexPath.row]] == true
+        if selectedFeeds[societyIds[(indexPath as NSIndexPath).row]] == true
         {
-            cell.accessoryType = .Checkmark
+            cell.accessoryType = .checkmark
         }
         else
         {
-            cell.accessoryType = .None
+            cell.accessoryType = .none
         }
 
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if selectedFeeds[societyIds[indexPath.row]] == false
+        if selectedFeeds[societyIds[(indexPath as NSIndexPath).row]] == false
         {
-            selectedFeeds[societyIds[indexPath.row]] = true
-            print(selectedFeeds[societyIds[indexPath.row]])
-            let cell = tableView.cellForRowAtIndexPath(indexPath)
-            cell?.accessoryType = .Checkmark
+            selectedFeeds[societyIds[(indexPath as NSIndexPath).row]] = true
+            print(selectedFeeds[societyIds[(indexPath as NSIndexPath).row]])
+            let cell = tableView.cellForRow(at: indexPath)
+            cell?.accessoryType = .checkmark
             empty += 1
             print(empty)
-            NSUserDefaults.standardUserDefaults().setObject(empty, forKey: "empty")
-            NSUserDefaults.standardUserDefaults().setObject(selectedFeeds, forKey: "selectedFeeds")
+            UserDefaults.standard.set(empty, forKey: "empty")
+            UserDefaults.standard.set(selectedFeeds, forKey: "selectedFeeds")
             
         }
         
         else
         {
-            selectedFeeds[societyIds[indexPath.row]] = false
-            print(selectedFeeds[societyIds[indexPath.row]])
-            let cell = tableView.cellForRowAtIndexPath(indexPath)
-            cell?.accessoryType = .None
+            selectedFeeds[societyIds[(indexPath as NSIndexPath).row]] = false
+            print(selectedFeeds[societyIds[(indexPath as NSIndexPath).row]])
+            let cell = tableView.cellForRow(at: indexPath)
+            cell?.accessoryType = .none
             empty -= 1
-            NSUserDefaults.standardUserDefaults().setObject(empty, forKey: "empty")
-            NSUserDefaults.standardUserDefaults().setObject(selectedFeeds, forKey: "selectedFeeds")
+            UserDefaults.standard.set(empty, forKey: "empty")
+            UserDefaults.standard.set(selectedFeeds, forKey: "selectedFeeds")
             print(empty)
         }
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
         didGoToFeedPage = false
         didGoToSettings = true

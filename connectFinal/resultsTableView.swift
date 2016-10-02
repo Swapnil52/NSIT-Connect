@@ -34,7 +34,7 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.separatorColor = UIColor.clearColor()
+        self.tableView.separatorColor = UIColor.clear
         
         if CLLocationManager.locationServicesEnabled() == true
         {
@@ -51,16 +51,16 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
             alert.title = "Location Services Are Disabled"
             alert.message = "Please enable location services in settings"
             alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-            alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+            alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                 
-                self.dismissViewControllerAnimated(false, completion: { 
+                self.dismiss(animated: false, completion: { 
                     
-                    UIApplication.sharedApplication().openURL(NSURL(string: "prefs:root=LOCATION_SERVICES")!)
-                    self.navigationController?.popViewControllerAnimated(false)
+                    UIApplication.shared.openURL(URL(string: "prefs:root=LOCATION_SERVICES")!)
+                    _ = self.navigationController?.popViewController(animated: false)
                 })
                 
             }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }
         
     }
@@ -72,37 +72,37 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return names.count
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if photos[ids[indexPath.row]] != nil
+        if photos[ids[(indexPath as NSIndexPath).row]] != nil
         {
-            let cell = tableView.dequeueReusableCellWithIdentifier("resultCell", forIndexPath: indexPath) as! resultTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "resultCell", for: indexPath) as! resultTableViewCell
             
             cell.layoutIfNeeded()
             
             let path = UIBezierPath(rect: (cell.paddingView.bounds))
-            cell.paddingView.layer.shadowPath = path.CGPath
-            cell.paddingView.layer.shadowOffset = CGSizeMake(0.5, 0.5)
+            cell.paddingView.layer.shadowPath = path.cgPath
+            cell.paddingView.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
             cell.paddingView.layer.shadowOpacity = 0.4
-            cell.resultName.text = names[indexPath.row]
-            cell.resultAddress.text = addresses[indexPath.row]
-            cell.openStatus.text = openStatus[indexPath.row]
+            cell.resultName.text = names[(indexPath as NSIndexPath).row]
+            cell.resultAddress.text = addresses[(indexPath as NSIndexPath).row]
+            cell.openStatus.text = openStatus[(indexPath as NSIndexPath).row]
             
-            cell.resultImageview.setShowActivityIndicatorView(true)
-            cell.resultImageview.setIndicatorStyle(.White)
-            cell.resultImageview.sd_setImageWithURL(NSURL(string: photos[ids[indexPath.row]]!))
-            cell.resultImageview.sd_setImageWithURL(NSURL(string: photos[ids[indexPath.row]]!), completed: { (image, error, cache, url) in
+            cell.resultImageview.setShowActivityIndicator(true)
+            cell.resultImageview.setIndicatorStyle(.white)
+            cell.resultImageview.sd_setImage(with: URL(string: photos[ids[(indexPath as NSIndexPath).row]]!))
+            cell.resultImageview.sd_setImage(with: URL(string: photos[ids[(indexPath as NSIndexPath).row]]!), completed: { (image, error, cache, url) in
                 
                 if error == nil
                 {
@@ -114,58 +114,58 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
             return cell
         }
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("noImageResultCell", forIndexPath: indexPath) as! noImageResultCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "noImageResultCell", for: indexPath) as! noImageResultCell
         
         cell.layoutIfNeeded()
         
         let path = UIBezierPath(rect: (cell.paddingView.bounds))
-        cell.paddingView.layer.shadowPath = path.CGPath
-        cell.paddingView.layer.shadowOffset = CGSizeMake(0.5, 0.5)
+        cell.paddingView.layer.shadowPath = path.cgPath
+        cell.paddingView.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         cell.paddingView.layer.shadowOpacity = 0.4
-        cell.resultName.text = names[indexPath.row]
-        cell.resultAddress.text = addresses[indexPath.row]
-        cell.openStatus.text = openStatus[indexPath.row]
+        cell.resultName.text = names[(indexPath as NSIndexPath).row]
+        cell.resultAddress.text = addresses[(indexPath as NSIndexPath).row]
+        cell.openStatus.text = openStatus[(indexPath as NSIndexPath).row]
         
         return cell
         
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        self.performSegueWithIdentifier("resultMapSegue", sender: self)
-        passName = names[indexPath.row]
-        passLat = latitudes[indexPath.row]
-        passLon = longitudes[indexPath.row]
+        self.performSegue(withIdentifier: "resultMapSegue", sender: self)
+        passName = names[(indexPath as NSIndexPath).row]
+        passLat = latitudes[(indexPath as NSIndexPath).row]
+        passLon = longitudes[(indexPath as NSIndexPath).row]
         passCurrentLocation = currentLocation
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         
         print("enable services!")
         let alert = NYAlertViewController()
         alert.title = "An Error Occurred"
         alert.message = "Please check your internet connection or locations preferences"
         alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-        alert.addAction(NYAlertAction(title: "Settings", style: .Default, handler: { (action) in
+        alert.addAction(NYAlertAction(title: "Settings", style: .default, handler: { (action) in
             
-            UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
-            self.dismissViewControllerAnimated(false, completion: nil)
+            UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+            self.dismiss(animated: false, completion: nil)
             
         }))
-        alert.addAction(NYAlertAction(title: "Cancel", style: .Default, handler: { (action) in
+        alert.addAction(NYAlertAction(title: "Cancel", style: .default, handler: { (action) in
             
-            self.dismissViewControllerAnimated(true, completion: {
+            self.dismiss(animated: true, completion: {
                 
-                self.navigationController?.popViewControllerAnimated(true)
+                _ = self.navigationController?.popViewController(animated: true)
                 
             })
             
         }))
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
         
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         if gotLocation == false
         {
@@ -173,10 +173,10 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
             gotLocation = true
             currentLocation = locations[0]
             //setting up the spinner
-            spinner.frame = CGRectMake(0, 0, 50, 50)
-            spinner.center = CGPointMake(self.view.center.x, self.view.center.y-100)
-            spinner.activityIndicatorViewStyle = .WhiteLarge
-            spinner.layer.backgroundColor = UIColor.lightGrayColor().CGColor
+            spinner.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+            spinner.center = CGPoint(x: self.view.center.x, y: self.view.center.y-100)
+            spinner.activityIndicatorViewStyle = .whiteLarge
+            spinner.layer.backgroundColor = UIColor.lightGray.cgColor
             spinner.layer.cornerRadius = 5
             spinner.hidesWhenStopped = true
             self.view.addSubview(spinner)
@@ -187,29 +187,29 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
             
             
             
-            let url = NSURL(string: "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(lat),\(lon)&radius=\(passRange)&types=\(passType)&sensor=true&key=AIzaSyBgApnLxwHxTvcV9Go2YTcqiWVIY1eUgdA")
+            let url = URL(string: "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(lat),\(lon)&radius=\(passRange)&types=\(passType)&sensor=true&key=AIzaSyBgApnLxwHxTvcV9Go2YTcqiWVIY1eUgdA")
             
             print(url)
             
-            let task = NSURLSession.sharedSession().dataTaskWithURL(url!) { (data, response, error) in
+            let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
                 
                 if error != nil
                 {
-                    dispatch_async(dispatch_get_main_queue(), {
+                    DispatchQueue.main.async(execute: {
                         
                         let alert = NYAlertViewController()
                         alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
                         alert.title = "An Error Occurred"
                         alert.message = "Please try again later"
                         alert.buttonColor = UIColor(red: 0x1b/255, green: 0xb2/255, blue: 0x9b/255, alpha: 1)
-                        alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                        alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                             
-                            self.dismissViewControllerAnimated(true, completion: nil)
-                            self.navigationController?.popViewControllerAnimated(true)
+                            self.dismiss(animated: true, completion: nil)
+                            _ = self.navigationController?.popViewController(animated: true)
                             self.locationManager.startUpdatingLocation()
                             
                         }))
-                        self.presentViewController(alert, animated: true, completion: { 
+                        self.present(alert, animated: true, completion: { 
                             
                             self.spinner.stopAnimating()
                             
@@ -221,7 +221,7 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
                     
                 else
                 {
-                    dispatch_async(dispatch_get_main_queue(), {
+                    DispatchQueue.main.async(execute: {
                         
                         do
                         {
@@ -233,23 +233,23 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
                             self.photos.removeAll()
                             self.ids.removeAll()
                             
-                            let jsonData = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers)
+                            let jsonData = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! [String:AnyObject]
                             if jsonData["status"] as? String == "ZERO_RESULTS"
                             {
                                 let alert = NYAlertViewController()
                                 alert.title = "No Results Found"
                                 alert.message = "Please try a different range"
                                 alert.buttonColor = UIColor(red: 0x1b/255, green: 0xb2/255, blue: 0x9b/255, alpha: 1)
-                                alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                                alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                                     
-                                    self.dismissViewControllerAnimated(true, completion: {
+                                    self.dismiss(animated: true, completion: {
                                         
-                                        self.navigationController?.popViewControllerAnimated(true)
+                                        _ = self.navigationController?.popViewController(animated: true)
                                         
                                     })
                                     
                                 }))
-                                self.presentViewController(alert, animated: true, completion: nil)
+                                self.present(alert, animated: true, completion: nil)
                             }
                             if jsonData["status"] as? String == "OK"
                             {
@@ -346,16 +346,16 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
                                         alert.title = "No Results Found"
                                         alert.message = "Please try a different range"
                                         alert.buttonColor = UIColor(red: 0x1b/255, green: 0xb2/255, blue: 0x9b/255, alpha: 1)
-                                        alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                                        alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                                             
-                                            self.dismissViewControllerAnimated(true, completion: {
+                                            self.dismiss(animated: true, completion: {
                                                 
-                                                self.navigationController?.popViewControllerAnimated(true)
+                                               _ = self.navigationController?.popViewController(animated: true)
                                                 
                                             })
                                             
                                         }))
-                                        self.presentViewController(alert, animated: true, completion: nil)
+                                        self.present(alert, animated: true, completion: nil)
                                     }
                                 }
                             }
@@ -368,7 +368,7 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
                     })
                 }
                 
-            }
+            }) 
             task.resume()
         }
         

@@ -22,13 +22,13 @@ class professorsTableView: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.separatorColor = UIColor.clearColor()
+        self.tableView.separatorColor = UIColor.clear
         
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
         
-        return UIInterfaceOrientationMask.Portrait
+        return UIInterfaceOrientationMask.portrait
         
     }
     
@@ -39,30 +39,30 @@ class professorsTableView: UITableViewController {
     
     // MARK: - Table view data source
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return passObject.count
     }
     
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("professorCell", forIndexPath: indexPath) as! professorCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "professorCell", for: indexPath) as! professorCell
         
         cell.layoutIfNeeded()
         
-        cell.name.text = passObject[indexPath.row]["Name"] as? String
+        cell.name.text = passObject[(indexPath as NSIndexPath).row]["Name"] as? String
         let path = UIBezierPath(rect: cell.cellPaddingView.bounds)
-        cell.cellPaddingView.layer.shadowPath = path.CGPath
-        cell.cellPaddingView.layer.shadowColor = UIColor.blackColor().CGColor
-        cell.cellPaddingView.layer.shadowOffset = CGSizeMake(0.5, 0.5)
+        cell.cellPaddingView.layer.shadowPath = path.cgPath
+        cell.cellPaddingView.layer.shadowColor = UIColor.black.cgColor
+        cell.cellPaddingView.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         cell.cellPaddingView.layer.shadowOpacity = 0.4
         
-        if let designation = passObject[indexPath.row]["Designation"] as? String
+        if let designation = passObject[(indexPath as NSIndexPath).row]["Designation"] as? String
         {
             cell.designation.text = designation
             if designation == ""
@@ -75,7 +75,7 @@ class professorsTableView: UITableViewController {
             cell.designation.text = "No designation available"
         }
         
-        if let email = passObject[indexPath.row]["Email"] as? String
+        if let email = passObject[(indexPath as NSIndexPath).row]["Email"] as? String
         {
             cell.email.text = "Email: \(email)"
             if email == ""
@@ -88,11 +88,11 @@ class professorsTableView: UITableViewController {
             cell.email.text = "No email-id available"
         }
         
-        if var phone = passObject[indexPath.row]["ContactNo"] as? String
+        if var phone = passObject[(indexPath as NSIndexPath).row]["ContactNo"] as? String
         {
-            phone = phone.stringByReplacingOccurrencesOfString("(DID)", withString: "")
-            phone = phone.stringByReplacingOccurrencesOfString("(Int)", withString: "")
-            phone = phone.stringByReplacingOccurrencesOfString(" ", withString: "")
+            phone = phone.replacingOccurrences(of: "(DID)", with: "")
+            phone = phone.replacingOccurrences(of: "(Int)", with: "")
+            phone = phone.replacingOccurrences(of: " ", with: "")
             if (phone.hasPrefix("2"))
             {
                 phone = "011\(phone)"

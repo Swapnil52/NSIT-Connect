@@ -14,7 +14,7 @@ import NYAlertViewController
 class resultMapView: UIViewController, MKMapViewDelegate {
 
     @IBOutlet var resultMap: MKMapView!
-    @IBAction func getDirections(sender: AnyObject) {
+    @IBAction func getDirections(_ sender: AnyObject) {
         
         let sourceLocation = CLLocationCoordinate2DMake(passCurrentLocation.coordinate.latitude, passCurrentLocation.coordinate.longitude)
         
@@ -38,7 +38,7 @@ class resultMapView: UIViewController, MKMapViewDelegate {
         
         let url = "http://maps.google.com/maps?saddr=\(sourceLocation.latitude),\(sourceLocation.longitude)&daddr=\(destinationLocation.latitude),\(destinationLocation.longitude)"
         
-        UIApplication.sharedApplication().openURL(NSURL(string: url)!)
+        UIApplication.shared.openURL(URL(string: url)!)
         
         
         
@@ -72,7 +72,7 @@ class resultMapView: UIViewController, MKMapViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         
         self.resultMap.delegate = nil
         self.resultMap = nil

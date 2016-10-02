@@ -43,11 +43,11 @@ class youtubeTableViewController: UITableViewController {
     var ytRefresher = UIRefreshControl()
     var spinner = UIActivityIndicatorView()
     
-    @IBAction func previous(sender: AnyObject) {
+    @IBAction func previous(_ sender: AnyObject) {
         
         if pageIndex == 1
         {
-            previousOutlet.enabled = false
+            previousOutlet.isEnabled = false
         }
         else
         {
@@ -55,7 +55,7 @@ class youtubeTableViewController: UITableViewController {
             print(pageIndex)
             if pageIndex == 1
             {
-                previousOutlet.enabled = false
+                previousOutlet.isEnabled = false
             }
             previousURL = currentURL
             ytPublishedTimes.removeAll()
@@ -65,20 +65,20 @@ class youtubeTableViewController: UITableViewController {
             ytThumbnailURLs.removeAll()
             ytThumbnails.removeAll()
             self.tableView.reloadData()
-            previousOutlet.enabled = false
-            nextOutlet.enabled = false
+            previousOutlet.isEnabled = false
+            nextOutlet.isEnabled = false
             
             spinner = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
             spinner.center = CGPoint(x: self.view.center.x, y: self.view.center.y-100)
             spinner.hidesWhenStopped = true
-            spinner.activityIndicatorViewStyle = .Gray
+            spinner.activityIndicatorViewStyle = .gray
             spinner.layer.cornerRadius = 10
             spinner.backgroundColor = UIColor(white: 0.7, alpha: 0.7)
             self.view.addSubview(spinner)
             spinner.startAnimating()
             //UIApplication.sharedApplication().beginIgnoringInteractionEvents()
             
-            let task = NSURLSession.sharedSession().dataTaskWithURL(NSURL(string: nextURL + "&pageToken=\(prevPageToken)")!) { (data, response, error) -> Void in
+            let task = URLSession.shared.dataTask(with: URL(string: nextURL + "&pageToken=\(prevPageToken)")!, completionHandler: { (data, response, error) -> Void in
                 
                 if error != nil
                 {
@@ -92,22 +92,22 @@ class youtubeTableViewController: UITableViewController {
 //                        
 //                    })
                     
-                    dispatch_async(dispatch_get_main_queue(), { 
+                    DispatchQueue.main.async(execute: { 
                         
                         let alert = NYAlertViewController()
                         alert.title = "An Error Occurred"
                         alert.message = "Please try again later"
                         alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-                        alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                        alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                             
-                            self.dismissViewControllerAnimated(true, completion: {
+                            self.dismiss(animated: true, completion: {
                                 
                                 self.spinner.stopAnimating()
                                 self.view.makeToast("Pull to refresh to reload", duration: 1, position: CSToastPositionTop)
                             })
                             
                         }))
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                         
                     })
                     
@@ -116,11 +116,11 @@ class youtubeTableViewController: UITableViewController {
                 
                 if error == nil
                 {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    DispatchQueue.main.async(execute: { () -> Void in
                         
                         do
                         {
-                            let jsonData = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                            let jsonData = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
                             //print(jsonData)
                             
                             if let pageInfo = jsonData["pageInfo"] as? [String:AnyObject]
@@ -182,13 +182,13 @@ class youtubeTableViewController: UITableViewController {
                                         
                                         if let time = snippet["publishedAt"] as? String
                                         {
-                                            let dateFormatter = NSDateFormatter()
+                                            let dateFormatter = DateFormatter()
                                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-                                            let newDate = dateFormatter.dateFromString(time)!
-                                            dateFormatter.AMSymbol = "AM"
-                                            dateFormatter.PMSymbol = "PM"
+                                            let newDate = dateFormatter.date(from: time)!
+                                            dateFormatter.amSymbol = "AM"
+                                            dateFormatter.pmSymbol = "PM"
                                             dateFormatter.dateFormat = "dd MMM, hh:mm a"
-                                            let dateString = dateFormatter.stringFromDate(newDate)
+                                            let dateString = dateFormatter.string(from: newDate)
                                             ytPublishedTimes.append(dateString)
                                         }
                                         
@@ -206,11 +206,11 @@ class youtubeTableViewController: UITableViewController {
                                                         self.tableView.reloadData()
                                                         currentURL = previousURL
                                                         self.spinner.stopAnimating()
-                                                        self.previousOutlet.enabled = true
-                                                        self.nextOutlet.enabled = true
+                                                        self.previousOutlet.isEnabled = true
+                                                        self.nextOutlet.isEnabled = true
                                                         if prevPageToken == nil
                                                         {
-                                                            self.previousOutlet.enabled = false
+                                                            self.previousOutlet.isEnabled = false
                                                         }
                                                     }
                                                 }
@@ -227,31 +227,31 @@ class youtubeTableViewController: UITableViewController {
                     })
                 }
                 
-            }
+            }) 
             task.resume()
 
         }
         
     }
-    @IBAction func next(sender: AnyObject) {
+    @IBAction func next(_ sender: AnyObject) {
         
         pageIndex += 1
         
-        previousOutlet.enabled = true
+        previousOutlet.isEnabled = true
         
         print(pageIndex)
         
         spinner = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         spinner.center = CGPoint(x: self.view.center.x, y: self.view.center.y-100)
         spinner.hidesWhenStopped = true
-        spinner.activityIndicatorViewStyle = .Gray
+        spinner.activityIndicatorViewStyle = .gray
         spinner.layer.cornerRadius = 10
         spinner.backgroundColor = UIColor(white: 0.7, alpha: 0.7)
         self.view.addSubview(spinner)
         
         if nextPageToken == nil || nextPageToken == ""
         {
-            nextOutlet.enabled = false
+            nextOutlet.isEnabled = false
         }
         
         if nextPageToken != nil && pageIndex != totalNumberOfPages
@@ -265,12 +265,12 @@ class youtubeTableViewController: UITableViewController {
             ytThumbnailURLs.removeAll()
             ytThumbnails.removeAll()
             tableView.reloadData()
-            previousOutlet.enabled = false
-            nextOutlet.enabled = false
+            previousOutlet.isEnabled = false
+            nextOutlet.isEnabled = false
             spinner.startAnimating()
             //UIApplication.sharedApplication().beginIgnoringInteractionEvents()
 
-            let task = NSURLSession.sharedSession().dataTaskWithURL(NSURL(string: nextURL + "&pageToken=\(nextPageToken)")!) { (data, response, error) -> Void in
+            let task = URLSession.shared.dataTask(with: URL(string: nextURL + "&pageToken=\(nextPageToken)")!, completionHandler: { (data, response, error) -> Void in
                 
                 if error != nil
                 {
@@ -289,15 +289,15 @@ class youtubeTableViewController: UITableViewController {
 //                        
 //                    })
                     
-                    dispatch_async(dispatch_get_main_queue(), { 
+                    DispatchQueue.main.async(execute: { 
                         
                         let alert = NYAlertViewController()
                         alert.title = "An Error Occurred"
                         alert.message = "Please try again later"
                         alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-                        alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                        alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                             
-                            self.dismissViewControllerAnimated(true, completion: {
+                            self.dismiss(animated: true, completion: {
                                 
                                 self.spinner.stopAnimating()
                                 self.view.makeToast("Pull to refresh to reload", duration: 1, position: CSToastPositionTop)
@@ -305,7 +305,7 @@ class youtubeTableViewController: UITableViewController {
                             })
                             
                         }))
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
 
                         
                     })
@@ -315,12 +315,12 @@ class youtubeTableViewController: UITableViewController {
                 
                 if error == nil
                 {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    DispatchQueue.main.async(execute: { () -> Void in
                         
                         do
                         {
                             print(nextURL + "&pageToken=\(nextPageToken)")
-                            let jsonData = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                            let jsonData = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
                             //print(jsonData)
                             
                             nextPageToken = jsonData["nextPageToken"] as? String
@@ -391,13 +391,13 @@ class youtubeTableViewController: UITableViewController {
                                         
                                         if let time = snippet["publishedAt"] as? String
                                         {
-                                            let dateFormatter = NSDateFormatter()
+                                            let dateFormatter = DateFormatter()
                                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-                                            let newDate = dateFormatter.dateFromString(time)!
-                                            dateFormatter.AMSymbol = "AM"
-                                            dateFormatter.PMSymbol = "PM"
+                                            let newDate = dateFormatter.date(from: time)!
+                                            dateFormatter.amSymbol = "AM"
+                                            dateFormatter.pmSymbol = "PM"
                                             dateFormatter.dateFormat = "dd MMM, hh:mm a"
-                                            let dateString = dateFormatter.stringFromDate(newDate)
+                                            let dateString = dateFormatter.string(from: newDate)
                                             ytPublishedTimes.append(dateString)
                                         }
                                         
@@ -417,13 +417,13 @@ class youtubeTableViewController: UITableViewController {
                                                         self.spinner.stopAnimating()
                                                         if (nextPageToken != nil)
                                                         {
-                                                            self.nextOutlet.enabled = true
+                                                            self.nextOutlet.isEnabled = true
                                                         }
                                                         else
                                                         {
-                                                            self.nextOutlet.enabled = false
+                                                            self.nextOutlet.isEnabled = false
                                                         }
-                                                        self.previousOutlet.enabled = true
+                                                        self.previousOutlet.isEnabled = true
                                                         if nextPageToken != nil
                                                         {
                                                             print(nextPageToken)
@@ -443,7 +443,7 @@ class youtubeTableViewController: UITableViewController {
                     })
                 }
                 
-            }
+            }) 
             task.resume()
         }
 
@@ -469,20 +469,20 @@ class youtubeTableViewController: UITableViewController {
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
         
-        self.tableView.separatorColor = UIColor.clearColor()
+        self.tableView.separatorColor = UIColor.clear
         
-        self.navigationController?.toolbarHidden = false
+        self.navigationController?.isToolbarHidden = false
         
         if pageIndex == 1
         {
-            previousOutlet.enabled = false
+            previousOutlet.isEnabled = false
         }
         
         //setting up spinner
         spinner = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         spinner.center = CGPoint(x: self.view.center.x, y: self.view.center.y-100)
         spinner.hidesWhenStopped = true
-        spinner.activityIndicatorViewStyle = .Gray
+        spinner.activityIndicatorViewStyle = .gray
         spinner.layer.cornerRadius = 10
         spinner.backgroundColor = UIColor(white: 0.7, alpha: 0.7)
         self.view.addSubview(spinner)
@@ -494,7 +494,7 @@ class youtubeTableViewController: UITableViewController {
         currentLabelIndex = 0
         customView = UIView()
         labelsArray.removeAll()
-        ytRefresher.addTarget(self, action: #selector(self.refresh), forControlEvents: UIControlEvents.ValueChanged)
+        ytRefresher.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
         ytRefresher.attributedTitle = NSAttributedString(string: "")
         loadCustomViewContents()
         self.view.addSubview(ytRefresher)
@@ -509,14 +509,14 @@ class youtubeTableViewController: UITableViewController {
         nextURL = ""
         previousURL = ""
         let urlString = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=UUu445B5LTXzkNr5eft8wNHg&key=AIzaSyBgktirlOODUO9zWD-808D7zycmP7smp-Y"
-        let url = NSURL(string: "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=UUu445B5LTXzkNr5eft8wNHg&key=AIzaSyBgktirlOODUO9zWD-808D7zycmP7smp-Y")
+        let url = URL(string: "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=UUu445B5LTXzkNr5eft8wNHg&key=AIzaSyBgktirlOODUO9zWD-808D7zycmP7smp-Y")
         currentURL = urlString
-        let task = NSURLSession.sharedSession().dataTaskWithURL(url!) { (data, response, error) -> Void in
+        let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) -> Void in
             
             if error != nil
             {
                 
-                dispatch_async(dispatch_get_main_queue(), { 
+                DispatchQueue.main.async(execute: { 
                     
 //                    let alert = UIAlertController(title: "An Error Occurred", message: "Please try again later", preferredStyle: .Alert)
 //                    alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
@@ -531,12 +531,12 @@ class youtubeTableViewController: UITableViewController {
                     alert.title = "An Error Occurred"
                     alert.message = "Please try again later"
                     alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-                    alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                    alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                         
                        
                         self.spinner.stopAnimating()
                         self.view.makeToast("Pull to refresh to reload", duration: 1, position: CSToastPositionTop)
-                        self.nextOutlet.enabled = false
+                        self.nextOutlet.isEnabled = false
                         
                         
                     }))
@@ -548,11 +548,11 @@ class youtubeTableViewController: UITableViewController {
             
             if error == nil
             {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
                     
                     do
                     {
-                        let jsonData = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                        let jsonData = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
                         //print(jsonData)
                         
                         if let pageInfo = jsonData["pageInfo"] as? [String:AnyObject]
@@ -610,13 +610,13 @@ class youtubeTableViewController: UITableViewController {
                                     
                                     if let time = snippet["publishedAt"] as? String
                                     {
-                                        let dateFormatter = NSDateFormatter()
+                                        let dateFormatter = DateFormatter()
                                         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-                                        let newDate = dateFormatter.dateFromString(time)!
-                                        dateFormatter.AMSymbol = "AM"
-                                        dateFormatter.PMSymbol = "PM"
+                                        let newDate = dateFormatter.date(from: time)!
+                                        dateFormatter.amSymbol = "AM"
+                                        dateFormatter.pmSymbol = "PM"
                                         dateFormatter.dateFormat = "dd MMM, hh:mm a"
-                                        let dateString = dateFormatter.stringFromDate(newDate)
+                                        let dateString = dateFormatter.string(from: newDate)
                                         ytPublishedTimes.append(dateString)
                                     }
                                     
@@ -635,7 +635,7 @@ class youtubeTableViewController: UITableViewController {
                                                     self.spinner.stopAnimating()
                                                     if prevPageToken == nil
                                                     {
-                                                        self.previousOutlet.enabled = false
+                                                        self.previousOutlet.isEnabled = false
                                                     }
                                                 }
                                             }
@@ -654,7 +654,7 @@ class youtubeTableViewController: UITableViewController {
                 })
             }
             
-        }
+        }) 
         task.resume()
         
         
@@ -667,53 +667,53 @@ class youtubeTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return ytVideoTitles.count
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("testYoutubeCell", forIndexPath: indexPath) as! youtubeCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "testYoutubeCell", for: indexPath) as! youtubeCell
         
         cell.layoutIfNeeded()
         
         let path = UIBezierPath(rect: cell.paddingView.bounds)
-        cell.paddingView.layer.shadowPath = path.CGPath
-        cell.paddingView.layer.shadowOffset = CGSizeMake(0.5, 0.5)
+        cell.paddingView.layer.shadowPath = path.cgPath
+        cell.paddingView.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         cell.paddingView.layer.shadowOpacity = 0.4
         
-        let titleString = ytVideoTitles[indexPath.row].stringByReplacingOccurrencesOfString("\"", withString: "")
+        let titleString = ytVideoTitles[(indexPath as NSIndexPath).row].replacingOccurrences(of: "\"", with: "")
         
         cell.title.text = titleString
         cell.title.numberOfLines = 0
-        cell.thumbnail.image = ytThumbnails[ytVideoIds[indexPath.row]]
+        cell.thumbnail.image = ytThumbnails[ytVideoIds[(indexPath as NSIndexPath).row]]
         cell.desc.text = "No description available"
-        if ytVideoDescriptions[indexPath.row] != ""
+        if ytVideoDescriptions[(indexPath as NSIndexPath).row] != ""
         {
-            cell.desc.text = ytVideoDescriptions[indexPath.row]
+            cell.desc.text = ytVideoDescriptions[(indexPath as NSIndexPath).row]
         }
-        cell.date.text = ytPublishedTimes[indexPath.row]
-        cell.thumbnail.setIndicatorStyle(UIActivityIndicatorViewStyle.White)
-        cell.thumbnail.setShowActivityIndicatorView(true)
-        cell.thumbnail.sd_setImageWithURL(NSURL(string: ytThumbnailURLs[indexPath.row]))
+        cell.date.text = ytPublishedTimes[(indexPath as NSIndexPath).row]
+        cell.thumbnail.setIndicatorStyle(UIActivityIndicatorViewStyle.white)
+        cell.thumbnail.setShowActivityIndicator(true)
+        cell.thumbnail.sd_setImage(with: URL(string: ytThumbnailURLs[(indexPath as NSIndexPath).row]))
         return cell
     }
     
     
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        passVideoId = ytVideoIds[indexPath.row]
-        performSegueWithIdentifier("playVideoSegue", sender: self)
+        passVideoId = ytVideoIds[(indexPath as NSIndexPath).row]
+        performSegue(withIdentifier: "playVideoSegue", sender: self)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
         if Reachability.isConnectedToNetwork() == false
         {
@@ -729,23 +729,23 @@ class youtubeTableViewController: UITableViewController {
             alert.title = "Internet Connection Unavailable"
             alert.message = "Please try again when the connection is re-established"
             alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-            alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+            alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                 
-                self.dismissViewControllerAnimated(true, completion: { 
+                self.dismiss(animated: true, completion: { 
                     
                     self.spinner.stopAnimating()
                     
                 })
                 
             }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
             
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         
-        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.dismiss(animated: true, completion: nil)
         
     }
     
@@ -770,9 +770,9 @@ class youtubeTableViewController: UITableViewController {
             alert.title = "Internet Connection Unavailable"
             alert.message = "Please try again when the connection is re-established"
             alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-            alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+            alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                 
-                self.dismissViewControllerAnimated(true, completion: {
+                self.dismiss(animated: true, completion: {
                     
                     self.spinner.stopAnimating()
                     self.ytRefresher.endRefreshing()
@@ -780,7 +780,7 @@ class youtubeTableViewController: UITableViewController {
                 })
                 
             }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
             
             
         }
@@ -788,7 +788,7 @@ class youtubeTableViewController: UITableViewController {
         if Reachability.isConnectedToNetwork() == true
         {
         
-            if spinner.isAnimating()
+            if spinner.isAnimating
             {
                 spinner.stopAnimating()
             }
@@ -802,14 +802,14 @@ class youtubeTableViewController: UITableViewController {
             nextURL = ""
             previousURL = ""
             let urlString = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=UUu445B5LTXzkNr5eft8wNHg&key=AIzaSyBgktirlOODUO9zWD-808D7zycmP7smp-Y"
-            let url = NSURL(string: "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=UUu445B5LTXzkNr5eft8wNHg&key=AIzaSyBgktirlOODUO9zWD-808D7zycmP7smp-Y")
+            let url = URL(string: "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=UUu445B5LTXzkNr5eft8wNHg&key=AIzaSyBgktirlOODUO9zWD-808D7zycmP7smp-Y")
             currentURL = urlString
-            let task = NSURLSession.sharedSession().dataTaskWithURL(url!) { (data, response, error) -> Void in
+            let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) -> Void in
                 
                 if error != nil
                 {
                     
-                    dispatch_async(dispatch_get_main_queue(), { 
+                    DispatchQueue.main.async(execute: { 
                         
 //                        let alert = UIAlertController(title: "An Error Occurred", message: "Please try again later", preferredStyle: .Alert)
 //                        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
@@ -820,9 +820,9 @@ class youtubeTableViewController: UITableViewController {
                         alert.title = "An Error Occurred"
                         alert.message = "Please try again later"
                         alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-                        alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                        alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                             
-                            self.dismissViewControllerAnimated(true, completion: { 
+                            self.dismiss(animated: true, completion: { 
                                 
                                 self.spinner.stopAnimating()
                                 
@@ -830,7 +830,7 @@ class youtubeTableViewController: UITableViewController {
                             
                         }))
                         
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                         
                     })
                     
@@ -838,12 +838,12 @@ class youtubeTableViewController: UITableViewController {
                 
                 if error == nil
                 {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    DispatchQueue.main.async(execute: { () -> Void in
                         
                         do
                         {
                             self.spinner.stopAnimating()
-                            let jsonData = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                            let jsonData = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
                             //print(jsonData)
                             
                             if let pageInfo = jsonData["pageInfo"] as? [String:AnyObject]
@@ -901,13 +901,13 @@ class youtubeTableViewController: UITableViewController {
                                         
                                         if let time = snippet["publishedAt"] as? String
                                         {
-                                            let dateFormatter = NSDateFormatter()
+                                            let dateFormatter = DateFormatter()
                                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-                                            let newDate = dateFormatter.dateFromString(time)!
-                                            dateFormatter.AMSymbol = "AM"
-                                            dateFormatter.PMSymbol = "PM"
+                                            let newDate = dateFormatter.date(from: time)!
+                                            dateFormatter.amSymbol = "AM"
+                                            dateFormatter.pmSymbol = "PM"
                                             dateFormatter.dateFormat = "dd MMM, hh:mm a"
-                                            let dateString = dateFormatter.stringFromDate(newDate)
+                                            let dateString = dateFormatter.string(from: newDate)
                                             ytPublishedTimes.append(dateString)
                                         }
                                         
@@ -925,9 +925,9 @@ class youtubeTableViewController: UITableViewController {
                                                         self.tableView.reloadData()
                                                         self.ytRefresher.endRefreshing()
                                                         self.spinner.stopAnimating()
-                                                        self.previousOutlet.enabled = false
+                                                        self.previousOutlet.isEnabled = false
                                                         pageIndex = 1
-                                                        self.nextOutlet.enabled = true
+                                                        self.nextOutlet.isEnabled = true
                                                     }
 
                                                 }
@@ -946,14 +946,14 @@ class youtubeTableViewController: UITableViewController {
                     })
                 }
                 
-            }
+            }) 
             task.resume()
         }
 
     }
     
-    override func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        if ytRefresher.refreshing
+    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if ytRefresher.isRefreshing
         {
             if !isAnimating
             {
@@ -965,7 +965,7 @@ class youtubeTableViewController: UITableViewController {
     
     func loadCustomViewContents()
     {
-        let refreshContents = NSBundle.mainBundle().loadNibNamed("RefreshContents", owner: self, options: nil)
+        let refreshContents = Bundle.main.loadNibNamed("RefreshContents", owner: self, options: nil)
         customView = refreshContents![0] as! UIView
         customView.frame = ytRefresher.bounds
         
@@ -974,8 +974,8 @@ class youtubeTableViewController: UITableViewController {
             labelsArray.append(customView.viewWithTag(i+1) as! UILabel)
         }
         
-        ytRefresher.backgroundColor = UIColor.clearColor()
-        ytRefresher.tintColor = UIColor.clearColor()
+        ytRefresher.backgroundColor = UIColor.clear
+        ytRefresher.tintColor = UIColor.clear
         ytRefresher.addSubview(customView)
         
     }
@@ -984,15 +984,15 @@ class youtubeTableViewController: UITableViewController {
     {
         isAnimating = true
         
-        UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-            labelsArray[currentLabelIndex].transform = CGAffineTransformMakeRotation(CGFloat(M_PI_4))
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
+            labelsArray[currentLabelIndex].transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_4))
             labelsArray[currentLabelIndex].textColor = self.getNextColor()
             
             }, completion: { (finished) -> Void in
                 
-                UIView.animateWithDuration(0.05, delay: 0.0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-                    labelsArray[currentLabelIndex].transform = CGAffineTransformIdentity
-                    labelsArray[currentLabelIndex].textColor = UIColor.blackColor()
+                UIView.animate(withDuration: 0.05, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
+                    labelsArray[currentLabelIndex].transform = CGAffineTransform.identity
+                    labelsArray[currentLabelIndex].textColor = UIColor.black
                     
                     }, completion: { (finished) -> Void in
                         currentLabelIndex+=1
@@ -1010,27 +1010,27 @@ class youtubeTableViewController: UITableViewController {
     
     func animateRefreshStep2()
     {
-        UIView.animateWithDuration(0.35, delay: 0.0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-            labelsArray[0].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[1].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[2].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[3].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[4].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[5].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[6].transform = CGAffineTransformMakeScale(1.5, 1.5)
+        UIView.animate(withDuration: 0.35, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
+            labelsArray[0].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[1].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[2].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[3].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[4].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[5].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[6].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
             
             }, completion: { (finished) -> Void in
-                UIView.animateWithDuration(0.25, delay: 0.0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-                    labelsArray[0].transform = CGAffineTransformIdentity
-                    labelsArray[1].transform = CGAffineTransformIdentity
-                    labelsArray[2].transform = CGAffineTransformIdentity
-                    labelsArray[3].transform = CGAffineTransformIdentity
-                    labelsArray[4].transform = CGAffineTransformIdentity
-                    labelsArray[5].transform = CGAffineTransformIdentity
-                    labelsArray[6].transform = CGAffineTransformIdentity
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
+                    labelsArray[0].transform = CGAffineTransform.identity
+                    labelsArray[1].transform = CGAffineTransform.identity
+                    labelsArray[2].transform = CGAffineTransform.identity
+                    labelsArray[3].transform = CGAffineTransform.identity
+                    labelsArray[4].transform = CGAffineTransform.identity
+                    labelsArray[5].transform = CGAffineTransform.identity
+                    labelsArray[6].transform = CGAffineTransform.identity
                     
                     }, completion: { (finished) -> Void in
-                        if self.ytRefresher.refreshing {
+                        if self.ytRefresher.isRefreshing {
                             currentLabelIndex = 0
                             self.animateRefreshStep1()
                         }
@@ -1038,8 +1038,8 @@ class youtubeTableViewController: UITableViewController {
                             isAnimating = false
                             currentLabelIndex = 0
                             for i in 0 ..< labelsArray.count {
-                                labelsArray[i].textColor = UIColor.blackColor()
-                                labelsArray[i].transform = CGAffineTransformIdentity
+                                labelsArray[i].textColor = UIColor.black
+                                labelsArray[i].transform = CGAffineTransform.identity
                             }
                         }
                 })
@@ -1050,7 +1050,7 @@ class youtubeTableViewController: UITableViewController {
     
     func getNextColor() -> UIColor
     {
-        var colorsArray: Array<UIColor> = [UIColor.magentaColor(), UIColor.brownColor(), UIColor.yellowColor(), UIColor.redColor(), UIColor.greenColor(), UIColor.blueColor(), UIColor.orangeColor()]
+        var colorsArray: Array<UIColor> = [UIColor.magenta, UIColor.brown, UIColor.yellow, UIColor.red, UIColor.green, UIColor.blue, UIColor.orange]
         
         if currentColorIndex == colorsArray.count {
             currentColorIndex = 0

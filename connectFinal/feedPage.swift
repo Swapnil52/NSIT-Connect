@@ -36,7 +36,7 @@ class feedPage: UIViewController {
         
         
         message.text = passMessage
-        message.textAlignment = .Center
+        message.textAlignment = .center
         message.flashScrollIndicators()
         message.scrollsToTop = true
         let imageURL = passImageURL
@@ -47,28 +47,28 @@ class feedPage: UIViewController {
             self.view.addSubview(pageSpinner)
             pageSpinner.startAnimating()
             print(imageURL)
-            let url = NSURL(string: imageURL)
+            let url = URL(string: imageURL!)
             
             
-            image.sd_setImageWithURL(url, completed: { (image, error, cache, url1) in
+            image.sd_setImage(with: url, completed: { (image, error, cache, url1) in
                 
                 if error == nil
                 {
                     self.pageSpinner.stopAnimating()
                     self.image.alpha = 0
-                    UIView.animateWithDuration(0.5, animations: { () -> Void in
+                    UIView.animate(withDuration: 0.5, animations: { () -> Void in
                         
-                        self.image.layer.shadowColor = UIColor.blackColor().CGColor
-                        self.image.layer.shadowOffset = CGSizeMake(0, 5)
+                        self.image.layer.shadowColor = UIColor.black.cgColor
+                        self.image.layer.shadowOffset = CGSize(width: 0, height: 5)
                         self.image.layer.shadowOpacity = 1.0
                         self.image.layer.masksToBounds = false
                         
                         
                         self.image.alpha = 1
-                        self.view.bringSubviewToFront(self.image)
+                        self.view.bringSubview(toFront: self.image)
                         self.tap.addTarget(self, action: #selector(feedPage.tapped))
                         self.image.addGestureRecognizer(self.tap)
-                        self.image.userInteractionEnabled = true
+                        self.image.isUserInteractionEnabled = true
                         
                     })
                 }
@@ -145,28 +145,28 @@ class feedPage: UIViewController {
             alert.title = "Can't Download Full Resolution Image"
             alert.message = "Please connect to the internet"
             alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-            alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+            alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                 
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
                 
             }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
             
             return
         }
         
         print("tapped!")
-        performSegueWithIdentifier("viewImage", sender: self)
+        performSegue(withIdentifier: "viewImage", sender: self)
         
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
         
-        return UIInterfaceOrientationMask.Portrait
+        return UIInterfaceOrientationMask.portrait
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
         //didGoToFeedPage = true
         message.flashScrollIndicators()

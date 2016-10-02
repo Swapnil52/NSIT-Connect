@@ -29,16 +29,16 @@ class competitionPage: UIViewController, UIScrollViewDelegate {
         let startTime = passItem["start"] as! String
         let endTime = passItem["end"] as! String
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.000Z"
-        var temp = dateFormatter.dateFromString(startTime)
+        var temp = dateFormatter.date(from: startTime)
         dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
-        let newStartTime = dateFormatter.stringFromDate(temp!)
+        let newStartTime = dateFormatter.string(from: temp!)
         
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.000Z"
-        temp = dateFormatter.dateFromString(endTime)
+        temp = dateFormatter.date(from: endTime)
         dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
-        let newEndTime = dateFormatter.stringFromDate(temp!)
+        let newEndTime = dateFormatter.string(from: temp!)
         
         start.text = "Starts at: \(newStartTime)"
         end.text = "Ends at: \(newEndTime)"
@@ -51,7 +51,7 @@ class competitionPage: UIViewController, UIScrollViewDelegate {
         }
         
         descriptionTextView.layer.cornerRadius = 3
-        descriptionTextView.layer.borderColor = UIColor(red: 00/255, green: (179/255), blue: 164/255, alpha: 1).CGColor
+        descriptionTextView.layer.borderColor = UIColor(red: 00/255, green: (179/255), blue: 164/255, alpha: 1).cgColor
         
         
         titleLabel.text = passItem["title"] as? String
@@ -64,15 +64,15 @@ class competitionPage: UIViewController, UIScrollViewDelegate {
     }
     
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
-        self.descriptionTextView.scrollEnabled = false
+        self.descriptionTextView.isScrollEnabled = false
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
-        self.descriptionTextView.scrollEnabled = true
+        self.descriptionTextView.isScrollEnabled = true
         
     }
     

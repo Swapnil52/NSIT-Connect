@@ -33,19 +33,19 @@ class tapToViewImage: UIViewController, UIScrollViewDelegate {
             spinner = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
             spinner.center = self.view.center
             spinner.hidesWhenStopped = true
-            spinner.activityIndicatorViewStyle = .WhiteLarge
+            spinner.activityIndicatorViewStyle = .whiteLarge
             spinner.backgroundColor = UIColor(white: 0.7, alpha: 0.7)
             view.addSubview(spinner)
             spinner.layer.cornerRadius = 10
             spinner.startAnimating()
             let urlString = passHighResImageURL
             
-            let url = NSURL(string: urlString)!
-            let task = NSURLSession.sharedSession().dataTaskWithURL(url, completionHandler: { (data, response, error) in
+            let url = URL(string: urlString!)!
+            let task = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
                 
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     
-                    let bytes = data?.length
+                    let bytes = data?.count
                     print(bytes == 0)
                     
                     if error != nil
@@ -55,19 +55,19 @@ class tapToViewImage: UIViewController, UIScrollViewDelegate {
                         alert.title = "An Error Occurred"
                         alert.message = "Please try again later"
                         alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-                        alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                        alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                             
-                            self.dismissViewControllerAnimated(true, completion: nil)
+                            self.dismiss(animated: true, completion: nil)
                             
                         }))
-                        self.presentViewController(alert, animated: true, completion: { 
+                        self.present(alert, animated: true, completion: { 
                             
                            self.spinner.stopAnimating()
                             
                         })
                     }
                     
-                    if data?.length != 0
+                    if data?.count != 0
                     {
                         let image = UIImage(data: (data)!)
                         if image != nil
@@ -82,13 +82,13 @@ class tapToViewImage: UIViewController, UIScrollViewDelegate {
                             self.scrollView.contentSize = self.imageView.frame.size
                             self.imageView.image = self.image
 
-                            self.imageView.contentMode = .ScaleAspectFill
+                            self.imageView.contentMode = .scaleAspectFill
                             let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapToViewImage.scrollViewDoubleTapped(_:)))
                             doubleTapRecognizer.numberOfTapsRequired = 2
                             doubleTapRecognizer.numberOfTouchesRequired = 1
                             self.scrollView.addGestureRecognizer(doubleTapRecognizer)
                             //self.setZoomScale()
-                            let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Save, target: self, action: #selector(tapToViewImage.saveImage))
+                            let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.save, target: self, action: #selector(tapToViewImage.saveImage))
                             button.title = "Save"
                             
                             self.navigationItem.rightBarButtonItem = button
@@ -110,7 +110,7 @@ class tapToViewImage: UIViewController, UIScrollViewDelegate {
     
     func saveImage()
     {
-        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.Authorized
+        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized
         {
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
 //            let alert = UIAlertController(title: "Image Saved!", message: "", preferredStyle: UIAlertControllerStyle.Alert)
@@ -121,21 +121,21 @@ class tapToViewImage: UIViewController, UIScrollViewDelegate {
             alert.title = "Image Saved!"
             alert.message = ""
             alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-            alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+            alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                 
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
                 
             }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
 
             
         }
         
-        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.NotDetermined
+        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.notDetermined
         {
             PHPhotoLibrary.requestAuthorization({ (status) in
                 
-                if status == PHAuthorizationStatus.Authorized
+                if status == PHAuthorizationStatus.authorized
                 {
                     UIImageWriteToSavedPhotosAlbum(self.image, nil, nil, nil)
                     print("potty")
@@ -148,12 +148,12 @@ class tapToViewImage: UIViewController, UIScrollViewDelegate {
                     alert.title = "Image Saved!"
                     alert.message = ""
                     alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-                    alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                    alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                         
-                        self.dismissViewControllerAnimated(true, completion: nil)
+                        self.dismiss(animated: true, completion: nil)
                         
                     }))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.present(alert, animated: true, completion: nil)
 
                     
                 }
@@ -161,7 +161,7 @@ class tapToViewImage: UIViewController, UIScrollViewDelegate {
             })
         }
         
-        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.Denied
+        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.denied
         {
 //            let alert = UIAlertController(title: "NSIT Connect Does Not Have Permission to Save Images to The Camera Roll", message: "Please allow permission in settings", preferredStyle: .Alert)
 //            alert.addAction(UIAlertAction(title: "Settings", style: UIAlertActionStyle.Default, handler: { (action) in
@@ -173,22 +173,22 @@ class tapToViewImage: UIViewController, UIScrollViewDelegate {
 //            self.presentViewController(alert, animated: true, completion: nil)
             
             let alert = NYAlertViewController()
-            alert.view.frame = CGRectMake(0, 0, 100, 100)
+            alert.view.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
             alert.title = "NSIT Connect Does Not Have Permission to Save Images"
             alert.message = "Please allow permission in settings"
             alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-            alert.addAction(NYAlertAction(title: "Settings", style: .Default, handler: { (action) in
+            alert.addAction(NYAlertAction(title: "Settings", style: .default, handler: { (action) in
                 
-                self.dismissViewControllerAnimated(false, completion: nil)
-                UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
-                
-            }))
-            alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
-                
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: false, completion: nil)
+                UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
                 
             }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
+                
+                self.dismiss(animated: true, completion: nil)
+                
+            }))
+            self.present(alert, animated: true, completion: nil)
             
         }
         
@@ -213,14 +213,14 @@ class tapToViewImage: UIViewController, UIScrollViewDelegate {
 
     }
     
-    func scrollViewDidZoom(scrollView: UIScrollView) {
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
         
         centerScrollViewContents()
     }
     
     
-    func scrollViewDoubleTapped(recognizer: UITapGestureRecognizer) {
-        let pointInView = recognizer.locationInView(imageView)
+    func scrollViewDoubleTapped(_ recognizer: UITapGestureRecognizer) {
+        let pointInView = recognizer.location(in: imageView)
         
         var newZoomScale = scrollView.zoomScale * 1.5
         newZoomScale = min(newZoomScale, scrollView.maximumZoomScale)
@@ -231,12 +231,12 @@ class tapToViewImage: UIViewController, UIScrollViewDelegate {
         let x = pointInView.x - (w / 2.0)
         let y = pointInView.y - (h / 2.0)
         
-        let rectToZoomTo = CGRectMake(x, y, w, h);
+        let rectToZoomTo = CGRect(x: x, y: y, width: w, height: h);
         
-        scrollView.zoomToRect(rectToZoomTo, animated: true)
+        scrollView.zoom(to: rectToZoomTo, animated: true)
     }
     
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView?
+    func viewForZooming(in scrollView: UIScrollView) -> UIView?
     {
         return imageView
     }

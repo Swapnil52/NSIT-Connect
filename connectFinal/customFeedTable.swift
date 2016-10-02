@@ -58,7 +58,7 @@ class customFeedTable: UITableViewController {
         labelsArray.removeAll()
         
         promptToRefresh()
-        self.tableView.separatorColor = UIColor.clearColor()
+        self.tableView.separatorColor = UIColor.clear
         
         self.navigationController?.navigationBar.tintColor = UIColor(red: 01/256, green: 178/256, blue: 155/256, alpha: 1)
         
@@ -71,14 +71,14 @@ class customFeedTable: UITableViewController {
         
         //fbFeedRefresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
         loadCustomViewContents()
-        fbFeedRefresher.addTarget(self, action: #selector(customFeedTable.refresh), forControlEvents: UIControlEvents.ValueChanged)
+        fbFeedRefresher.addTarget(self, action: #selector(customFeedTable.refresh), for: UIControlEvents.valueChanged)
         self.view.addSubview(fbFeedRefresher)
         print("view loaded!")
         didGoToFeedPage = false
         fbCustomFeedToHome = false
         didGoToSettings = false
-        feedPageSpinner.activityIndicatorViewStyle = .Gray
-        feedPageSpinner = UIActivityIndicatorView(frame: CGRectMake(0, 0, 100, 100))
+        feedPageSpinner.activityIndicatorViewStyle = .gray
+        feedPageSpinner = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         feedPageSpinner.center = CGPoint(x: self.view.center.x, y: self.view.center.y-100)
         
         feedPageSpinner.hidesWhenStopped = true
@@ -87,28 +87,28 @@ class customFeedTable: UITableViewController {
         feedPageSpinner.startAnimating()
         self.view.addSubview(feedPageSpinner)
         
-        if NSUserDefaults.standardUserDefaults().objectForKey("empty") == nil
+        if UserDefaults.standard.object(forKey: "empty") == nil
         {
             empty = 0
         }
         
         else
         {
-            empty = NSUserDefaults.standardUserDefaults().objectForKey("empty") as! Int
+            empty = UserDefaults.standard.object(forKey: "empty") as! Int
         }
         
-        if NSUserDefaults.standardUserDefaults().objectForKey("selectedFeeds") == nil
+        if UserDefaults.standard.object(forKey: "selectedFeeds") == nil
         {
             selectedFeeds = ["184835371535420":false, "252117054812001":false, "109582689081817":false, "158168947539641":false, "604809706256620":false, "376394819102290":false, "278952135548721":false, "126976547314225":false, "185960271431856":false, "135639763273290":false, "499766883378107":false, "1457237581165961":false]
         }
         else
         {
-            selectedFeeds = NSUserDefaults.standardUserDefaults().objectForKey("selectedFeeds") as! [String:Bool]
+            selectedFeeds = UserDefaults.standard.object(forKey: "selectedFeeds") as! [String:Bool]
             
-            if NSUserDefaults.standardUserDefaults().objectForKey("fbFeedIds") == nil || NSUserDefaults.standardUserDefaults().objectForKey("fbFeedAttachments") == nil
+            if UserDefaults.standard.object(forKey: "fbFeedIds") == nil || UserDefaults.standard.object(forKey: "fbFeedAttachments") == nil
             {
                 print("fbFeedIds was nil")
-                fbPagesObjectIds.removeAll(keepCapacity: true)
+                fbPagesObjectIds.removeAll(keepingCapacity: true)
                 
                 for (item, boolean) in selectedFeeds
                 {
@@ -157,7 +157,7 @@ class customFeedTable: UITableViewController {
                 {
                     fbFeedMessages.removeAll()
                     
-                    dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                    DispatchQueue.main.async { () -> Void in
                         
                         self.loader(fbPagesURLS)
                         
@@ -169,15 +169,15 @@ class customFeedTable: UITableViewController {
             {
                 
                 feedPageSpinner.stopAnimating()
-                fbFeedMessages = NSUserDefaults.standardUserDefaults().objectForKey("fbFeedMessages") as! [String]
-                fbFeedIds = NSUserDefaults.standardUserDefaults().objectForKey("fbFeedIds") as! [String]
-                fbFeedPictureURLs = NSUserDefaults.standardUserDefaults().objectForKey("fbFeedPictureURLs") as! [String:String]
-                fbFeedDates = NSUserDefaults.standardUserDefaults().objectForKey("fbFeedDates") as! [String]
-                fbFeedLikes = NSUserDefaults.standardUserDefaults().objectForKey("fbFeedLikes") as! [NSInteger]
-                fbFeedSociety = NSUserDefaults.standardUserDefaults().objectForKey("fbFeedSociety") as! [String]
-                fbFeedThumbnailURLs = NSUserDefaults.standardUserDefaults().objectForKey("fbFeedThumbnailURLs") as! [String:String]
-                fbPassHighResImageURLs = NSUserDefaults.standardUserDefaults().objectForKey("fbPassHighResImageURLs") as! [String:String]
-                fbFeedAttachments = NSUserDefaults.standardUserDefaults().objectForKey("fbFeedAttachments") as! [String:[String:AnyObject]]
+                fbFeedMessages = UserDefaults.standard.object(forKey: "fbFeedMessages") as! [String]
+                fbFeedIds = UserDefaults.standard.object(forKey: "fbFeedIds") as! [String]
+                fbFeedPictureURLs = UserDefaults.standard.object(forKey: "fbFeedPictureURLs") as! [String:String]
+                fbFeedDates = UserDefaults.standard.object(forKey: "fbFeedDates") as! [String]
+                fbFeedLikes = UserDefaults.standard.object(forKey: "fbFeedLikes") as! [NSInteger]
+                fbFeedSociety = UserDefaults.standard.object(forKey: "fbFeedSociety") as! [String]
+                fbFeedThumbnailURLs = UserDefaults.standard.object(forKey: "fbFeedThumbnailURLs") as! [String:String]
+                fbPassHighResImageURLs = UserDefaults.standard.object(forKey: "fbPassHighResImageURLs") as! [String:String]
+                fbFeedAttachments = UserDefaults.standard.object(forKey: "fbFeedAttachments") as! [String:[String:AnyObject]]
                 self.tableView.reloadData()
                 
             }
@@ -193,7 +193,7 @@ class customFeedTable: UITableViewController {
         //print(fbPagesObjectIds)
         
         
-        let settings = UIBarButtonItem(title: "Settings", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(customFeedTable.action))
+        let settings = UIBarButtonItem(title: "Settings", style: UIBarButtonItemStyle.plain, target: self, action: #selector(customFeedTable.action))
         self.navigationItem.rightBarButtonItem = settings
         
 //        let alert = UIAlertController(title: "Oops!", message: "Select societies to view feeds of?", preferredStyle: UIAlertControllerStyle.Alert)
@@ -208,15 +208,15 @@ class customFeedTable: UITableViewController {
         alert.title = "Oops!"
         alert.message = "Select societies to view feeds of?"
         alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-        alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+        alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
             
-            self.dismissViewControllerAnimated(false, completion: nil)
-            self.performSegueWithIdentifier("feedSettingsSegue", sender: self)
+            self.dismiss(animated: false, completion: nil)
+            self.performSegue(withIdentifier: "feedSettingsSegue", sender: self)
             
         }))
         
         
-        if NSUserDefaults.standardUserDefaults().objectForKey("fbFeedIds") == nil && Reachability.isConnectedToNetwork() == false
+        if UserDefaults.standard.object(forKey: "fbFeedIds") == nil && Reachability.isConnectedToNetwork() == false
         {
 //            let alert = UIAlertController(title: "Can't load posts", message: "Please connect to the internet", preferredStyle: UIAlertControllerStyle.Alert)
 //            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) in
@@ -230,19 +230,19 @@ class customFeedTable: UITableViewController {
             alert.title = "Can't Load Posts"
             alert.message = "Please connect to the internet"
             alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-            alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+            alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                 
-                self.dismissViewControllerAnimated(false, completion: nil)
+                self.dismiss(animated: false, completion: nil)
                 
             }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
             
             
         }
         
         if empty == 0
         {
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }
         
         // Uncomment the following line to preserve selection between presentations
@@ -259,12 +259,12 @@ class customFeedTable: UITableViewController {
     
     // MARK: - Table view data source
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return fbFeedMessages.count
     }
@@ -273,12 +273,12 @@ class customFeedTable: UITableViewController {
     {
         
         currentSelectedFeeds = selectedFeeds
-        self.performSegueWithIdentifier("feedSettingsSegue", sender: self)
+        self.performSegue(withIdentifier: "feedSettingsSegue", sender: self)
         
     }
     
     
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         
         if identifier == "feedSettingsSegue" && empty > 0
         {
@@ -296,7 +296,7 @@ class customFeedTable: UITableViewController {
     
     func promptToRefresh()
     {
-        if NSUserDefaults.standardUserDefaults().objectForKey("fbFeedIds") == nil && Reachability.isConnectedToNetwork() == false
+        if UserDefaults.standard.object(forKey: "fbFeedIds") == nil && Reachability.isConnectedToNetwork() == false
         {
             
             self.view.makeToast("Please pull to refresh when the internet connection is re-established", duration: 1, position: CSToastPositionTop)
@@ -310,26 +310,26 @@ class customFeedTable: UITableViewController {
     func refresh()
     {
         
-        if NSUserDefaults.standardUserDefaults().objectForKey("fbFeedIds") == nil || NSUserDefaults.standardUserDefaults().objectForKey("fbFeedAttachments") == nil
+        if UserDefaults.standard.object(forKey: "fbFeedIds") == nil || UserDefaults.standard.object(forKey: "fbFeedAttachments") == nil
         {
             let alert = NYAlertViewController()
             alert.title = "Oops!"
             alert.message = "Select societies to view feeds of?"
             alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-            alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+            alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                 
-                self.dismissViewControllerAnimated(false, completion: nil)
-                self.performSegueWithIdentifier("feedSettingsSegue", sender: self)
+                self.dismiss(animated: false, completion: nil)
+                self.performSegue(withIdentifier: "feedSettingsSegue", sender: self)
                 currentSelectedFeeds = selectedFeeds
                 self.fbFeedRefresher.endRefreshing()
                 
             }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }
         
         if Reachability.isConnectedToNetwork() == true
         {
-            fbPagesObjectIds.removeAll(keepCapacity: true)
+            fbPagesObjectIds.removeAll(keepingCapacity: true)
             for (item, boolean) in selectedFeeds
             {
                 if boolean == true
@@ -374,7 +374,7 @@ class customFeedTable: UITableViewController {
             {
                 fbFeedMessages.removeAll()
                 
-                dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                DispatchQueue.main.async { () -> Void in
                     
                     self.loader(fbPagesURLS)
                     
@@ -394,12 +394,12 @@ class customFeedTable: UITableViewController {
             alert.title = "Refresh Failed"
             alert.message = "Please connect to the internet"
             alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-            alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+            alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                 
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
                 
             }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
             fbFeedRefresher.endRefreshing()
         }
 
@@ -407,7 +407,7 @@ class customFeedTable: UITableViewController {
     }
     
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
         print(didGoToSettings)
         print(didGoToFeedPage)
@@ -431,8 +431,8 @@ class customFeedTable: UITableViewController {
             }
             
             selectedFeeds = currentSelectedFeeds
-            NSUserDefaults.standardUserDefaults().setObject(selectedFeeds, forKey: "selectedFeeds")
-            NSUserDefaults.standardUserDefaults().setObject(empty, forKey: "empty")
+            UserDefaults.standard.set(selectedFeeds, forKey: "selectedFeeds")
+            UserDefaults.standard.set(empty, forKey: "empty")
         }
         
         
@@ -447,10 +447,10 @@ class customFeedTable: UITableViewController {
             
             if empty != 0
             {
-                selectedFeeds = NSUserDefaults.standardUserDefaults().objectForKey("selectedFeeds") as! [String:Bool]
+                selectedFeeds = UserDefaults.standard.object(forKey: "selectedFeeds") as! [String:Bool]
                 
                     
-                    fbPagesObjectIds.removeAll(keepCapacity: true)
+                    fbPagesObjectIds.removeAll(keepingCapacity: true)
                     
                     for (item, boolean) in selectedFeeds
                     {
@@ -502,7 +502,7 @@ class customFeedTable: UITableViewController {
                         
                         //setting up the spinner
                         
-                        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                        DispatchQueue.main.async { () -> Void in
                             
                             self.loader(fbPagesURLS)
                             
@@ -524,16 +524,16 @@ class customFeedTable: UITableViewController {
                         alert.title = "Oops!"
                         alert.message = "Select societies to view feeds of?"
                         alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-                        alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                        alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                             
-                            self.dismissViewControllerAnimated(false, completion: { 
+                            self.dismiss(animated: false, completion: { 
                                 
-                                self.performSegueWithIdentifier("feedSettingsSegue", sender: self)
+                                self.performSegue(withIdentifier: "feedSettingsSegue", sender: self)
                                 
                             })
                             
                         }))
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                         
                     }
                 
@@ -557,16 +557,16 @@ class customFeedTable: UITableViewController {
                 alert.title = "Oops!"
                 alert.message = "Select societies to view feeds of?"
                 alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-                alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                     
-                    self.dismissViewControllerAnimated(false, completion: {
+                    self.dismiss(animated: false, completion: {
                         
-                        self.performSegueWithIdentifier("feedSettingsSegue", sender: self)
+                        self.performSegue(withIdentifier: "feedSettingsSegue", sender: self)
                         
                     })
                     
                 }))
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.present(alert, animated: true, completion: nil)
                 
             }
         }
@@ -575,49 +575,49 @@ class customFeedTable: UITableViewController {
     }
     
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if fbFeedThumbnailURLs[fbFeedIds[indexPath.row]] == nil
+        if fbFeedThumbnailURLs[fbFeedIds[(indexPath as NSIndexPath).row]] == nil
         {
-            let cell = tableView.dequeueReusableCellWithIdentifier("noImageTestCustomFeedCell", forIndexPath: indexPath) as! noImageTestCustomFeedCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "noImageTestCustomFeedCell", for: indexPath) as! noImageTestCustomFeedCell
             
             cell.layoutIfNeeded()
             
             let path = UIBezierPath(rect: cell.paddingView.bounds)
-            cell.paddingView.layer.shadowPath = path.CGPath
-            cell.paddingView.layer.shadowOffset = CGSizeMake(0.5, 0.5)
+            cell.paddingView.layer.shadowPath = path.cgPath
+            cell.paddingView.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
             cell.paddingView.layer.shadowOpacity = 0.4
             
-            cell.message.text = fbFeedMessages[indexPath.row]
-            cell.societyName.text = fbFeedSociety[indexPath.row]
-            cell.date.text = fbFeedDates[indexPath.row]
-            cell.likes.text = String(fbFeedLikes[indexPath.row])
+            cell.message.text = fbFeedMessages[(indexPath as NSIndexPath).row]
+            cell.societyName.text = fbFeedSociety[(indexPath as NSIndexPath).row]
+            cell.date.text = fbFeedDates[(indexPath as NSIndexPath).row]
+            cell.likes.text = String(fbFeedLikes[(indexPath as NSIndexPath).row])
             return cell
         }
         
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("testCustomFeedCell", forIndexPath: indexPath) as! testCustomFeedCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "testCustomFeedCell", for: indexPath) as! testCustomFeedCell
         
         cell.layoutIfNeeded()
         
-        cell.message.text = fbFeedMessages[indexPath.row]
-        if fbFeedMessages[indexPath.row] == ""
+        cell.message.text = fbFeedMessages[(indexPath as NSIndexPath).row]
+        if fbFeedMessages[(indexPath as NSIndexPath).row] == ""
         {
             cell.message.text = "No description available"
         }
         
         let path = UIBezierPath(rect: cell.paddingView.bounds)
-        cell.paddingView.layer.shadowPath = path.CGPath
-        cell.paddingView.layer.shadowOffset = CGSizeMake(0.5, 0.5)
+        cell.paddingView.layer.shadowPath = path.cgPath
+        cell.paddingView.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         cell.paddingView.layer.shadowOpacity = 0.4
         
         cell.thumbnail.layer.masksToBounds = true
-        if fbFeedThumbnailURLs[fbFeedIds[indexPath.row]] != nil
+        if fbFeedThumbnailURLs[fbFeedIds[(indexPath as NSIndexPath).row]] != nil
         {
             
-            cell.thumbnail.setShowActivityIndicatorView(true)
-            cell.thumbnail.setIndicatorStyle(UIActivityIndicatorViewStyle.White)
-            cell.thumbnail.sd_setImageWithURL(NSURL(string: fbFeedThumbnailURLs[fbFeedIds[indexPath.row]]!), completed: { (image, error, cache, url) in
+            cell.thumbnail.setShowActivityIndicator(true)
+            cell.thumbnail.setIndicatorStyle(UIActivityIndicatorViewStyle.white)
+            cell.thumbnail.sd_setImage(with: URL(string: fbFeedThumbnailURLs[fbFeedIds[(indexPath as NSIndexPath).row]]!), completed: { (image, error, cache, url) in
                 
                 
             })
@@ -625,10 +625,10 @@ class customFeedTable: UITableViewController {
             
         }
         
-        if fbFeedThumbnailURLs[fbFeedIds[indexPath.row]] == nil
+        if fbFeedThumbnailURLs[fbFeedIds[(indexPath as NSIndexPath).row]] == nil
         {
             
-            if cell.message.text == fbFeedMessages[indexPath.row]
+            if cell.message.text == fbFeedMessages[(indexPath as NSIndexPath).row]
             {
                 //cell.messageLeft.constant -= 190
                 //imageSet.addObject(indexPath)
@@ -637,36 +637,36 @@ class customFeedTable: UITableViewController {
         }
         
         //setting up shadow
-        cell.thumbnail.layer.shadowColor = UIColor.blackColor().CGColor
-        cell.thumbnail.layer.shadowOffset = CGSizeMake(0, 5)
+        cell.thumbnail.layer.shadowColor = UIColor.black.cgColor
+        cell.thumbnail.layer.shadowOffset = CGSize(width: 0, height: 5)
         cell.thumbnail.layer.shadowOpacity = 1.0
         cell.thumbnail.layer.masksToBounds = false
         
-        cell.societyName.text = fbFeedSociety[indexPath.row]
-        cell.date.text = fbFeedDates[indexPath.row]
-        cell.likes.text = String(fbFeedLikes[indexPath.row])
+        cell.societyName.text = fbFeedSociety[(indexPath as NSIndexPath).row]
+        cell.date.text = fbFeedDates[(indexPath as NSIndexPath).row]
+        cell.likes.text = String(fbFeedLikes[(indexPath as NSIndexPath).row])
         return cell
     }
     
-    func loader(array : [String])
+    func loader(_ array : [String])
     {
         
         if counter < array.count
         {
             
-            let url = NSURL(string: array[counter])
+            let url = URL(string: array[counter])
             //print(url)
             //print("---")
-            let task = NSURLSession.sharedSession().dataTaskWithURL(url!) { (data, response, error) -> Void in
+            let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) -> Void in
                 
                 if error != nil
                 {
                     
-                    dispatch_async(dispatch_get_main_queue(), { 
+                    DispatchQueue.main.async(execute: { 
                         
                         print(error)
                         feedPageSpinner.stopAnimating()
-                        if self.fbFeedRefresher.refreshing == true
+                        if self.fbFeedRefresher.isRefreshing == true
                         {
                             self.fbFeedRefresher.endRefreshing()
                             self.refreshOnce = 0
@@ -675,10 +675,10 @@ class customFeedTable: UITableViewController {
                         alert.title = "An error occured"
                         alert.message = "Please try again"
                         alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-                        alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
-                            self.dismissViewControllerAnimated(true, completion: nil)
+                        alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
+                            self.dismiss(animated: true, completion: nil)
                         }))
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                         self.tableView.reloadData()
                         
                     })
@@ -686,14 +686,14 @@ class customFeedTable: UITableViewController {
                 }
                 else
                 {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    DispatchQueue.main.async(execute: { () -> Void in
                         
                         do
                         {
                         
-                            let jsonData = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)
+                            let jsonData = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)
                             
-                            if let jsonData = jsonData as? NSDictionary
+                            if let jsonData = jsonData as? [String:AnyObject]
                             {
                                 if let items = jsonData["data"] as? [[String:AnyObject]]
                                 {
@@ -802,22 +802,22 @@ class customFeedTable: UITableViewController {
                                         }
                                         
                                         //Adding the post likes
-                                        let likes = item["likes"]
-                                        let summary = likes!["summary"]
-                                        let totalCount = summary!!["total_count"] as! NSInteger
+                                        let likes = item["likes"] as? [String:AnyObject]
+                                        let summary = likes!["summary"] as? [String:AnyObject]
+                                        let totalCount = summary!["total_count"] as! NSInteger
                                         self.fbFeedLikes.append(totalCount)
                                         
                                         //Adding the creation time
                                         if item["created_time"] != nil
                                         {
                                             let fbDate = item["created_time"] as! String
-                                            let dateFormatter = NSDateFormatter()
+                                            let dateFormatter = DateFormatter()
                                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZ"
-                                            let newDate = dateFormatter.dateFromString(fbDate)!
-                                            dateFormatter.AMSymbol = "AM"
-                                            dateFormatter.PMSymbol = "PM"
+                                            let newDate = dateFormatter.date(from: fbDate)!
+                                            dateFormatter.amSymbol = "AM"
+                                            dateFormatter.pmSymbol = "PM"
                                             dateFormatter.dateFormat = "dd MMM, HH:mm a"
-                                            let dateString = dateFormatter.stringFromDate(newDate)
+                                            let dateString = dateFormatter.string(from: newDate)
                                             self.fbFeedDates.append(dateString)
                                         }
                                         
@@ -830,16 +830,16 @@ class customFeedTable: UITableViewController {
                                         if self.fbFeedIds.count%20 == 0
                                         {
                                             self.tableView.reloadData()
-                                            NSUserDefaults.standardUserDefaults().setObject(self.fbFeedIds, forKey: "fbFeedIds")
-                                            NSUserDefaults.standardUserDefaults().setObject(fbPagesObjectIds, forKey: "fbPagesObjectIds")
-                                            NSUserDefaults.standardUserDefaults().setObject(self.fbFeedMessages, forKey: "fbFeedMessages")
-                                            NSUserDefaults.standardUserDefaults().setObject(self.fbFeedPictureURLs, forKey: "fbFeedPictureURLs")
-                                            NSUserDefaults.standardUserDefaults().setObject(self.fbFeedSociety, forKey: "fbFeedSociety")
-                                            NSUserDefaults.standardUserDefaults().setObject(self.fbFeedThumbnailURLs, forKey: "fbFeedThumbnailURLs")
-                                            NSUserDefaults.standardUserDefaults().setObject(self.fbPassHighResImageURLs, forKey: "fbPassHighResImageURLs")
-                                            NSUserDefaults.standardUserDefaults().setObject(self.fbFeedDates, forKey: "fbFeedDates")
-                                            NSUserDefaults.standardUserDefaults().setObject(self.fbFeedLikes, forKey: "fbFeedLikes")
-                                            NSUserDefaults.standardUserDefaults().setObject(self.fbFeedAttachments, forKey: "fbFeedAttachments")
+                                            UserDefaults.standard.set(self.fbFeedIds, forKey: "fbFeedIds")
+                                            UserDefaults.standard.set(fbPagesObjectIds, forKey: "fbPagesObjectIds")
+                                            UserDefaults.standard.set(self.fbFeedMessages, forKey: "fbFeedMessages")
+                                            UserDefaults.standard.set(self.fbFeedPictureURLs, forKey: "fbFeedPictureURLs")
+                                            UserDefaults.standard.set(self.fbFeedSociety, forKey: "fbFeedSociety")
+                                            UserDefaults.standard.set(self.fbFeedThumbnailURLs, forKey: "fbFeedThumbnailURLs")
+                                            UserDefaults.standard.set(self.fbPassHighResImageURLs, forKey: "fbPassHighResImageURLs")
+                                            UserDefaults.standard.set(self.fbFeedDates, forKey: "fbFeedDates")
+                                            UserDefaults.standard.set(self.fbFeedLikes, forKey: "fbFeedLikes")
+                                            UserDefaults.standard.set(self.fbFeedAttachments, forKey: "fbFeedAttachments")
                                             feedPageSpinner.stopAnimating()
                                             self.fbFeedRefresher.endRefreshing()
                                             self.refreshOnce = 0
@@ -864,7 +864,7 @@ class customFeedTable: UITableViewController {
                     
                 }
                 
-            }
+            }) 
             task.resume()
             
             counter += 1;
@@ -877,14 +877,14 @@ class customFeedTable: UITableViewController {
         
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        passMessage = fbFeedMessages[indexPath.row]
-        passLikes = fbFeedLikes[indexPath.row]
-        passObjectId = fbFeedIds[indexPath.row]
+        passMessage = fbFeedMessages[(indexPath as NSIndexPath).row]
+        passLikes = fbFeedLikes[(indexPath as NSIndexPath).row]
+        passObjectId = fbFeedIds[(indexPath as NSIndexPath).row]
         passImageURL = fbFeedThumbnailURLs[passObjectId]
         passPictureId = fbFeedPictureIds[passObjectId]
-        passImage = fbFeedImages[fbFeedIds[indexPath.row]]
+        passImage = fbFeedImages[fbFeedIds[(indexPath as NSIndexPath).row]]
         currentSelectedFeeds = selectedFeeds
         passHighResImageURL = fbPassHighResImageURLs[passObjectId]
         passAttachments = fbFeedAttachments[passObjectId]
@@ -893,7 +893,7 @@ class customFeedTable: UITableViewController {
         if passImageURL == nil || passImageURL == ""
         {
 
-            self.performSegueWithIdentifier("customFeedToNoImage", sender: self)
+            self.performSegue(withIdentifier: "customFeedToNoImage", sender: self)
             return
         }
         
@@ -901,7 +901,7 @@ class customFeedTable: UITableViewController {
         {
             if Reachability.isConnectedToNetwork() == true
             {
-            self.performSegueWithIdentifier("customFeedToImage", sender: self)
+            self.performSegue(withIdentifier: "customFeedToImage", sender: self)
             }
             else
             {
@@ -910,34 +910,34 @@ class customFeedTable: UITableViewController {
                 alert.title = "Unable to download Full Resolution Image"
                 alert.message = "Please connect to the internet"
                 alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-                alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
 
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                    self.dismiss(animated: true, completion: nil)
 
                 }))
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.present(alert, animated: true, completion: nil)
                 
             }
             return
         }
-        self.performSegueWithIdentifier("customFeedToInstantArticleSegue", sender: self)
+        self.performSegue(withIdentifier: "customFeedToInstantArticleSegue", sender: self)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
-        if Reachability.isConnectedToNetwork() == false && (NSUserDefaults.standardUserDefaults().objectForKey("fbFeedIds") == nil || NSUserDefaults.standardUserDefaults().objectForKey("fbFeedAttachments") == nil)
+        if Reachability.isConnectedToNetwork() == false && (UserDefaults.standard.object(forKey: "fbFeedIds") == nil || UserDefaults.standard.object(forKey: "fbFeedAttachments") == nil)
         {
             
             let alert = NYAlertViewController()
             alert.title = "Internet Connection Unavailable"
             alert.message = "Please connect to the internet"
             alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-            alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+            alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
 
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
 
             }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
             
         }
     }
@@ -947,7 +947,7 @@ class customFeedTable: UITableViewController {
     
     func loadCustomViewContents()
     {
-        let refreshContents = NSBundle.mainBundle().loadNibNamed("RefreshContents", owner: self, options: nil)
+        let refreshContents = Bundle.main.loadNibNamed("RefreshContents", owner: self, options: nil)
         customView = refreshContents![0] as! UIView
         customView.frame = fbFeedRefresher.bounds
         
@@ -956,8 +956,8 @@ class customFeedTable: UITableViewController {
             labelsArray.append(customView.viewWithTag(i+1) as! UILabel)
         }
         
-        fbFeedRefresher.backgroundColor = UIColor.clearColor()
-        fbFeedRefresher.tintColor = UIColor.clearColor()
+        fbFeedRefresher.backgroundColor = UIColor.clear
+        fbFeedRefresher.tintColor = UIColor.clear
         fbFeedRefresher.addSubview(customView)
         
     }
@@ -965,15 +965,15 @@ class customFeedTable: UITableViewController {
     func animateRefreshStep1() {
         isAnimating = true
         
-        UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-            labelsArray[currentLabelIndex].transform = CGAffineTransformMakeRotation(CGFloat(M_PI_4))
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
+            labelsArray[currentLabelIndex].transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_4))
             labelsArray[currentLabelIndex].textColor = self.getNextColor()
             
             }, completion: { (finished) -> Void in
                 
-                UIView.animateWithDuration(0.05, delay: 0.0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-                    labelsArray[currentLabelIndex].transform = CGAffineTransformIdentity
-                    labelsArray[currentLabelIndex].textColor = UIColor.blackColor()
+                UIView.animate(withDuration: 0.05, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
+                    labelsArray[currentLabelIndex].transform = CGAffineTransform.identity
+                    labelsArray[currentLabelIndex].textColor = UIColor.black
                     
                     }, completion: { (finished) -> Void in
                         currentLabelIndex+=1
@@ -990,27 +990,27 @@ class customFeedTable: UITableViewController {
     
     
     func animateRefreshStep2() {
-        UIView.animateWithDuration(0.35, delay: 0.0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-            labelsArray[0].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[1].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[2].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[3].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[4].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[5].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[6].transform = CGAffineTransformMakeScale(1.5, 1.5)
+        UIView.animate(withDuration: 0.35, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
+            labelsArray[0].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[1].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[2].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[3].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[4].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[5].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[6].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
             
             }, completion: { (finished) -> Void in
-                UIView.animateWithDuration(0.25, delay: 0.0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-                    labelsArray[0].transform = CGAffineTransformIdentity
-                    labelsArray[1].transform = CGAffineTransformIdentity
-                    labelsArray[2].transform = CGAffineTransformIdentity
-                    labelsArray[3].transform = CGAffineTransformIdentity
-                    labelsArray[4].transform = CGAffineTransformIdentity
-                    labelsArray[5].transform = CGAffineTransformIdentity
-                    labelsArray[6].transform = CGAffineTransformIdentity
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
+                    labelsArray[0].transform = CGAffineTransform.identity
+                    labelsArray[1].transform = CGAffineTransform.identity
+                    labelsArray[2].transform = CGAffineTransform.identity
+                    labelsArray[3].transform = CGAffineTransform.identity
+                    labelsArray[4].transform = CGAffineTransform.identity
+                    labelsArray[5].transform = CGAffineTransform.identity
+                    labelsArray[6].transform = CGAffineTransform.identity
                     
                     }, completion: { (finished) -> Void in
-                        if self.fbFeedRefresher.refreshing {
+                        if self.fbFeedRefresher.isRefreshing {
                             currentLabelIndex = 0
                             self.animateRefreshStep1()
                         }
@@ -1018,8 +1018,8 @@ class customFeedTable: UITableViewController {
                             isAnimating = false
                             currentLabelIndex = 0
                             for i in 0 ..< labelsArray.count {
-                                labelsArray[i].textColor = UIColor.blackColor()
-                                labelsArray[i].transform = CGAffineTransformIdentity
+                                labelsArray[i].textColor = UIColor.black
+                                labelsArray[i].transform = CGAffineTransform.identity
                             }
                         }
                 })
@@ -1029,7 +1029,7 @@ class customFeedTable: UITableViewController {
     
     
     func getNextColor() -> UIColor {
-        var colorsArray: Array<UIColor> = [UIColor.magentaColor(), UIColor.brownColor(), UIColor.yellowColor(), UIColor.redColor(), UIColor.greenColor(), UIColor.blueColor(), UIColor.orangeColor()]
+        var colorsArray: Array<UIColor> = [UIColor.magenta, UIColor.brown, UIColor.yellow, UIColor.red, UIColor.green, UIColor.blue, UIColor.orange]
         
         if currentColorIndex == colorsArray.count {
             currentColorIndex = 0
@@ -1047,8 +1047,8 @@ class customFeedTable: UITableViewController {
         
     }
     
-    override func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        if fbFeedRefresher.refreshing
+    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if fbFeedRefresher.isRefreshing
         {
             if !isAnimating
             {

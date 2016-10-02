@@ -18,7 +18,7 @@ import NYAlertViewController
 var pictureURLs = [String : String]()
 var images = [String : UIImage]()
 var animateCells = [Int]()
-var preventAnimation = Set<NSIndexPath>()
+var preventAnimation = Set<IndexPath>()
 
 var passMessage : String!
 var passImageURL : String!
@@ -70,19 +70,27 @@ class feedTableView: UITableViewController {
         
         print("Welcome to NSIT Connect")
         
-        if NSUserDefaults.standardUserDefaults().objectForKey("didUpdateApplication") != nil
+        //Need to remove all items in NSUserDefaults if the app has been updated to accomodate the new arrays being stored i.e. attachments along with a bug fix in feedTable.swift
+        if UserDefaults.standard.object(forKey: "didUpdateApplication") == nil
         {
-            didUpdateApplication = NSUserDefaults.standardUserDefaults().objectForKey("didUpdateApplication") as! Bool
+            didUpdateApplication = true
+        }
+        else
+        {
+            didUpdateApplication = UserDefaults.standard.object(forKey: "didUpdateApplication") as! Bool
         }
         
         if didUpdateApplication == true
         {
             
-            NSUserDefaults.standardUserDefaults().setObject(didUpdateApplication, forKey : "didUpdateApplication")
+            UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+            didUpdateApplication = false
+            UserDefaults.standard.set(didUpdateApplication, forKey : "didUpdateApplication")
+            
             
         }
         
-        self.tableView.separatorColor = UIColor.clearColor()
+        self.tableView.separatorColor = UIColor.clear
         
         if self.revealViewController() != nil {
             menuButton.target = self.revealViewController()
@@ -97,12 +105,12 @@ class feedTableView: UITableViewController {
         self.navigationController?.navigationBar.tintColor = UIColor(red: 01/256, green: 178/256, blue: 155/256, alpha: 1)
         
 
-        refresher.addTarget(self, action: #selector(feedTableView.refresh), forControlEvents: UIControlEvents.ValueChanged)
+        refresher.addTarget(self, action: #selector(feedTableView.refresh), for: UIControlEvents.valueChanged)
         refresher.attributedTitle = NSAttributedString(string: "")
         loadCustomViewContents()
         self.view.addSubview(refresher)
         
-        if NSUserDefaults.standardUserDefaults().objectForKey("objectIds") == nil || NSUserDefaults.standardUserDefaults().objectForKey("attachments") == nil
+        if UserDefaults.standard.object(forKey: "objectIds") == nil || UserDefaults.standard.object(forKey: "attachments") == nil
         {
             if Reachability.isConnectedToNetwork() == false
             {
@@ -111,15 +119,15 @@ class feedTableView: UITableViewController {
                 alert.title = "Internet Connection Unavailable"
                 alert.message = "Please enable the internet connection"
                 alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-                alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (ation) in
+                alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (ation) in
                     
-                    self.dismissViewControllerAnimated(true, completion: { 
+                    self.dismiss(animated: true, completion: { 
                         
                     })
                     
                 }))
                 
-                self.presentViewController(alert, animated: true, completion: {
+                self.present(alert, animated: true, completion: {
                     
                     self.view.makeToast("Please pull to refresh when the internet connection is re-established", duration: 1.5, position: CSToastPositionTop)
                     
@@ -128,9 +136,9 @@ class feedTableView: UITableViewController {
             else
             {
                 spinner = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-                spinner.center = CGPointMake(self.view.center.x, self.view.center.y-100)
+                spinner.center = CGPoint(x: self.view.center.x, y: self.view.center.y-100)
                 spinner.hidesWhenStopped = true
-                spinner.activityIndicatorViewStyle = .Gray
+                spinner.activityIndicatorViewStyle = .gray
                 spinner.layer.cornerRadius = 10
                 spinner.backgroundColor = UIColor(white: 0.7, alpha: 0.7)
                 self.view.addSubview(spinner)
@@ -138,27 +146,27 @@ class feedTableView: UITableViewController {
                 //UIApplication.sharedApplication().beginIgnoringInteractionEvents()
                 
                 
-                let url = NSURL(string: "https://graph.facebook.com/109315262061/posts?limit=20&fields=id,full_picture,picture,from,shares,attachments,message,object_id,link,created_time,comments.limit(0).summary(true),likes.limit(0).summary(true)&access_token=CAAGZAwVFNCKgBAANhEYok6Xh7Q7UZBeTZCUqwPDLYhRZCmNn0igI8SE339jSn2zjxCpA1JUmXHm55XKVXslhdKKoTF3b5sLsiZBVd0ylYwX3MIGOnRyzn0T2XVywwoPKP7ML9WZCqELGRuIGxoM8ia05CiUiqcbgsb4wzTuBKkvKaqb7TPt2VnPtprRZBWda4kZD")
+                let url = URL(string: "https://graph.facebook.com/109315262061/posts?limit=20&fields=id,full_picture,picture,from,shares,attachments,message,object_id,link,created_time,comments.limit(0).summary(true),likes.limit(0).summary(true)&access_token=CAAGZAwVFNCKgBAANhEYok6Xh7Q7UZBeTZCUqwPDLYhRZCmNn0igI8SE339jSn2zjxCpA1JUmXHm55XKVXslhdKKoTF3b5sLsiZBVd0ylYwX3MIGOnRyzn0T2XVywwoPKP7ML9WZCqELGRuIGxoM8ia05CiUiqcbgsb4wzTuBKkvKaqb7TPt2VnPtprRZBWda4kZD")
                 
-                let session = NSURLSession.sharedSession()
+                let session = URLSession.shared
                 
-                let task = session.dataTaskWithURL(url!) { (data, response, error) -> Void in
+                let task = session.dataTask(with: url!, completionHandler: { (data, response, error) -> Void in
                     
                     if error != nil
                     {
                         
-                        dispatch_async(dispatch_get_main_queue(), { 
+                        DispatchQueue.main.async(execute: { 
                             
                             let alert = NYAlertViewController()
                             alert.title = "An Error Occurred"
                             alert.message = "Please try again later"
                             alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-                            alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                            alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                                 
-                                self.dismissViewControllerAnimated(true, completion: nil)
+                                self.dismiss(animated: true, completion: nil)
                                 
                             }))
-                            self.presentViewController(alert, animated: true, completion: nil)
+                            self.present(alert, animated: true, completion: nil)
                             
                         })
                         
@@ -167,7 +175,7 @@ class feedTableView: UITableViewController {
                     else
                     {
                         
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        DispatchQueue.main.async(execute: { () -> Void in
                             if let data = data
                             {
                                 do
@@ -181,8 +189,8 @@ class feedTableView: UITableViewController {
                                     self.dates.removeAll()
                                     self.highResImagesURLs.removeAll()
                                     
-                                    let jsonData = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)
-                                    if let jsonData = jsonData as? NSDictionary
+                                    let jsonData = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
+                                    if let jsonData = jsonData as? [String:AnyObject]
                                     {
                                         
                                         
@@ -221,11 +229,6 @@ class feedTableView: UITableViewController {
                                                                                     self.highResImagesURLs[item["id"] as! String] = src
                                                                                     break;
                                                                                 }
-                                                                                else
-                                                                                {
-                                                                                    print("potty")
-                                                                                }
-                                                                                
                                                                             }
                                                                         }
                                                                     }
@@ -263,13 +266,15 @@ class feedTableView: UITableViewController {
                                                 
                                                 if item["message"] != nil
                                                 {
+                                                    
                                                     self.messages.append(item["message"] as! String)
-                                                    print(item["message"])
+                                                    
                                                 }
                                                 else
                                                 {
+                                                    
                                                     self.messages.append("")
-                                                    print("")
+                                                    
                                                 }
                                                 
                                                 self.objectIds.append(item["id"] as! String)
@@ -279,13 +284,13 @@ class feedTableView: UITableViewController {
                                                 {
                                                     
                                                     let fbDate = item["created_time"] as! String
-                                                    let dateFormatter = NSDateFormatter()
+                                                    let dateFormatter = DateFormatter()
                                                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZ"
-                                                    let newDate = dateFormatter.dateFromString(fbDate)!
-                                                    dateFormatter.AMSymbol = "AM"
-                                                    dateFormatter.PMSymbol = "PM"
+                                                    let newDate = dateFormatter.date(from: fbDate)!
+                                                    dateFormatter.amSymbol = "AM"
+                                                    dateFormatter.pmSymbol = "PM"
                                                     dateFormatter.dateFormat = "dd MMM, HH:mm a"
-                                                    let dateString = dateFormatter.stringFromDate(newDate)
+                                                    let dateString = dateFormatter.string(from: newDate)
                                                     self.dates.append(dateString)
                                                 }
                                                 
@@ -297,10 +302,10 @@ class feedTableView: UITableViewController {
                                                     
                                                 }
                                                 
-                                                let like = item["likes"]
-                                                let summary = like!["summary"]
-                                                let count = summary!!["total_count"]
-                                                self.likes.append(count as! NSInteger)
+                                                let like = item["likes"] as? [String:AnyObject]
+                                                let summary = like!["summary"] as? [String:AnyObject]
+                                                let count = summary!["total_count"] as? NSInteger
+                                                self.likes.append(count!)
                                                 
                                                 
                                                 let id = item["id"] as? String
@@ -314,16 +319,16 @@ class feedTableView: UITableViewController {
                                                 {
                                                     
                                                     self.spinner.stopAnimating()
-                                                    NSUserDefaults.standardUserDefaults().setObject(self.objectIds, forKey: "objectIds")
-                                                    NSUserDefaults.standardUserDefaults().setObject(self.messages, forKey: "messages")
-                                                    NSUserDefaults.standardUserDefaults().setObject(self.highResImagesURLs, forKey: "highResImageURLs")
-                                                    NSUserDefaults.standardUserDefaults().setObject(pictureURLs, forKey: "pictureURLs")
-                                                    NSUserDefaults.standardUserDefaults().setObject(self.likes, forKey: "likes")
-                                                    NSUserDefaults.standardUserDefaults().setObject(self.dates, forKey: "dates")
-                                                    NSUserDefaults.standardUserDefaults().setObject(self.attachments, forKey: "attachments")
+                                                    UserDefaults.standard.set(self.objectIds, forKey: "objectIds")
+                                                    UserDefaults.standard.set(self.messages, forKey: "messages")
+                                                    UserDefaults.standard.set(self.highResImagesURLs, forKey: "highResImageURLs")
+                                                    UserDefaults.standard.set(pictureURLs, forKey: "pictureURLs")
+                                                    UserDefaults.standard.set(self.likes, forKey: "likes")
+                                                    UserDefaults.standard.set(self.dates, forKey: "dates")
+                                                    UserDefaults.standard.set(self.attachments, forKey: "attachments")
                                                     self.tableView.reloadData()
                                                     refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
-                                                    refresher.addTarget(self, action: #selector(feedTableView.refresh), forControlEvents: UIControlEvents.ValueChanged)
+                                                    refresher.addTarget(self, action: #selector(feedTableView.refresh), for: UIControlEvents.valueChanged)
                                                 }
                                                 
                                             }
@@ -348,29 +353,31 @@ class feedTableView: UITableViewController {
                     }
                     
                     
-                }
+                }) 
                 
                 task.resume()
             }
         }
         else
         {
-            messages = NSUserDefaults.standardUserDefaults().objectForKey("messages") as! [String]
-            highResImagesURLs = NSUserDefaults.standardUserDefaults().objectForKey("highResImageURLs") as! [String:String]
-            likes = NSUserDefaults.standardUserDefaults().objectForKey("likes") as! [NSInteger]
-            dates = NSUserDefaults.standardUserDefaults().objectForKey("dates") as! [String]
-            pictureURLs = NSUserDefaults.standardUserDefaults().objectForKey("pictureURLs") as! [String:String]
-            objectIds = NSUserDefaults.standardUserDefaults().objectForKey("objectIds") as! [String]
-            attachments = NSUserDefaults.standardUserDefaults().objectForKey("attachments") as! [String:[String:AnyObject]]
-            if NSUserDefaults.standardUserDefaults().objectForKey("numberOfLoads") != nil
+            
+            messages = UserDefaults.standard.object(forKey: "messages") as! [String]
+            highResImagesURLs = UserDefaults.standard.object(forKey: "highResImageURLs") as! [String:String]
+            likes = UserDefaults.standard.object(forKey: "likes") as! [NSInteger]
+            dates = UserDefaults.standard.object(forKey: "dates") as! [String]
+            pictureURLs = UserDefaults.standard.object(forKey: "pictureURLs") as! [String:String]
+            objectIds = UserDefaults.standard.object(forKey: "objectIds") as! [String]
+            attachments = UserDefaults.standard.object(forKey: "attachments") as! [String:[String:AnyObject]]
+            if UserDefaults.standard.object(forKey: "numberOfLoads") != nil
             {
-                numberOfLoads = NSUserDefaults.standardUserDefaults().objectForKey("numberOfLoads") as! Int
+                numberOfLoads = UserDefaults.standard.object(forKey: "numberOfLoads") as! Int
             }
-            if NSUserDefaults.standardUserDefaults().objectForKey("next20") != nil
+            if UserDefaults.standard.object(forKey: "next20") != nil
             {
-                next20 = NSUserDefaults.standardUserDefaults().objectForKey("next20") as! String
+                next20 = UserDefaults.standard.object(forKey: "next20") as! String
             }
             self.tableView.reloadData()
+        
         }
         
     }
@@ -382,50 +389,50 @@ class feedTableView: UITableViewController {
     
     // MARK: - Table view data source
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return messages.count
     }
     
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if pictureURLs[objectIds[indexPath.row]] == nil
+        if pictureURLs[objectIds[(indexPath as NSIndexPath).row]] == nil
         {
-            let cell = tableView.dequeueReusableCellWithIdentifier("testNoImageFeedCell", forIndexPath: indexPath) as! noImageTestFeedCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "testNoImageFeedCell", for: indexPath) as! noImageTestFeedCell
             
             cell.layoutIfNeeded()
             
-            cell.paddingView.layer.shadowOffset = CGSizeMake(-0.5, 0.5)
+            cell.paddingView.layer.shadowOffset = CGSize(width: -0.5, height: 0.5)
             cell.paddingView.layer.shadowOpacity = 0.4
             cell.paddingView.layer.masksToBounds = false
             let path = UIBezierPath(rect: cell.paddingView.bounds)
-            cell.paddingView.layer.shadowPath = path.CGPath
+            cell.paddingView.layer.shadowPath = path.cgPath
             
-            cell.message.text = messages[indexPath.row]
-            cell.likes.text = String(likes[indexPath.row])
-            cell.date.text = String(dates[indexPath.row])
+            cell.message.text = messages[(indexPath as NSIndexPath).row]
+            cell.likes.text = String(likes[(indexPath as NSIndexPath).row])
+            cell.date.text = String(dates[(indexPath as NSIndexPath).row])
             return cell
         }
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("testCell", forIndexPath: indexPath) as! testFeedCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "testCell", for: indexPath) as! testFeedCell
         
         cell.layoutIfNeeded()
         
-        cell.message.text = messages[indexPath.row]
-        cell.likes.text = String(likes[indexPath.row])
-        cell.date.text = String(dates[indexPath.row])
+        cell.message.text = messages[(indexPath as NSIndexPath).row]
+        cell.likes.text = String(likes[(indexPath as NSIndexPath).row])
+        cell.date.text = String(dates[(indexPath as NSIndexPath).row])
         
-        cell.paddingView.layer.shadowOffset = CGSizeMake(-0.5, 0.5)
+        cell.paddingView.layer.shadowOffset = CGSize(width: -0.5, height: 0.5)
         cell.paddingView.layer.shadowOpacity = 0.4
         cell.paddingView.layer.masksToBounds = false
         let path = UIBezierPath(rect: cell.paddingView.bounds)
-        cell.paddingView.layer.shadowPath = path.CGPath
+        cell.paddingView.layer.shadowPath = path.cgPath
     
         
         if cell.message.text == ""
@@ -433,57 +440,56 @@ class feedTableView: UITableViewController {
             cell.message.text = "No description available"
         }
     
-        if pictureURLs[objectIds[indexPath.row]] != nil
+        if pictureURLs[objectIds[(indexPath as NSIndexPath).row]] != nil
         {
 
-            cell.societyImage.setIndicatorStyle(UIActivityIndicatorViewStyle.White)
-            cell.societyImage.setShowActivityIndicatorView(true)
-            cell.societyImage.sd_setImageWithURL(NSURL(string: pictureURLs[objectIds[indexPath.row]]!),completed: { (image, error, cache, url) in
+            cell.societyImage.setIndicatorStyle(UIActivityIndicatorViewStyle.white)
+            cell.societyImage.setShowActivityIndicator(true)
+            cell.societyImage.sd_setImage(with: URL(string: pictureURLs[objectIds[(indexPath as NSIndexPath).row]]!),completed: { (image, error, cache, url) in
                 
                 cell.societyImage.layer.shadowRadius = 2
-                cell.societyImage.layer.borderColor = UIColor.clearColor().CGColor
-                cell.societyImage.layer.shadowColor = UIColor.blackColor().CGColor
-                cell.societyImage.layer.shadowOffset = CGSizeMake(0, 5)
+                cell.societyImage.layer.borderColor = UIColor.clear.cgColor
+                cell.societyImage.layer.shadowColor = UIColor.black.cgColor
+                cell.societyImage.layer.shadowOffset = CGSize(width: 0, height: 5)
                 cell.societyImage.layer.shadowOpacity = 0.4
                 cell.societyImage.layer.masksToBounds = false
             })
         }
         
-        
-        
         return cell
+        
     }
     
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         
-        passMessage = messages[indexPath.row]
-        passLikes = likes[indexPath.row]
-        passObjectId = objectIds[indexPath.row]
+        passMessage = messages[(indexPath as NSIndexPath).row]
+        passLikes = likes[(indexPath as NSIndexPath).row]
+        passObjectId = objectIds[(indexPath as NSIndexPath).row]
         passImageURL = pictureURLs[passObjectId]
         passPictureId = pictureIds[passObjectId]
-        passImage = images[objectIds[indexPath.row]]
+        passImage = images[objectIds[(indexPath as NSIndexPath).row]]
         passHighResImageURL = highResImagesURLs[passObjectId]
-        passAttachments = attachments[objectIds[indexPath.row]]
+        passAttachments = attachments[objectIds[(indexPath as NSIndexPath).row]]
         if passMessage == nil || passMessage == ""
         {
-            self.performSegueWithIdentifier("homeToImageSegue", sender: self)
+            self.performSegue(withIdentifier: "homeToImageSegue", sender: self)
             return;
         }
         if passImageURL == nil
         {
-            self.performSegueWithIdentifier("homeToNoImageFeedPage", sender: self)
+            self.performSegue(withIdentifier: "homeToNoImageFeedPage", sender: self)
             return
         }
-        self.performSegueWithIdentifier("fbFeedToInstantArticleSegue", sender: self)
+        self.performSegue(withIdentifier: "fbFeedToInstantArticleSegue", sender: self)
         
     }
     
    
     
-   override func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        if refresher.refreshing
+   override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if refresher.isRefreshing
         {
             if !isAnimating
             {
@@ -493,7 +499,7 @@ class feedTableView: UITableViewController {
         }
     }
     
-    override func scrollViewDidScroll(scrollView: UIScrollView) {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         
         let currentOffset : CGFloat = scrollView.contentOffset.y;
@@ -512,22 +518,22 @@ class feedTableView: UITableViewController {
             print(next20)
             
             var navigationBarActivityIndicator = UIActivityIndicatorView()
-            navigationBarActivityIndicator = UIActivityIndicatorView.init(frame: CGRectMake(0, 0, 20, 20))
+            navigationBarActivityIndicator = UIActivityIndicatorView.init(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
             navigationBarActivityIndicator.hidesWhenStopped = true
             let barItem = UIBarButtonItem.init(customView: navigationBarActivityIndicator)
-            self.navigationItem.setRightBarButtonItem(barItem, animated: true)
+            self.navigationItem.setRightBarButton(barItem, animated: true)
             navigationBarActivityIndicator.color = UIColor(red: 1/256, green: 178/255, blue: 155/255, alpha: 1)
             navigationBarActivityIndicator.startAnimating()
             
-            let loadMorePostsURL = NSURL(string: next20)
-            let task = NSURLSession.sharedSession().dataTaskWithURL(loadMorePostsURL!, completionHandler: { (data, response, error) -> Void in
+            let loadMorePostsURL = URL(string: next20)
+            let task = URLSession.shared.dataTask(with: loadMorePostsURL!, completionHandler: { (data, response, error) -> Void in
                 
                 print(next20)
                 
                 if error != nil
                 {
                     
-                    dispatch_async(dispatch_get_main_queue(), { 
+                    DispatchQueue.main.async(execute: { 
                         
                         print(error)
                         
@@ -540,15 +546,15 @@ class feedTableView: UITableViewController {
                         numberOfLoads += 0
                         
                         //saving all arrays, dictionaries and variables in the current state to user defaults
-                        NSUserDefaults.standardUserDefaults().setObject(self.objectIds, forKey: "objectIds")
-                        NSUserDefaults.standardUserDefaults().setObject(self.messages, forKey: "messages")
-                        NSUserDefaults.standardUserDefaults().setObject(self.highResImagesURLs, forKey: "highResImageURLs")
-                        NSUserDefaults.standardUserDefaults().setObject(pictureURLs, forKey: "pictureURLs")
-                        NSUserDefaults.standardUserDefaults().setObject(self.likes, forKey: "likes")
-                        NSUserDefaults.standardUserDefaults().setObject(self.dates, forKey: "dates")
-                        NSUserDefaults.standardUserDefaults().setObject(self.attachments, forKey: "attachments")
-                        NSUserDefaults.standardUserDefaults().setObject(numberOfLoads, forKey: "numberOfLoads")
-                        NSUserDefaults.standardUserDefaults().setObject(next20, forKey: "next20")
+                        UserDefaults.standard.set(self.objectIds, forKey: "objectIds")
+                        UserDefaults.standard.set(self.messages, forKey: "messages")
+                        UserDefaults.standard.set(self.highResImagesURLs, forKey: "highResImageURLs")
+                        UserDefaults.standard.set(pictureURLs, forKey: "pictureURLs")
+                        UserDefaults.standard.set(self.likes, forKey: "likes")
+                        UserDefaults.standard.set(self.dates, forKey: "dates")
+                        UserDefaults.standard.set(self.attachments, forKey: "attachments")
+                        UserDefaults.standard.set(numberOfLoads, forKey: "numberOfLoads")
+                        UserDefaults.standard.set(next20, forKey: "next20")
                         
                     })
                     
@@ -556,14 +562,14 @@ class feedTableView: UITableViewController {
                     
                 else if error == nil
                 {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    DispatchQueue.main.async(execute: { () -> Void in
                         
                         if let data = data
                         {
                             do
                             {
                                 
-                                let jsonData = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)
+                                let jsonData = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
                                 if let jsonData = jsonData as? NSDictionary
                                 {
                                     
@@ -603,14 +609,11 @@ class feedTableView: UITableViewController {
                                                                     {
                                                                         if let image = media["image"] as? [String:AnyObject]
                                                                         {
+                                                                            
                                                                             if let src = image["src"] as? String
                                                                             {
                                                                                 self.highResImagesURLs[item["id"] as! String] = src
                                                                                 break;
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                print("potty")
                                                                             }
                                                                             
                                                                         }
@@ -649,46 +652,44 @@ class feedTableView: UITableViewController {
                                             
                                             if item["message"] != nil
                                             {
+                                                
                                                 self.messages.append(item["message"] as! String)
-                                                print(item["message"])
+                                                
                                             }
                                             else
                                             {
+                                                
                                                 self.messages.append("")
-                                                print("")
+                                                
                                             }
                                             
                                             if item["created_time"] != nil
                                             {
                                                 
                                                 let fbDate = item["created_time"] as! String
-                                                let dateFormatter = NSDateFormatter()
+                                                let dateFormatter = DateFormatter()
                                                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZ"
-                                                let newDate = dateFormatter.dateFromString(fbDate)!
+                                                let newDate = dateFormatter.date(from: fbDate)!
                                                 dateFormatter.dateFormat = "dd-MM-yyyy,HH:mm"
-                                                let dateString = dateFormatter.stringFromDate(newDate)
+                                                let dateString = dateFormatter.string(from: newDate)
                                                 self.dates.append(dateString)
                                             }
-                                            
                                             
                                             self.objectIds.append(item["id"] as! String)
                                             pictureURLs[item["id"] as! String] = item["picture"] as? String
                                             
-                                            
-                                            
                                             let pictureId = item["object_id"] as? String
                                             if pictureId != nil
                                             {
+                                                
                                                 self.pictureIds[item["id"] as! String] = pictureId
                                                 
                                             }
                                             
-                                            let like = item["likes"]
-                                            let summary = like!["summary"]
-                                            let count = summary!!["total_count"]
-                                            self.likes.append(count as! NSInteger)
-                                            
-                                            //society.append(name as! String)
+                                            let like = item["likes"] as? [String:AnyObject]
+                                            let summary = like!["summary"] as? [String:AnyObject]
+                                            let count = summary!["total_count"] as? NSInteger
+                                            self.likes.append(count!)
                                             
                                             let id = item["id"] as? String
                                             let pictureURL = item["picture"] as? String
@@ -699,25 +700,26 @@ class feedTableView: UITableViewController {
                                             
                                             if self.objectIds.count%20 == 0
                                             {
+                                                
                                                 self.tableView.reloadData()
                                                 navigationBarActivityIndicator.stopAnimating()
                                                 self.navigationItem.rightBarButtonItem = nil
                                                 didScrollOnce = false
                                                 numberOfLoads += 1
-                                                NSUserDefaults.standardUserDefaults().setObject(self.objectIds, forKey: "objectIds")
-                                                NSUserDefaults.standardUserDefaults().setObject(self.messages, forKey: "messages")
-                                                NSUserDefaults.standardUserDefaults().setObject(self.highResImagesURLs, forKey: "highResImageURLs")
-                                                NSUserDefaults.standardUserDefaults().setObject(pictureURLs, forKey: "pictureURLs")
-                                                NSUserDefaults.standardUserDefaults().setObject(self.likes, forKey: "likes")
-                                                NSUserDefaults.standardUserDefaults().setObject(self.dates, forKey: "dates")
-                                                NSUserDefaults.standardUserDefaults().setObject(numberOfLoads, forKey: "numberOfLoads")
-                                                NSUserDefaults.standardUserDefaults().setObject(self.attachments, forKey: "attachments")
-                                                NSUserDefaults.standardUserDefaults().setObject(next20, forKey: "next20")
+                                                UserDefaults.standard.set(self.objectIds, forKey: "objectIds")
+                                                UserDefaults.standard.set(self.messages, forKey: "messages")
+                                                UserDefaults.standard.set(self.highResImagesURLs, forKey: "highResImageURLs")
+                                                UserDefaults.standard.set(pictureURLs, forKey: "pictureURLs")
+                                                UserDefaults.standard.set(self.likes, forKey: "likes")
+                                                UserDefaults.standard.set(self.dates, forKey: "dates")
+                                                UserDefaults.standard.set(numberOfLoads, forKey: "numberOfLoads")
+                                                UserDefaults.standard.set(self.attachments, forKey: "attachments")
+                                                UserDefaults.standard.set(next20, forKey: "next20")
+                                                
                                             }
                                             
                                             
                                         }
-                                        print(self.messages)
                                     }
                                 }
                                 
@@ -725,7 +727,7 @@ class feedTableView: UITableViewController {
                                 
                             catch
                             {
-                                
+                                print("JSON Serialisation Failed")
                             }
                             
                             
@@ -753,43 +755,43 @@ class feedTableView: UITableViewController {
             alert.title = "No internet connection available"
             alert.message = "Please connect to the internet"
             alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-            alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+            alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                 
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
                 
             }))
             
-            self.presentViewController(alert, animated: true, completion: {
+            self.present(alert, animated: true, completion: {
                 
                 refresher.endRefreshing()
-                NSUserDefaults.standardUserDefaults().setObject(numberOfLoads, forKey: "numberOfLoads")
+                UserDefaults.standard.set(numberOfLoads, forKey: "numberOfLoads")
                 
             })
         }
         else
         {
-            let url = NSURL(string: "https://graph.facebook.com/109315262061/posts?limit=20&fields=id,full_picture,picture,from,shares,attachments,message,object_id,link,created_time,comments.limit(0).summary(true),likes.limit(0).summary(true)&access_token=CAAGZAwVFNCKgBAANhEYok6Xh7Q7UZBeTZCUqwPDLYhRZCmNn0igI8SE339jSn2zjxCpA1JUmXHm55XKVXslhdKKoTF3b5sLsiZBVd0ylYwX3MIGOnRyzn0T2XVywwoPKP7ML9WZCqELGRuIGxoM8ia05CiUiqcbgsb4wzTuBKkvKaqb7TPt2VnPtprRZBWda4kZD")
+            let url = URL(string: "https://graph.facebook.com/109315262061/posts?limit=20&fields=id,full_picture,picture,from,shares,attachments,message,object_id,link,created_time,comments.limit(0).summary(true),likes.limit(0).summary(true)&access_token=CAAGZAwVFNCKgBAANhEYok6Xh7Q7UZBeTZCUqwPDLYhRZCmNn0igI8SE339jSn2zjxCpA1JUmXHm55XKVXslhdKKoTF3b5sLsiZBVd0ylYwX3MIGOnRyzn0T2XVywwoPKP7ML9WZCqELGRuIGxoM8ia05CiUiqcbgsb4wzTuBKkvKaqb7TPt2VnPtprRZBWda4kZD")
             
-            let session = NSURLSession.sharedSession()
+            let session = URLSession.shared
             
-            let task = session.dataTaskWithURL(url!) { (data, response, error) -> Void in
+            let task = session.dataTask(with: url!, completionHandler: { (data, response, error) -> Void in
                 
                 if error != nil
                 {
                     
-                    dispatch_async(dispatch_get_main_queue(), { 
+                    DispatchQueue.main.async(execute: { 
                         
                         refresher.endRefreshing()
                         let alert = NYAlertViewController()
                         alert.title = "An Error Occurred"
                         alert.message = "Please try again later"
                         alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
-                        alert.addAction(NYAlertAction(title: "OK", style: .Default, handler: { (action) in
+                        alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
                             
-                            self.dismissViewControllerAnimated(true, completion: nil)
+                            self.dismiss(animated: true, completion: nil)
                             
                         }))
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                         
                     })
                     
@@ -798,7 +800,7 @@ class feedTableView: UITableViewController {
                 else
                 {
                     
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    DispatchQueue.main.async(execute: { () -> Void in
                         if let data = data
                         {
                             do
@@ -813,7 +815,7 @@ class feedTableView: UITableViewController {
                                 self.highResImagesURLs.removeAll()
                                 self.attachments.removeAll()
                                 
-                                let jsonData = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)
+                                let jsonData = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
                                 if let jsonData = jsonData as? NSDictionary
                                 {
                                     
@@ -849,15 +851,13 @@ class feedTableView: UITableViewController {
                                                                     {
                                                                         if let image = media["image"] as? [String:AnyObject]
                                                                         {
+                                                                            
                                                                             if let src = image["src"] as? String
                                                                             {
                                                                                 self.highResImagesURLs[item["id"] as! String] = src
                                                                                 break;
                                                                             }
-                                                                            else
-                                                                            {
-                                                                                print("potty")
-                                                                            }
+                                                                            
                                                                             
                                                                         }
                                                                     }
@@ -895,13 +895,15 @@ class feedTableView: UITableViewController {
                                             
                                             if item["message"] != nil
                                             {
+                                                
                                                 self.messages.append(item["message"] as! String)
-                                                print(item["message"])
+                                            
                                             }
                                             else
                                             {
+                                            
                                                 self.messages.append("")
-                                                print("")
+                                                
                                             }
                                             
                                             self.objectIds.append(item["id"] as! String)
@@ -911,16 +913,15 @@ class feedTableView: UITableViewController {
                                             {
                                                 
                                                 let fbDate = item["created_time"] as! String
-                                                let dateFormatter = NSDateFormatter()
+                                                let dateFormatter = DateFormatter()
                                                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZ"
-                                                let newDate = dateFormatter.dateFromString(fbDate)!
-                                                dateFormatter.AMSymbol = "AM"
-                                                dateFormatter.PMSymbol = "PM"
+                                                let newDate = dateFormatter.date(from: fbDate)!
+                                                dateFormatter.amSymbol = "AM"
+                                                dateFormatter.pmSymbol = "PM"
                                                 dateFormatter.dateFormat = "dd MMM, HH:mm a"
-                                                let dateString = dateFormatter.stringFromDate(newDate)
+                                                let dateString = dateFormatter.string(from: newDate)
                                                 self.dates.append(dateString)
                                             }
-                                            
                                             
                                             let pictureId = item["object_id"] as? String
                                             if pictureId != nil
@@ -929,11 +930,10 @@ class feedTableView: UITableViewController {
                                                 
                                             }
                                             
-                                            let like = item["likes"]
-                                            let summary = like!["summary"]
-                                            let count = summary!!["total_count"]
-                                            self.likes.append(count as! NSInteger)
-                                            
+                                            let like = item["likes"] as? [String:AnyObject]
+                                            let summary = like!["summary"] as? [String:AnyObject]
+                                            let count = summary!["total_count"] as? NSInteger
+                                            self.likes.append(count!)
                                             
                                             let id = item["id"] as? String
                                             let pictureURL = item["picture"] as? String
@@ -944,18 +944,20 @@ class feedTableView: UITableViewController {
                                             
                                             if self.objectIds.count == 20
                                             {
+                                            
                                                 numberOfLoads = 1
-                                                NSUserDefaults.standardUserDefaults().setObject(self.objectIds, forKey: "objectIds")
-                                                NSUserDefaults.standardUserDefaults().setObject(self.messages, forKey: "messages")
-                                                NSUserDefaults.standardUserDefaults().setObject(self.highResImagesURLs, forKey: "highResImageURLs")
-                                                NSUserDefaults.standardUserDefaults().setObject(pictureURLs, forKey: "pictureURLs")
-                                                NSUserDefaults.standardUserDefaults().setObject(self.likes, forKey: "likes")
-                                                NSUserDefaults.standardUserDefaults().setObject(self.dates, forKey: "dates")
-                                                NSUserDefaults.standardUserDefaults().setObject(numberOfLoads, forKey: "numberOfLoads")
-                                                NSUserDefaults.standardUserDefaults().setObject(self.attachments, forKey: "attachments")
-                                                NSUserDefaults.standardUserDefaults().setObject(next20, forKey: "next20")
+                                                UserDefaults.standard.set(self.objectIds, forKey: "objectIds")
+                                                UserDefaults.standard.set(self.messages, forKey: "messages")
+                                                UserDefaults.standard.set(self.highResImagesURLs, forKey: "highResImageURLs")
+                                                UserDefaults.standard.set(pictureURLs, forKey: "pictureURLs")
+                                                UserDefaults.standard.set(self.likes, forKey: "likes")
+                                                UserDefaults.standard.set(self.dates, forKey: "dates")
+                                                UserDefaults.standard.set(numberOfLoads, forKey: "numberOfLoads")
+                                                UserDefaults.standard.set(self.attachments, forKey: "attachments")
+                                                UserDefaults.standard.set(next20, forKey: "next20")
                                                 refresher.endRefreshing()
                                                 self.tableView.reloadData()
+                                            
                                             }
                                             
                                         }
@@ -968,7 +970,7 @@ class feedTableView: UITableViewController {
                                 
                             catch
                             {
-                                
+                                print("JSON Serialisation Failed")
                             }
                             
                             
@@ -980,7 +982,7 @@ class feedTableView: UITableViewController {
                 }
                 
                 
-            }
+            }) 
             
             task.resume()
         }
@@ -989,13 +991,13 @@ class feedTableView: UITableViewController {
     
     override func viewWillLayoutSubviews() {
         
-        spinner.center = CGPointMake(self.view.center.x, self.view.center.y-100)
+        spinner.center = CGPoint(x: self.view.center.x, y: self.view.center.y-100)
         
     }
     
     func loadCustomViewContents()
     {
-        let refreshContents = NSBundle.mainBundle().loadNibNamed("RefreshContents", owner: self, options: nil)
+        let refreshContents = Bundle.main.loadNibNamed("RefreshContents", owner: self, options: nil)
         customView = refreshContents![0] as! UIView
         customView.frame = refresher.bounds
         
@@ -1004,8 +1006,8 @@ class feedTableView: UITableViewController {
             labelsArray.append(customView.viewWithTag(i+1) as! UILabel)
         }
         
-        refresher.backgroundColor = UIColor.clearColor()
-        refresher.tintColor = UIColor.clearColor()
+        refresher.backgroundColor = UIColor.clear
+        refresher.tintColor = UIColor.clear
         refresher.addSubview(customView)
         
     }
@@ -1014,15 +1016,15 @@ class feedTableView: UITableViewController {
     {
         isAnimating = true
         
-        UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-            labelsArray[currentLabelIndex].transform = CGAffineTransformMakeRotation(CGFloat(M_PI_4))
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
+            labelsArray[currentLabelIndex].transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_4))
             labelsArray[currentLabelIndex].textColor = self.getNextColor()
             
             }, completion: { (finished) -> Void in
                 
-                UIView.animateWithDuration(0.05, delay: 0.0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-                    labelsArray[currentLabelIndex].transform = CGAffineTransformIdentity
-                    labelsArray[currentLabelIndex].textColor = UIColor.blackColor()
+                UIView.animate(withDuration: 0.05, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
+                    labelsArray[currentLabelIndex].transform = CGAffineTransform.identity
+                    labelsArray[currentLabelIndex].textColor = UIColor.black
                     
                     }, completion: { (finished) -> Void in
                         currentLabelIndex+=1
@@ -1040,27 +1042,27 @@ class feedTableView: UITableViewController {
     
     func animateRefreshStep2()
     {
-        UIView.animateWithDuration(0.35, delay: 0.0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-            labelsArray[0].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[1].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[2].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[3].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[4].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[5].transform = CGAffineTransformMakeScale(1.5, 1.5)
-            labelsArray[6].transform = CGAffineTransformMakeScale(1.5, 1.5)
+        UIView.animate(withDuration: 0.35, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
+            labelsArray[0].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[1].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[2].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[3].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[4].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[5].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            labelsArray[6].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
             
             }, completion: { (finished) -> Void in
-                UIView.animateWithDuration(0.25, delay: 0.0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-                    labelsArray[0].transform = CGAffineTransformIdentity
-                    labelsArray[1].transform = CGAffineTransformIdentity
-                    labelsArray[2].transform = CGAffineTransformIdentity
-                    labelsArray[3].transform = CGAffineTransformIdentity
-                    labelsArray[4].transform = CGAffineTransformIdentity
-                    labelsArray[5].transform = CGAffineTransformIdentity
-                    labelsArray[6].transform = CGAffineTransformIdentity
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
+                    labelsArray[0].transform = CGAffineTransform.identity
+                    labelsArray[1].transform = CGAffineTransform.identity
+                    labelsArray[2].transform = CGAffineTransform.identity
+                    labelsArray[3].transform = CGAffineTransform.identity
+                    labelsArray[4].transform = CGAffineTransform.identity
+                    labelsArray[5].transform = CGAffineTransform.identity
+                    labelsArray[6].transform = CGAffineTransform.identity
                     
                     }, completion: { (finished) -> Void in
-                        if refresher.refreshing {
+                        if refresher.isRefreshing {
                             currentLabelIndex = 0
                             self.animateRefreshStep1()
                         }
@@ -1068,8 +1070,8 @@ class feedTableView: UITableViewController {
                             isAnimating = false
                             currentLabelIndex = 0
                             for i in 0 ..< labelsArray.count {
-                                labelsArray[i].textColor = UIColor.blackColor()
-                                labelsArray[i].transform = CGAffineTransformIdentity
+                                labelsArray[i].textColor = UIColor.black
+                                labelsArray[i].transform = CGAffineTransform.identity
                             }
                         }
                 })
@@ -1080,7 +1082,7 @@ class feedTableView: UITableViewController {
     
     func getNextColor() -> UIColor
     {
-        var colorsArray: Array<UIColor> = [UIColor.magentaColor(), UIColor.brownColor(), UIColor.yellowColor(), UIColor.redColor(), UIColor.greenColor(), UIColor.blueColor(), UIColor.orangeColor()]
+        var colorsArray: Array<UIColor> = [UIColor.magenta, UIColor.brown, UIColor.yellow, UIColor.red, UIColor.green, UIColor.blue, UIColor.orange]
         
         if currentColorIndex == colorsArray.count {
             currentColorIndex = 0

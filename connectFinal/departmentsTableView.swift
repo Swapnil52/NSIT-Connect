@@ -19,9 +19,9 @@ var passObject = [[String:AnyObject]]()
 
 class departmentsTableView: UITableViewController {
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
         
-        return UIInterfaceOrientationMask.Portrait
+        return UIInterfaceOrientationMask.portrait
         
     }
     
@@ -32,7 +32,7 @@ class departmentsTableView: UITableViewController {
         
         headers.removeAll()
         
-        self.tableView.separatorColor = UIColor.clearColor()
+        self.tableView.separatorColor = UIColor.clear
         
         if self.revealViewController() != nil {
             menuButton.target = self.revealViewController()
@@ -42,19 +42,19 @@ class departmentsTableView: UITableViewController {
         self.navigationController?.navigationBar.tintColor = UIColor(red: 01/256, green: 178/256, blue: 155/256, alpha: 1)
         
         
-        let filePath : NSString = NSBundle.mainBundle().pathForResource("professorsList", ofType: "json")!
+        let filePath : NSString = Bundle.main.path(forResource: "professorsList", ofType: "json")! as NSString
         do
         {
-            let dataString = try NSString(contentsOfFile: filePath as String, encoding: NSUTF8StringEncoding)
-            let data = dataString.dataUsingEncoding(NSUTF8StringEncoding)!
-            let jsonData = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers) as? NSArray
+            let dataString = try NSString(contentsOfFile: filePath as String, encoding: String.Encoding.utf8.rawValue)
+            let data = dataString.data(using: String.Encoding.utf8.rawValue)!
+            let jsonData = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSArray
             
             if jsonData != nil
             {
                 //print(jsonData)
                 for item in jsonData!
                 {
-                    headers.append(item)
+                    headers.append(item as AnyObject)
                 }
                 
                 tableView.reloadData()
@@ -74,38 +74,38 @@ class departmentsTableView: UITableViewController {
     
     // MARK: - Table view data source
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return headers.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("departmentCell1", forIndexPath: indexPath) as! departmentCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "departmentCell1", for: indexPath) as! departmentCell
         
         cell.layoutIfNeeded()
         
-        cell.boldDpt.text = headers[indexPath.row]["Header"] as? String
+        cell.boldDpt.text = headers[(indexPath as NSIndexPath).row]["Header"] as? String
         //cell.department.text = headers[indexPath.row]["Header"] as? String
         
         let path = UIBezierPath(rect: cell.paddingView.bounds)
-        cell.paddingView.layer.shadowPath = path.CGPath
-        cell.paddingView.layer.shadowOffset = CGSizeMake(0.5, 0.5)
+        cell.paddingView.layer.shadowPath = path.cgPath
+        cell.paddingView.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         cell.paddingView.layer.shadowOpacity = 0.4
         
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         
-        passDepartment = (headers[indexPath.row]["Header"] as? String)!
-        self.performSegueWithIdentifier("showProfessors", sender: self)
-        passObject = (headers[indexPath.row]["ContentArray"] as? [[String:AnyObject]])!
+        passDepartment = (headers[(indexPath as NSIndexPath).row]["Header"] as? String)!
+        self.performSegue(withIdentifier: "showProfessors", sender: self)
+        passObject = (headers[(indexPath as NSIndexPath).row]["ContentArray"] as? [[String:AnyObject]])!
     
     }
     
