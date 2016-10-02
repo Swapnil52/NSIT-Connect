@@ -26,14 +26,10 @@ var feedPageSpinner = UIActivityIndicatorView()
 //variables to prevent repeated reloading of the page, since we don't have a spinner as of yet:P
 var didGoToFeedPage : Bool!
 var didGoToSettings = false
-//variables for populating the table
-
-//Initialising the activity indicator (spinner)
-
 
 class customFeedTable: UITableViewController {
     
-    
+    //variables to polulate the tableView
     var fbFeedMessages = [String]()
     var fbFeedSociety = [String]()
     var fbFeedIds = [String]()
