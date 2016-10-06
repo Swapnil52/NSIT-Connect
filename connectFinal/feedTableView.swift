@@ -296,6 +296,7 @@ class feedTableView: UITableViewController {
                                                 
                                                 
                                                 let pictureId = item["object_id"] as? String
+                                                
                                                 if pictureId != nil
                                                 {
                                                     self.pictureIds[item["id"] as! String] = pictureId
@@ -486,6 +487,7 @@ class feedTableView: UITableViewController {
         
     }
     
+
    
     
    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -994,6 +996,8 @@ class feedTableView: UITableViewController {
         spinner.center = CGPoint(x: self.view.center.x, y: self.view.center.y-100)
         
     }
+    
+    //MARK : Animation for the refresh control
     
     func loadCustomViewContents()
     {

@@ -13,7 +13,7 @@ import NYAlertViewController
 
 class resultMapView: UIViewController, MKMapViewDelegate {
 
-    @IBOutlet var resultMap: MKMapView!
+    @IBOutlet weak var resultMap: MKMapView!
     @IBAction func getDirections(_ sender: AnyObject) {
         
         let sourceLocation = CLLocationCoordinate2DMake(passCurrentLocation.coordinate.latitude, passCurrentLocation.coordinate.longitude)

@@ -96,7 +96,7 @@ class SDInstantArticleViewController : UIViewController, UIScrollViewDelegate, M
         
         //need to update the scrollview's frame again to account for the textview and navigation bar.
         
-        scrollView.contentSize = CGSize(width: infoView.frame.width, height: imageView.frame.height+infoView.frame.height + navHeight+75)
+        scrollView.contentSize = CGSize(width: infoView.frame.width, height: max((imageView.frame.height+infoView.frame.height), (imageView.frame.height + 50 + textView.frame.height)))
         
         //setting the images in the photo browser
         photos.removeAll()
@@ -158,19 +158,23 @@ class SDInstantArticleViewController : UIViewController, UIScrollViewDelegate, M
     
     func tapped()
     {
+        
         print("tapped!")
         print(photos)
         let browser = MWPhotoBrowser(photos: photos)
         browser?.delegate = self
         
         self.navigationController?.pushViewController(browser!, animated: true)
+        
     }
     
+    //MARK : MWPhotoBrowser delegate methods
     
     internal func numberOfPhotos(in photoBrowser: MWPhotoBrowser!) -> UInt
     {
         return UInt(photos.count)
     }
+    
     internal func photoBrowser(_ photoBrowser: MWPhotoBrowser!, photoAt index: UInt) -> MWPhotoProtocol!
     {
         return photos[Int(index)]
@@ -178,6 +182,7 @@ class SDInstantArticleViewController : UIViewController, UIScrollViewDelegate, M
     
     
     //This method is called whenever the view changes the layout of its sub views. In this case, this happens when the phone's orientation changes. So we need to accound for the change in the height of the navigation bar. This involves changing the frames of each sub view of the main view and also the content size property of the scroll view.
+    
     override func viewWillLayoutSubviews() {
         
         if let navHeight = self.navigationController?.navigationBar.frame.height

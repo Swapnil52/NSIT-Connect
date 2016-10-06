@@ -78,19 +78,11 @@ class youtubeTableViewController: UITableViewController {
             spinner.startAnimating()
             //UIApplication.sharedApplication().beginIgnoringInteractionEvents()
             
-            let task = URLSession.shared.dataTask(with: URL(string: nextURL + "&pageToken=\(prevPageToken)")!, completionHandler: { (data, response, error) -> Void in
+            let url = URL(string: nextURL + "&pageToken=\(prevPageToken!)")
+            let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) -> Void in
                 
                 if error != nil
                 {
-                        
-//                    let alert = UIAlertController(title: "An error occurred", message: "Please try again later", preferredStyle: .Alert)
-//                    alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-//                    self.presentViewController(alert, animated: true, completion: {
-//                        
-//                        self.spinner.stopAnimating()
-//                        self.view.makeToast("Pull to refresh to reload", duration: 1, position: CSToastPositionTop)
-//                        
-//                    })
                     
                     DispatchQueue.main.async(execute: { 
                         
@@ -121,7 +113,6 @@ class youtubeTableViewController: UITableViewController {
                         do
                         {
                             let jsonData = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-                            //print(jsonData)
                             
                             if let pageInfo = jsonData["pageInfo"] as? [String:AnyObject]
                             {
@@ -133,7 +124,6 @@ class youtubeTableViewController: UITableViewController {
                             {
                                 prevPageToken = jsonData["prevPageToken"] as? String
                             }
-                            
                             
                             if let items = jsonData["items"] as? [[String:AnyObject]]
                             {
@@ -257,7 +247,9 @@ class youtubeTableViewController: UITableViewController {
         if nextPageToken != nil && pageIndex != totalNumberOfPages
         {
             nextURL = currentURL
-            //print(nextURL)
+            print(nextURL)
+            print(nextURL + "&pageToken=\(nextPageToken!)")
+            let url = URL(string: nextURL + "&pageToken=\(nextPageToken!)")
             ytPublishedTimes.removeAll()
             ytVideoDescriptions.removeAll()
             ytVideoIds.removeAll()
@@ -269,8 +261,8 @@ class youtubeTableViewController: UITableViewController {
             nextOutlet.isEnabled = false
             spinner.startAnimating()
             //UIApplication.sharedApplication().beginIgnoringInteractionEvents()
-
-            let task = URLSession.shared.dataTask(with: URL(string: nextURL + "&pageToken=\(nextPageToken)")!, completionHandler: { (data, response, error) -> Void in
+            
+            let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) -> Void in
                 
                 if error != nil
                 {

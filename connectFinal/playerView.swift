@@ -16,10 +16,7 @@ var width = CGFloat()
 class playerView: UIViewController, YTPlayerViewDelegate {
 
     @IBOutlet weak var playerView: YTPlayerView!
-    
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
