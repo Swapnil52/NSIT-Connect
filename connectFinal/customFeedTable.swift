@@ -11,6 +11,7 @@ import QuartzCore
 import SWRevealViewController
 import Toast
 import NYAlertViewController
+import MWPhotoBrowser
 
 //variables
 var fbPages = [String]()
@@ -27,7 +28,7 @@ var feedPageSpinner = UIActivityIndicatorView()
 var didGoToFeedPage : Bool!
 var didGoToSettings = false
 
-class customFeedTable: UITableViewController {
+class customFeedTable: UITableViewController, MWPhotoBrowserDelegate {
     
     //variables to polulate the tableView
     var fbFeedMessages = [String]()
@@ -45,6 +46,7 @@ class customFeedTable: UITableViewController {
     var fbFeedRefresher = UIRefreshControl()
     var fbFeedAttachments = [String : [String:AnyObject]]()
     var refreshOnce = 0
+    var photos = [MWPhoto]()
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
@@ -889,6 +891,7 @@ class customFeedTable: UITableViewController {
         passHighResImageURL = fbPassHighResImageURLs[passObjectId]
         passAttachments = fbFeedAttachments[passObjectId]
         didGoToFeedPage = true
+        self.photos.removeAll()
         
         if passImageURL == nil || passImageURL == ""
         {
@@ -901,7 +904,55 @@ class customFeedTable: UITableViewController {
         {
             if Reachability.isConnectedToNetwork() == true
             {
-            self.performSegue(withIdentifier: "customFeedToImage", sender: self)
+                
+                //self.performSegue(withIdentifier: "customFeedToImage", sender: self)
+                
+                let browser = MWPhotoBrowser()
+                browser.delegate = self
+                if let attachments = passAttachments
+                {
+                    if let data = attachments["data"] as? [[String:AnyObject]]
+                    {
+                        for dataItem in data
+                        {
+                            if let subattachments = dataItem["subattachments"] as? [String:AnyObject]
+                            {
+                                if let subData = subattachments["data"] as? [[String:AnyObject]]
+                                {
+                                    for subDataItem in subData
+                                    {
+                                        if let media = subDataItem["media"] as? [String:AnyObject]
+                                        {
+                                            if let image = media["image"] as? [String:AnyObject]
+                                            {
+                                                if let src = image["src"] as? String
+                                                {
+                                                    photos.append(MWPhoto(url: URL(string: src)!))
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if let media = dataItem["media"] as? [String:AnyObject]
+                                {
+                                    if let image = media["image"] as? [String:AnyObject]
+                                    {
+                                        if let src = image["src"] as? String
+                                        {
+                                            photos.append(MWPhoto(url: URL(string : src)!))
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                self.navigationController?.pushViewController(browser, animated: true)
+            
             }
             else
             {
@@ -940,6 +991,22 @@ class customFeedTable: UITableViewController {
             self.present(alert, animated: true, completion: nil)
             
         }
+    }
+    
+    //MARK : MWPhotoBrowserDelegate methods
+    
+    public func numberOfPhotos(in photoBrowser: MWPhotoBrowser!) -> UInt
+    {
+        
+        return UInt(self.photos.count)
+        
+    }
+    
+    public func photoBrowser(_ photoBrowser: MWPhotoBrowser!, photoAt index: UInt) -> MWPhotoProtocol!
+    {
+        
+        return photos[Int(index)]
+        
     }
     
     

@@ -12,6 +12,7 @@ import SDWebImage
 import SWRevealViewController
 import Toast
 import NYAlertViewController
+import MWPhotoBrowser
 
 //Variables to populate the tableView
 
@@ -44,7 +45,7 @@ var currentColorIndex = 0
 var currentLabelIndex = 0
 
 
-class feedTableView: UITableViewController {
+class feedTableView: UITableViewController, MWPhotoBrowserDelegate {
     
     var attachments = [String:[String:AnyObject]]()
     var highResImagesURLs = [String:String]()
@@ -53,6 +54,7 @@ class feedTableView: UITableViewController {
     var pictureIds = [String : String]()
     var likes = [NSInteger]()
     var dates = [String]()
+    var photos = [MWPhoto]()
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
@@ -327,6 +329,7 @@ class feedTableView: UITableViewController {
                                                     UserDefaults.standard.set(self.likes, forKey: "likes")
                                                     UserDefaults.standard.set(self.dates, forKey: "dates")
                                                     UserDefaults.standard.set(self.attachments, forKey: "attachments")
+                                                    UserDefaults.standard.set(next20, forKey: "next20")
                                                     self.tableView.reloadData()
                                                     refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
                                                     refresher.addTarget(self, action: #selector(feedTableView.refresh), for: UIControlEvents.valueChanged)
@@ -473,15 +476,88 @@ class feedTableView: UITableViewController {
         passImage = images[objectIds[(indexPath as NSIndexPath).row]]
         passHighResImageURL = highResImagesURLs[passObjectId]
         passAttachments = attachments[objectIds[(indexPath as NSIndexPath).row]]
+        self.photos.removeAll()
+        
         if passMessage == nil || passMessage == ""
         {
-            self.performSegue(withIdentifier: "homeToImageSegue", sender: self)
+            
+            //self.performSegue(withIdentifier: "homeToImageSegue", sender: self)
+            
+            if Reachability.isConnectedToNetwork() == true
+            {
+                
+                let browser = MWPhotoBrowser()
+                browser.delegate = self
+                if let attachments = passAttachments
+                {
+                    if let data = attachments["data"] as? [[String:AnyObject]]
+                    {
+                        for dataItem in data
+                        {
+                            if let subattachments = dataItem["subattachments"] as? [String:AnyObject]
+                            {
+                                if let subData = subattachments["data"] as? [[String:AnyObject]]
+                                {
+                                    for subDataItem in subData
+                                    {
+                                        if let media = subDataItem["media"] as? [String:AnyObject]
+                                        {
+                                            if let image = media["image"] as? [String:AnyObject]
+                                            {
+                                                if let src = image["src"] as? String
+                                                {
+                                                    photos.append(MWPhoto(url: URL(string: src)!))
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if let media = dataItem["media"] as? [String:AnyObject]
+                                {
+                                    if let image = media["image"] as? [String:AnyObject]
+                                    {
+                                        if let src = image["src"] as? String
+                                        {
+                                            photos.append(MWPhoto(url: URL(string : src)!))
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                self.navigationController?.pushViewController(browser, animated: true)
+
+            }
+            else
+            {
+                
+                let alert = NYAlertViewController()
+                alert.title = "Unable to download Full Resolution Image"
+                alert.message = "Please connect to the internet"
+                alert.buttonColor = UIColor(red: 1/255, green: 179/255, blue: 164/255, alpha: 1)
+                alert.addAction(NYAlertAction(title: "OK", style: .default, handler: { (action) in
+                    
+                    self.dismiss(animated: true, completion: nil)
+                    
+                }))
+                self.present(alert, animated: true, completion: nil)
+                
+            }
+            
             return;
+        
         }
         if passImageURL == nil
         {
+            
             self.performSegue(withIdentifier: "homeToNoImageFeedPage", sender: self)
             return
+            
         }
         self.performSegue(withIdentifier: "fbFeedToInstantArticleSegue", sender: self)
         
@@ -747,6 +823,7 @@ class feedTableView: UITableViewController {
     }
     
     //MARK : Pull to refresh function
+    
     func refresh()
     {
         
@@ -994,6 +1071,22 @@ class feedTableView: UITableViewController {
     override func viewWillLayoutSubviews() {
         
         spinner.center = CGPoint(x: self.view.center.x, y: self.view.center.y-100)
+        
+    }
+    
+    //MARK : MWPhotoBrowser delegate methods
+    
+    func numberOfPhotos(in photoBrowser: MWPhotoBrowser!) -> UInt
+    {
+        
+        return UInt(self.photos.count)
+        
+    }
+    
+    func photoBrowser(_ photoBrowser: MWPhotoBrowser!, photoAt index: UInt) -> MWPhotoProtocol!
+    {
+        
+        return photos[Int(index)]
         
     }
     
