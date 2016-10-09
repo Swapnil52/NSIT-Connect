@@ -46,7 +46,6 @@ class feedPage: UIViewController {
             
             self.view.addSubview(pageSpinner)
             pageSpinner.startAnimating()
-            print(imageURL)
             let url = URL(string: imageURL!)
             
             

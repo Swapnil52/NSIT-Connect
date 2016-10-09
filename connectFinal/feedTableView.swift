@@ -613,7 +613,7 @@ class feedTableView: UITableViewController, MWPhotoBrowserDelegate {
                     
                     DispatchQueue.main.async(execute: { 
                         
-                        print(error)
+                        print(error!)
                         
                         self.view.makeToast("An error occurred. Please try again later", duration: 1, position: CSToastPositionBottom)
                         

@@ -80,8 +80,8 @@ class feedSettings: UITableViewController {
         
         if selectedFeeds[societyIds[(indexPath as NSIndexPath).row]] == false
         {
+            
             selectedFeeds[societyIds[(indexPath as NSIndexPath).row]] = true
-            print(selectedFeeds[societyIds[(indexPath as NSIndexPath).row]])
             let cell = tableView.cellForRow(at: indexPath)
             cell?.accessoryType = .checkmark
             empty += 1
@@ -93,14 +93,15 @@ class feedSettings: UITableViewController {
         
         else
         {
+            
             selectedFeeds[societyIds[(indexPath as NSIndexPath).row]] = false
-            print(selectedFeeds[societyIds[(indexPath as NSIndexPath).row]])
             let cell = tableView.cellForRow(at: indexPath)
             cell?.accessoryType = .none
             empty -= 1
             UserDefaults.standard.set(empty, forKey: "empty")
             UserDefaults.standard.set(selectedFeeds, forKey: "selectedFeeds")
             print(empty)
+            
         }
         
     }

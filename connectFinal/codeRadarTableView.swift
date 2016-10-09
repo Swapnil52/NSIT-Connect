@@ -107,10 +107,6 @@ class codeRadarTableView: UITableViewController{
                 
                 if error != nil
                 {
-//                    print(error)
-//                    let alert = UIAlertController(title: "An error occured", message: "Please try again later", preferredStyle: UIAlertControllerStyle.Alert)
-//                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-//                    self.presentViewController(alert, animated: true, completion: nil)
                     
                     let alert = NYAlertViewController()
                     alert.title = "An Error Occurred"
@@ -219,12 +215,7 @@ class codeRadarTableView: UITableViewController{
     {
         if Reachability.isConnectedToNetwork() == false
         {
-//            let alert = UIAlertController(title: "Unable to refresh", message: "Please try again when the connection is re-established", preferredStyle: .Alert)
-//            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) in
-//                refresher.endRefreshing()
-//            }))
-//            presentViewController(alert, animated: true, completion: nil)
-            
+
             let alert = NYAlertViewController()
             alert.title = "Unable to refresh"
             alert.message = "Please try again when the internet connection is re-established"
@@ -252,12 +243,7 @@ class codeRadarTableView: UITableViewController{
                     
                     if error != nil
                     {
-                        print(error)
-//                        let alert = UIAlertController(title: "An error occured", message: "Please try again later", preferredStyle: UIAlertControllerStyle.Alert)
-//                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-//                        self.presentViewController(alert, animated: true, completion: nil)
-//                        refresher.endRefreshing()
-                        
+                                                
                         let alert = NYAlertViewController()
                         alert.title = "An Error Occurred"
                         alert.message = "Please try again later"
@@ -298,6 +284,7 @@ class codeRadarTableView: UITableViewController{
                                 self.codeSpinner.stopAnimating()
                                 self.segmentedControl.isEnabled = true
                                 self.segmentedControl.isUserInteractionEnabled = true
+                                
                                 
                                 for item in self.items
                                 {
