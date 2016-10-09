@@ -25,7 +25,6 @@
 		5520F1081DA6B0A700EBBC45 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5520F1031DA6B08600EBBC45 /* Charts.framework */; };
 		5520F1091DA6B0A700EBBC45 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5520F1031DA6B08600EBBC45 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5520F1121DA6B0F300EBBC45 /* color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5520F10E1DA6B0F300EBBC45 /* color.swift */; };
-		5520F1141DA6B0F300EBBC45 /* subjects.json in Resources */ = {isa = PBXBuildFile; fileRef = 5520F1101DA6B0F300EBBC45 /* subjects.json */; };
 		5520F1171DA6B78F00EBBC45 /* ic_format_list_numbered_48pt_3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5520F1161DA6B78F00EBBC45 /* ic_format_list_numbered_48pt_3x.png */; };
 		5520F11C1DA6C39300EBBC45 /* chartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5520F11B1DA6C39300EBBC45 /* chartViewController.swift */; };
 		5520F1201DA6C3B500EBBC45 /* percentageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5520F11F1DA6C3B500EBBC45 /* percentageViewController.swift */; };
@@ -57,6 +56,7 @@
 		5596600B1CCB3F5500DEDF1F /* noImageCustomFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5596600A1CCB3F5500DEDF1F /* noImageCustomFeedCell.swift */; };
 		5596600D1CCB3F6700DEDF1F /* feedSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5596600C1CCB3F6700DEDF1F /* feedSettings.swift */; };
 		5596600F1CCB3F7900DEDF1F /* customFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5596600E1CCB3F7900DEDF1F /* customFeedCell.swift */; };
+		5598567F1DAA92BF0026221B /* subjects.json in Resources */ = {isa = PBXBuildFile; fileRef = 5598567E1DAA92BF0026221B /* subjects.json */; };
 		559D60231CC9E84C00143ECF /* RefreshContents.xib in Resources */ = {isa = PBXBuildFile; fileRef = 559D60221CC9E84C00143ECF /* RefreshContents.xib */; };
 		55BB5F471D0825B5001F844E /* logo1.png in Resources */ = {isa = PBXBuildFile; fileRef = 55BB5F461D0825B5001F844E /* logo1.png */; };
 		55D0EEAF1CFC2ECF003AD598 /* competitionPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D0EEAE1CFC2ECF003AD598 /* competitionPage.swift */; };
@@ -148,7 +148,6 @@
 		551AD69F1CC91F3B0057175C /* connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = connection.swift; sourceTree = "<group>"; };
 		5520F0FC1DA6B08600EBBC45 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "../../Downloads/Charts-master-2/Charts.xcodeproj"; sourceTree = "<group>"; };
 		5520F10E1DA6B0F300EBBC45 /* color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = color.swift; path = "../../../Downloads/percentageFinal-master/percentageFinal/color.swift"; sourceTree = "<group>"; };
-		5520F1101DA6B0F300EBBC45 /* subjects.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = subjects.json; path = "../../../Downloads/percentageFinal-master/percentageFinal/subjects.json"; sourceTree = "<group>"; };
 		5520F1161DA6B78F00EBBC45 /* ic_format_list_numbered_48pt_3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_format_list_numbered_48pt_3x.png; path = ../../../Downloads/ic_format_list_numbered_black_48dp/ios/ic_format_list_numbered_48pt.imageset/ic_format_list_numbered_48pt_3x.png; sourceTree = "<group>"; };
 		5520F11B1DA6C39300EBBC45 /* chartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = chartViewController.swift; path = "../../iOS Test/percentageFinal/percentageFinal/chartViewController.swift"; sourceTree = "<group>"; };
 		5520F11F1DA6C3B500EBBC45 /* percentageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = percentageViewController.swift; path = "../../iOS Test/percentageFinal/percentageFinal/percentageViewController.swift"; sourceTree = "<group>"; };
@@ -183,6 +182,7 @@
 		5596600A1CCB3F5500DEDF1F /* noImageCustomFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = noImageCustomFeedCell.swift; sourceTree = "<group>"; };
 		5596600C1CCB3F6700DEDF1F /* feedSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = feedSettings.swift; sourceTree = "<group>"; };
 		5596600E1CCB3F7900DEDF1F /* customFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = customFeedCell.swift; sourceTree = "<group>"; };
+		5598567E1DAA92BF0026221B /* subjects.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = subjects.json; path = ../../subjects.json; sourceTree = "<group>"; };
 		559D60221CC9E84C00143ECF /* RefreshContents.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefreshContents.xib; sourceTree = "<group>"; };
 		55BB5F461D0825B5001F844E /* logo1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo1.png; sourceTree = "<group>"; };
 		55D0EEAE1CFC2ECF003AD598 /* competitionPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = competitionPage.swift; sourceTree = "<group>"; };
@@ -285,10 +285,10 @@
 				551AD6971CC91A060057175C /* ic_star_48pt_3x.png */,
 				556AB2AD1CCC16A6003F373B /* ic_theaters_48pt_3x.png */,
 				557400C01CCCCFA800C3B76C /* ic_person_48pt_3x.png */,
+				5598567E1DAA92BF0026221B /* subjects.json */,
 				5520F11B1DA6C39300EBBC45 /* chartViewController.swift */,
 				5520F10E1DA6B0F300EBBC45 /* color.swift */,
 				5520F11F1DA6C3B500EBBC45 /* percentageViewController.swift */,
-				5520F1101DA6B0F300EBBC45 /* subjects.json */,
 				55F3E7B01D6EEFEE00D96590 /* SDInstantArticleViewController.swift */,
 				556667DB1DA18B2300EFC444 /* noImageFeedPageTest.swift */,
 				55FEC2811D1D2A0F00C7F389 /* resultMapView.swift */,
@@ -462,9 +462,9 @@
 				55FEC2801D1C690E00C7F389 /* ic_settings_48pt_3x.png in Resources */,
 				55869D2B1CC915B400FAF4F6 /* Assets.xcassets in Resources */,
 				55E2FDB11D06C8E4008F056E /* debsoc.png in Resources */,
-				5520F1141DA6B0F300EBBC45 /* subjects.json in Resources */,
 				55E2FDAE1D06C8E4008F056E /* collegespace.png in Resources */,
 				5520F1171DA6B78F00EBBC45 /* ic_format_list_numbered_48pt_3x.png in Resources */,
+				5598567F1DAA92BF0026221B /* subjects.json in Resources */,
 				5530D6151CC94B4C0024C969 /* ic_thumb_up_black_48dp_2x.png in Resources */,
 				55869D291CC915B400FAF4F6 /* Main.storyboard in Resources */,
 				55E2FDAB1D06C8E4008F056E /* aagaz.png in Resources */,
