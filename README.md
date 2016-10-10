@@ -63,7 +63,7 @@ Shows user's places of interest within a selected range. Users can get direction
 ###7. Percentage Calculator
 Allows students to calculate their semester and aggregate percentage. They can also review their progress through the provided chart.
 
-<img src = "">
+<img src = "https://github.com/Swapnil52/NSIT-Connect/blob/master/connectFinal/Screens/Simulator%20Screen%20Shot%2010-Oct-2016%2C%202.54.31%20PM.png">
 
 ###New Feature
 - Changed the design of the feed page to mimic FB Instant Articles and added album viewing support
