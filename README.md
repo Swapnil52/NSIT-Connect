@@ -114,6 +114,12 @@ Embed Youtube videos in iOS apps (https://github.com/youtube/youtube-ios-player-
 ####5. Toast
 Display 'toast' messages (https://github.com/scalessec/Toast)
 
+####6. MWPhotoBrowser
+Versatile library to show images, videos and albums in iOS apps (https://github.com/mwaterfall/MWPhotoBrowser)
+
+####7. Charts
+A powerful library to show line, bar and pie charts in iOS apps (https://github.com/danielgindi/Charts)
+
 ##How to contribute?
 You'll need:
 - A mac with OSX El Capitan or later. Don't fret if you don't have a mac! You can run OSX on your Windows PC using Virtual Box. If you like tinkering with your computer, dual boot via Hackintosh
