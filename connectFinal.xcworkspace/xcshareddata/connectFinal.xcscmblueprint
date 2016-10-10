@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "3B58AE01ED83575C4BAC23734C0A73EFBF9C0C95",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "3B58AE01ED83575C4BAC23734C0A73EFBF9C0C95" : 9223372036854775807,
+    "C37C3E8B6252E8E23671F9F6FF2276BC62CBE7AD" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "602F9831-35DB-453F-9D29-8946CF791830",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "3B58AE01ED83575C4BAC23734C0A73EFBF9C0C95" : "connectFinal\/",
+    "C37C3E8B6252E8E23671F9F6FF2276BC62CBE7AD" : "iOS%20Test\/percentageFinal\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "connectFinal",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "connectFinal.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Swapnil52\/NSIT-Connect.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3B58AE01ED83575C4BAC23734C0A73EFBF9C0C95"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Swapnil52\/percentageFinal.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C37C3E8B6252E8E23671F9F6FF2276BC62CBE7AD"
+    }
+  ]
+}
