@@ -17,6 +17,7 @@ But this project is a lot more than an app. This is an initiative that is target
   + [Professors](#4professors)
   + [CodeRadar](#5coderadar)
   + [Hangouts](#6hangouts)
+  + [Percentage Calculator](#7percentage)
   + [New Feature](#new-feature)
 + **[APIs Used](#apis-used)**
 + **[Libraries used](#libraries-used)**
@@ -58,6 +59,11 @@ CodeRadar is a Coding Contest Reminder that lets you keep track of all ongoing a
 Shows user's places of interest within a selected range. Users can get directions from the Google Maps website (or app, if installed). 
 
 <img src = "https://github.com/Swapnil52/NSIT-Connect/blob/master/connectFinal/Screens/Simulator%20Screen%20Shot%2007-Aug-2016%2C%2010.31.26%20PM.png" height = 400>
+
+###7. Percentage Calculator
+Allows students to calculate their semester and aggregate percentage. They can also review their progress through the provided chart.
+
+<img src = "">
 
 ###New Feature
 - Changed the design of the feed page to mimic FB Instant Articles and added album viewing support
