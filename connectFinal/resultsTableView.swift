@@ -185,11 +185,8 @@ class resultsTableView: UITableViewController, CLLocationManagerDelegate {
             let lat = currentLocation.coordinate.latitude
             let lon = currentLocation.coordinate.longitude
             
-            
-            
             let url = URL(string: "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(lat),\(lon)&radius=\(passRange)&types=\(passType)&sensor=true&key=AIzaSyBgApnLxwHxTvcV9Go2YTcqiWVIY1eUgdA")
             
-            print(url)
             
             let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
                 
