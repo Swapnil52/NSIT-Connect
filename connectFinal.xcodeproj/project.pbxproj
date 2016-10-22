@@ -29,6 +29,7 @@
 		5520F11C1DA6C39300EBBC45 /* chartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5520F11B1DA6C39300EBBC45 /* chartViewController.swift */; };
 		5520F1201DA6C3B500EBBC45 /* percentageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5520F11F1DA6C3B500EBBC45 /* percentageViewController.swift */; };
 		5524F45C1CF9BF9F004D15AB /* codeRadarTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5524F45B1CF9BF9F004D15AB /* codeRadarTableView.swift */; };
+		5529B5B01DB52F4000406AB9 /* subjectsNew.json in Resources */ = {isa = PBXBuildFile; fileRef = 5529B5AF1DB52F4000406AB9 /* subjectsNew.json */; };
 		552B274E1D57A25B0008C4C6 /* Screens in Resources */ = {isa = PBXBuildFile; fileRef = 552B274D1D57A25B0008C4C6 /* Screens */; };
 		5530D6131CC923600024C969 /* noImageFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5530D6121CC923600024C969 /* noImageFeedCell.swift */; };
 		5530D6151CC94B4C0024C969 /* ic_thumb_up_black_48dp_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5530D6141CC94B4C0024C969 /* ic_thumb_up_black_48dp_2x.png */; };
@@ -152,6 +153,7 @@
 		5520F11B1DA6C39300EBBC45 /* chartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = chartViewController.swift; path = "../../iOS Test/percentageFinal/percentageFinal/chartViewController.swift"; sourceTree = "<group>"; };
 		5520F11F1DA6C3B500EBBC45 /* percentageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = percentageViewController.swift; path = "../../iOS Test/percentageFinal/percentageFinal/percentageViewController.swift"; sourceTree = "<group>"; };
 		5524F45B1CF9BF9F004D15AB /* codeRadarTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = codeRadarTableView.swift; sourceTree = "<group>"; };
+		5529B5AF1DB52F4000406AB9 /* subjectsNew.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = subjectsNew.json; sourceTree = "<group>"; };
 		552B274D1D57A25B0008C4C6 /* Screens */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Screens; sourceTree = "<group>"; };
 		5530D6121CC923600024C969 /* noImageFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = noImageFeedCell.swift; sourceTree = "<group>"; };
 		5530D6141CC94B4C0024C969 /* ic_thumb_up_black_48dp_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_thumb_up_black_48dp_2x.png; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 				556AB2AD1CCC16A6003F373B /* ic_theaters_48pt_3x.png */,
 				557400C01CCCCFA800C3B76C /* ic_person_48pt_3x.png */,
 				559856801DAA933B0026221B /* subjects.json */,
+				5529B5AF1DB52F4000406AB9 /* subjectsNew.json */,
 				5520F11B1DA6C39300EBBC45 /* chartViewController.swift */,
 				5520F10E1DA6B0F300EBBC45 /* color.swift */,
 				5520F11F1DA6C3B500EBBC45 /* percentageViewController.swift */,
@@ -475,6 +478,7 @@
 				55FE24EB1D06C5E200334763 /* junoon.png in Resources */,
 				55E2FDB81D06CA2C008F056E /* quiz.png in Resources */,
 				55E2FDB21D06C8E4008F056E /* enactus.png in Resources */,
+				5529B5B01DB52F4000406AB9 /* subjectsNew.json in Resources */,
 				551AD6961CC919F10057175C /* ic_home_48pt_3x.png in Resources */,
 				551999C51D19BCC5001ABA6C /* ic_explore_48pt_3x.png in Resources */,
 				557400C11CCCCFA800C3B76C /* ic_person_48pt_3x.png in Resources */,

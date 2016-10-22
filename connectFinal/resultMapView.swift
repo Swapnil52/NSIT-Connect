@@ -48,8 +48,6 @@ class resultMapView: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //akanksha is a baby potty
-        
         self.resultMap.delegate = self
         
         let destinationLocation = CLLocationCoordinate2DMake(passLat, passLon)

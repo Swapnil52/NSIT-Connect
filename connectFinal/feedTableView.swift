@@ -80,7 +80,7 @@ class feedTableView: UITableViewController, MWPhotoBrowserDelegate {
         else
         {
             didUpdateApplication = UserDefaults.standard.object(forKey: "didUpdateApplication") as! Bool
-        }
+         }
         
         if didUpdateApplication == true
         {
