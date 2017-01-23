@@ -4,7 +4,7 @@
 [![](https://owncloud.org/wp-content/themes/owncloudorgnew/assets/img/clients/buttons/appstore.png)](https://itunes.apple.com/in/app/nsit-connect/id1122111525)
 
 
-NSIT Connect is the official NSITOnline app that aims to act as a companion app for NSIT students. The app contains several useful modules like staying up-to-date with all the college news, maintaining a schedule according to the timetable, all the information related to interesting places of the college, and more.
+NSIT Connect is the official NSITOnline app that aims to act as a companion app for NSIT students. The app contains several useful modules like staying up-to-date with all the college news, all the information related to interesting places of the college, and more.
 
 But this project is a lot more than an app. This is an initiative that is targetted at all the emerging developers of NSIT and encourages them to take part in this as a collaborative open-source team effort. So if you are an NSITian and you love developing things and wish to see them used by a large number of people, you have come to the right place. 
 
